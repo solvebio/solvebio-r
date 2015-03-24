@@ -1,0 +1,15 @@
+Package: solvebio
+Type: Package
+Title: SolveBio API client for R
+Version: 0.0.1
+Date: 2015-03-24
+Author: David Caplan
+Maintainer: David Caplan <dcaplan@solvebio.com>
+Description: SolveBio language bindings for R.
+URL: https://github.com/solvebio/solvebio-r
+Imports:
+    httr,
+    jsonlite
+License: The MIT License (MIT)
+Suggests:
+    testthat
