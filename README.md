@@ -1,4 +1,8 @@
-# SolveBio for R
+# SolveBio for R (PRE-ALPHA)
+
+Here are the SolveBio R language bindings. This is a work-in-progress, use at
+your own risk.
+
 
 ## Installation
 
@@ -15,7 +19,7 @@ library(solvebio)
 
 ````R
 # Create the client
-sb = SolveBioClient(api_key="{$SOLVEBIO_API_KEY}")
+sb = SolveBioClient(api_key="$SOLVEBIO_API_KEY")
 
 # Query a dataset
 res = query(sb, dataset='ClinVar/Variants', query='{"filters": {}}')
