@@ -11,7 +11,18 @@ You will need the `devtools` package in order to install this package.
 ````R
 install.packages("devtools")
 library(devtools)
-install_github("solvebio/solvebio-r")
+devtools::install_github("solvebio/solvebio-r")
+library(solvebio)
+````
+
+## Installation from a private repo
+
+Generate YOUR_GITHUB_PAT from https://github.com/settings/applications#personal-access-tokens
+
+````R
+install.packages("devtools")
+library(devtools)
+devtools::install_github("solvebio/solvebio-r",auth_token="YOUR_GITHUB_PAT")
 library(solvebio)
 ````
 
