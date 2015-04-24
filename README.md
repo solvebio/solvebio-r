@@ -1,7 +1,6 @@
 # SolveBio for R (PRE-ALPHA)
 
-Here are the SolveBio R language bindings. This is a work-in-progress, use at
-your own risk.
+This package contains SolveBio R language bindings.
 
 
 ## Installation
