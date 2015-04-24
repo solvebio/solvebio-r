@@ -1,4 +1,3 @@
-#' @export
 formatSolveBioResult <- function (res, raw = FALSE) {
   url = res$url
   body = httr::content(res, as="text")
@@ -11,7 +10,6 @@ formatSolveBioResult <- function (res, raw = FALSE) {
   }
 }
 
-#' @export
 prepareArgs <- function (args) {
   if (!is.null(args) && length(args) > 0) {
     args = args[!sapply(args, is.null)]

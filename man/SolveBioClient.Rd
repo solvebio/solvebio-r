@@ -6,7 +6,18 @@
 \usage{
 SolveBioClient(api_key, api_host = "https://api.solvebio.com")
 }
+\arguments{
+\item{api_key}{Your SolveBio API key}
+
+\item{api_host}{SolveBio API host (default: https://api.solvebio.com)}
+}
 \description{
 Create an SolveBio client instance
+}
+\examples{
+SolveBioClient(Sys.getenv("SOLVEBIO_API_KEY"))
+}
+\references{
+\url{https://docs.solvebio.com/}
 }
 

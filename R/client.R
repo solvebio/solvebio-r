@@ -1,6 +1,16 @@
 #' SolveBioClient
 #'
 #' Create an SolveBio client instance
+#'
+#' @param api_key Your SolveBio API key
+#' @param api_host SolveBio API host (default: https://api.solvebio.com)
+#'
+#' @examples
+#' SolveBioClient(Sys.getenv("SOLVEBIO_API_KEY"))
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
 #' @export
 SolveBioClient <- function(api_key, api_host = "https://api.solvebio.com") {
   if (missing(api_key)) {

@@ -5,15 +5,17 @@
 #' @param client SolveBioClient A SolveBioClient object
 #' @param dataset String The ID or full name of a SolveBio dataset
 #' @param filters Json
+#' @param params Json Additional query parameters
 #'
 #' @examples
-#' query(sb, filters={...})
+#' sb = SolveBioClient(Sys.getenv("SOLVEBIO_API_KEY"))
+#' query(sb, dataset="ClinVar/ClinVar")
 #'
 #' @references
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-query <- function (client, ...) {
+query <- function (client, dataset, filters, params) {
   UseMethod("query", client)
 }
 

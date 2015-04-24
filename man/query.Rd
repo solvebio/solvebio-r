@@ -5,7 +5,7 @@
 \alias{query.solvebio}
 \title{query}
 \usage{
-query(client, ...)
+query(client, dataset, filters, params)
 
 \method{query}{solvebio}(client, dataset, filters = NULL, params = NULL)
 }
@@ -15,13 +15,16 @@ query(client, ...)
 \item{dataset}{String The ID or full name of a SolveBio dataset}
 
 \item{filters}{Json}
+
+\item{params}{Json Additional query parameters}
 }
 \description{
 Returns filtered documents from a SolveBio dataset.
 \code{query} executes a SolveBio dataset query and retrieves the results.
 }
 \examples{
-query(sb, filters={...})
+sb = SolveBioClient(Sys.getenv("SOLVEBIO_API_KEY"))
+query(sb, dataset="ClinVar/ClinVar")
 }
 \references{
 \url{https://docs.solvebio.com/}

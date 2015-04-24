@@ -2,6 +2,4 @@
 
 S3method(query,solvebio)
 export(SolveBioClient)
-export(formatSolveBioResult)
-export(prepareArgs)
 export(query)
