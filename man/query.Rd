@@ -2,12 +2,9 @@
 % Please edit documentation in R/query.R
 \name{query}
 \alias{query}
-\alias{query.solvebio}
 \title{query}
 \usage{
-query(client, dataset, filters, params)
-
-\method{query}{solvebio}(client, dataset, filters = NULL, params = NULL)
+query(client, dataset, filters = NULL, params = NULL)
 }
 \arguments{
 \item{client}{SolveBioClient A SolveBioClient object}
@@ -23,8 +20,8 @@ Returns filtered documents from a SolveBio dataset.
 \code{query} executes a SolveBio dataset query and retrieves the results.
 }
 \examples{
-sb = SolveBioClient(Sys.getenv("SOLVEBIO_API_KEY"))
-query(sb, dataset="ClinVar/ClinVar")
+client <- SolveBioClient()
+query(client, dataset="ClinVar/ClinVar")
 }
 \references{
 \url{https://docs.solvebio.com/}

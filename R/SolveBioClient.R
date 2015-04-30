@@ -1,33 +1,10 @@
-
-# SolveBioClient <- function(api_key, api_host = "https://api.solvebio.com") {
-#   if (missing(api_key)) {
-#     stop("api_key parameter is required.")
-#   }
-#
-#   url = httr::modify_url(api_host, "path" = "v1/user")
-#   authorization = paste("Token", api_key)
-#   headers <- httr::add_headers(
-#     Authorization = authorization,
-#     Accept = "application/json",
-#     "Content-Type" = "application/json",
-#     "Accept-Encoding" = "gzip,deflate",
-#     "User-Agent" = "SolveBio R Client"
-#   )
-#   res <- httr::GET(url, headers)
-#   httr::stop_for_status(res)
-#
-#   if (res$status != 200) {
-#     stop()
-#   }
-#   res = formatSolveBioResult(res, raw = FALSE)
-#
-#   structure(list("headers" = headers, "api_host" = api_host), class = "solvebio")
-# }
 .SolveBioClient <- setRefClass("SolveBioClient",
                                fields = list(
                                              api_host = "character", 
                                              api_key = "character",
-                                             request_handle = "NULL"
+                                             # httr classes
+                                             request_handle = "ANY",
+                                             config = "ANY"
                                              ),
                                methods = list(
                                               show = function() {
@@ -40,33 +17,41 @@
                                               connect = function() {
                                                   'Sets the request handler.'
                                                   if(length(api_key) == 0L) {
-                                                      stop("No access token available! Run login() to start the authentication!")
+                                                      stop("No API key available! Run login() to start the authentication!")
                                                   }
-                                                  request_handle <<- httr::handle()
+                                                  request_handle <<- httr::handle(api_host)
                                                   # Setup the default headers
-                                                  request_handle$handle$headers <<- httr::add_headers(
-                                                                    Authorization = paste("Token", api_key),
-                                                                    Accept = "application/json",
-                                                                    "Content-Type" = "application/json",
-                                                                    "Accept-Encoding" = "gzip,deflate",
-                                                                    "User-Agent" = "SolveBio R Client"
-                                                                    )
+                                                  headers <- c(
+                                                               Authorization = paste("Token", api_key),
+                                                               Accept = "application/json",
+                                                               "Content-Type" = "application/json",
+                                                               "Accept-Encoding" = "gzip,deflate"
+                                                               )
+                                                  config <<- httr::config(
+                                                                          httpheader = headers,
+                                                                          useragent = 'SolveBio R Client'
+                                                                          )
                                               },
-                                              login = function() {
-                                                  # login = function(scope = "browse global") {
-                                                  if(is.null(request_handle)) {
-                                                      connect()
-                                                  }
-                                                  res <- request('GET', '/v1/user')
-                                              },
+                                              # login = function() {
+                                              #     # login = function(scope = "browse global") {
+                                              #     if(is.null(request_handle)) {
+                                              #         connect()
+                                              #     }
+                                              #     res <- request('GET', '/v1/user')
+                                              # },
                                               isAuthenticated = function() {
                                                   if(is.null(request_handle)) {
                                                       connect()
                                                   }
 
-                                                  res <- request('GET', '/v1/user')
+                                                  uri <- httr::modify_url(api_host, "path" = '/v1/user')
+                                                  res <- httr::GET(
+                                                                   uri,
+                                                                   config,
+                                                                   handle = request_handle)
 
-                                                  if(res$status != "200") {
+                                                  if (res$status != 200) {
+                                                      # httr::stop_for_status(res)
                                                       return(FALSE)
                                                   }
 
@@ -76,21 +61,29 @@
                         ) # SolveBioClient
 
 
-.SolveBioClient$methods(request = function(method, path, ...) {
+.SolveBioClient$methods(request = function(method, path, body = NULL, ...) {
                         'Perform an HTTP request to the server.'
 
                         if(is.null(request_handle)) {
                             connect()
                         }
                         
-                        url = httr::modify_url(api_host, "path" = path)
+                        uri <- httr::modify_url(api_host, "path" = path)
 
                         switch(method, 
                                GET={
-                                   res <- httr::GET(uri, handle = request_handle, ...)
+                                   res <- httr::GET(
+                                                    uri,
+                                                    config = config,
+                                                    handle = request_handle)
                                },
                                POST={
-                                   res <- httr::POST(uri, handle = request_handle, ...)
+                                   res <- httr::POST(
+                                                     uri,
+                                                     config = config,
+                                                     handle = request_handle,
+                                                     body = body,
+                                                     encode = 'json')
                                },
                                PUT={},
                                PATCH={},
@@ -100,10 +93,9 @@
                                )
 
 
-                        httr::stop_for_status(res)
-
                         if (res$status != 200) {
                             cat("\n", toJSON(res$body, pretty = TRUE), "\n")
+                            # httr::stop_for_status(res)
                             return(invisible(NULL))
                         }
 
@@ -120,20 +112,26 @@
 #' @param api_host SolveBio API host (default: https://api.solvebio.com)
 #'
 #' @examples
-#' client <- SolveBioClient(Sys.getenv("SOLVEBIO_API_KEY"))
-#' client.login()
+#' client <- SolveBioClient()
+#' client$isAuthenticated()
 #'
 #' @references
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
 SolveBioClient <- function(api_key = character(), api_host = character()) {
+    if (missing(api_host)) {
+        api_host <- Sys.getenv('SOLVEBIO_API_HOST', unset='https://api.solvebio.com/')
+    }
+    if (missing(api_key)) {
+        api_key <- Sys.getenv('SOLVEBIO_API_KEY', unset=NA)
+    }
     client <- .SolveBioClient$new(api_key = api_key, api_host = api_host)
-    # client$connect()
+    client$connect()
     return(client)
 }
 
 
+# setMethod("login", "SolveBioClient", function(x) x$login())
 setMethod("connect", "SolveBioClient", function(x) x$connect())
-setMethod("login", "SolveBioClient", function(x) x$login())
 setMethod("isAuthenticated", "SolveBioClient", function(x) x$isAuthenticated())

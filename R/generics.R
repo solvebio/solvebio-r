@@ -15,8 +15,12 @@ setGenericIfNone <- function(x,y){
 #                  useAsDefault = function(x, ...) base::as.list(x, ...))
 
 # SolveBioClient methods
-setGenericIfNone("connect", function(x, ...) standardGeneric("connect"))
-setGenericIfNone("login", function(x, ...) standardGeneric("login"))
-setGenericIfNone("isAuthenticated", function(x, ...) standardGeneric("isAuthenticated"))
+# TODO: interactive login method
+# setGenericIfNone("login", function(x) standardGeneric("login"))
+setGenericIfNone("connect", function(x) standardGeneric("connect"))
+setGenericIfNone("isAuthenticated", function(x) standardGeneric("isAuthenticated"))
 
 setGenericIfNone("Depositories", function(x, ...) standardGeneric("Depositories"))
+
+# Query methods
+setGenericIfNone("query", function(x, ...) standardGeneric("query"))
