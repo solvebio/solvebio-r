@@ -11,4 +11,4 @@ Imports:
     httr,
     jsonlite
 License: MIT + file LICENSE
-Collate: generics.R SolveBioClient.R query.R utils.R
+Collate: generics.R SolveBioClient.R Dataset.R query.R utils.R

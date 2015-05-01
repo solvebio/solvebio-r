@@ -20,7 +20,7 @@ setGenericIfNone <- function(x,y){
 setGenericIfNone("connect", function(x) standardGeneric("connect"))
 setGenericIfNone("isAuthenticated", function(x) standardGeneric("isAuthenticated"))
 
-setGenericIfNone("Depositories", function(x, ...) standardGeneric("Depositories"))
+# setGenericIfNone("Depositories", function(x, ...) standardGeneric("Depositories"))
 
 # Query methods
 setGenericIfNone("query", function(x, ...) standardGeneric("query"))

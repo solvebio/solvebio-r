@@ -18,30 +18,45 @@ information about the platform.
 
 Installing this package requires an installed [R environment](http://www.r-project.org).
 
-````R
+```R
 install.packages("solvebio")
 library(solvebio)
-````
+```
 
 
 ## Developers
 
 To install the development version of this package, you will need the `devtools` package.
 
-````R
+```R
 install.packages("devtools")
 library(devtools)
 devtools::install_github("solvebio/solvebio-r")
 library(solvebio)
-````
+```
 
 
 ## Usage
 
-````R
+```R
 # Create the client
-sb = SolveBioClient(api_key="$SOLVEBIO_API_KEY")
+# By default it will look for a key in the $SOLVEBIO_API_KEY environment variable.
+SolveBio.login(api_key="<Your SolveBio API key">)
+
+# Retrieve a list of all datasets
+datasets = SolveBio.Dataset.all()
+
+# Retrieve a specific dataset (metadata)
+dataset = SolveBio.Dataset.retrieve('ClinVar/Variants')
 
 # Query a dataset
-res = query(sb, dataset='ClinVar/Variants', query='{"filters": {}}')
-````
+query = '{
+    "filters": [
+        ["gene_symbol", "BRCA1"]
+    ]
+}'
+results = SolveBio.Dataset.query('ClinVar/Variants', query=query)
+# Load the next page of results
+results.next()
+```
+
