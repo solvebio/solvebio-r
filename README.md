@@ -41,13 +41,14 @@ library(solvebio)
 ```R
 # Create the client
 # By default it will look for a key in the $SOLVEBIO_API_KEY environment variable.
-SolveBio.login(api_key="<Your SolveBio API key">)
+require(solvebio)
+login(api_key="<Your SolveBio API key">)
 
 # Retrieve a list of all datasets
-datasets = SolveBio.Dataset.all()
+datasets = Dataset.all()
 
 # Retrieve a specific dataset (metadata)
-dataset = SolveBio.Dataset.retrieve('ClinVar/Variants')
+dataset = Dataset.retrieve('ClinVar/Variants')
 
 # Query a dataset
 query = '{
@@ -55,7 +56,7 @@ query = '{
         ["gene_symbol", "BRCA1"]
     ]
 }'
-results = SolveBio.Dataset.query('ClinVar/Variants', query=query)
+results = Dataset.query('ClinVar/Variants', query=query)
 # Load the next page of results
 results.next()
 ```

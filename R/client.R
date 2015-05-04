@@ -4,16 +4,9 @@
 # Store the SolveBio config in an environment
 .solveEnv <- new.env()
 .solveEnv$current <- .solveEnv
-.solveEnv$current$api_host <- 'https://api.solvebio.com'
-
-# .client <- function(e) {
-#     if (missing(e)) e = .solveEnv$current
-#     if (!exists('handle', envir=e)) {
-#         stop('Not logged-in. Please run login()')
-#     }
-#     e$handle
-# }
-
+.solveEnv$current$api_host <- Sys.getenv('SOLVEBIO_API_HOST',
+                                         unset='https://api.solvebio.com')
+.solveEnv$current$api_key <- Sys.getenv('SOLVEBIO_API_KEY', unset='')
 
 #' login
 #'
@@ -31,31 +24,27 @@
 #'
 #' @export
 login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
-    if (missing(api_key)) {
-        api_key <- Sys.getenv('SOLVEBIO_API_KEY')
+    # TODO: log in manually with username and password
+    if (!missing(api_key)) {
+        assign('api_key', api_key, envir=envir)
     }
-    if(nchar(api_key) == 0L) {
-        # TODO: log in manually
-        stop("No API key available!")
-    }
-    assign('api_key', api_key, envir=envir)
 
-    if (missing(api_host)) {
-        # See if an API host is in the environment
-        if (!is.na(Sys.getenv('SOLVEBIO_API_HOST', unset=NA))) {
-            assign('api_host', Sys.getenv('SOLVEBIO_API_HOST'), envir=envir)
-        }
+    if(nchar(envir$api_key) == 0L) {
+        stop("No API key found. Please set the 'SOLVEBIO_API_KEY' environment variable, or specify your key as the 'api_key' parameter of this function. Your API key can be found on the Account page of the SolveBio website: https://www.solvebio.com/account")
     }
-    else {
+
+    if (!missing(api_host)) {
         assign('api_host', api_host, envir=envir)
     }
 
     # Test the login
-    res <- .request('GET', '/v1/user')
-
-    if (is.null(res)) {
-        stop("Invalid API key")
-    }
+    tryCatch({
+        res <- .request('GET', '/v1/user')
+        cat(sprintf("Logged-in to %s as %s.\n", envir$api_host, res$email))
+        return(invisible(res))
+    }, error = function(e) {
+        cat(sprintf("Login failed: %s\n", e$message))
+    })
 }
 
 .request = function(method, path, body = NULL, ...) {
@@ -115,15 +104,20 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                                  )
            },
            {
-               print('Invalid request method!')
+               stop('Invalid request method!')
            }
            )
 
 
-    if (res$status != 200) {
-        httr::warn_for_status(res)
-        # cat(res$body, "\n")
-        return(invisible(res))
+    if (res$status < 200 | res$status >= 400) {
+        if (res$status == 429) {
+            stop(sprintf("API error: Too many requests, please retry in %i seconds\n", res$header$'retry-after')) 
+        }
+        stop(sprintf("API error: %s\n", res$status)) 
+    }
+
+    if (res$status == 204 | res$status == 301 | res$status == 302) {
+        return(res)
     }
 
     res = formatSolveBioResult(res, raw = FALSE)

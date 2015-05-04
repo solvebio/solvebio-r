@@ -11,4 +11,4 @@ Imports:
     httr,
     jsonlite
 License: MIT + file LICENSE
-Collate: client.R datasets.R utils.R
+Collate: client.R datasets.R utils.R zzz.R
