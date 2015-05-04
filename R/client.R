@@ -47,7 +47,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
     })
 }
 
-.request = function(method, path, body = NULL, ...) {
+.request = function(method, path, ...) {
     'Perform an HTTP request to the server.'
     env <- .solveEnv$current
 
@@ -76,31 +76,32 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
            GET={
                res <- httr::GET(
                                 uri,
-                                config = config
+                                config = config,
+                                ...
                                 )
            },
            POST={
                res <- httr::POST(
                                  uri,
                                  config = config,
-                                 body = body,
-                                 encode = 'json'
+                                 encode = 'json',
+                                 ...
                                  )
            },
            PUT={
                res <- httr::PUT(
                                  uri,
                                  config = config,
-                                 body = body,
-                                 encode = 'json'
+                                 encode = 'json',
+                                 ...
                                  )
            },
            PATCH={
                res <- httr::PATCH(
                                  uri,
                                  config = config,
-                                 body = body,
-                                 encode = 'json'
+                                 encode = 'json',
+                                 ...
                                  )
            },
            {
@@ -112,6 +113,10 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
     if (res$status < 200 | res$status >= 400) {
         if (res$status == 429) {
             stop(sprintf("API error: Too many requests, please retry in %i seconds\n", res$header$'retry-after')) 
+        }
+        if (res$status == 400) {
+            content = formatSolveBioResult(res, raw = FALSE)
+            stop(sprintf("API error: %s\n", content$detail)) 
         }
         stop(sprintf("API error: %s\n", res$status)) 
     }

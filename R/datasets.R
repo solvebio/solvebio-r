@@ -10,8 +10,8 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.all <- function(...) {
-    .request('GET', '/v1/datasets')
+Dataset.all <- function(params) {
+    .request('GET', '/v1/datasets', )
 }
 
 #' Dataset.retrieve
@@ -54,11 +54,11 @@ Dataset.retrieve <- function(id, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.query <- function(id, filters = NULL, params = NULL) {
+Dataset.query <- function(id, filters = NULL, params = list()) {
     if (missing(id)) {
         stop("A dataset ID or name is required.")
     }
 
     path <- paste("/v1/datasets", paste(id), "data", sep="/")
-    .request('POST', path=path, body=filters)
+    .request('POST', path=path, body=filters, query=params)
 }
