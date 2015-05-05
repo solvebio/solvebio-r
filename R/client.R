@@ -39,7 +39,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
 
     # Test the login
     tryCatch({
-        res <- .request('GET', '/v1/user')
+        res <- .request('GET', 'v1/user')
         cat(sprintf("Logged-in to %s as %s.\n", envir$api_host, res$email))
         return(invisible(res))
     }, error = function(e) {
@@ -47,7 +47,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
     })
 }
 
-.request = function(method, path, ...) {
+.request = function(method, path, query, body, ...) {
     'Perform an HTTP request to the server.'
     env <- .solveEnv$current
 
@@ -65,12 +65,25 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                      Authorization = paste("Token", api_key)
                      )
     }
+
+    # Slice of beginning slash
+    if (substring(path, 1, 1) == "/") {
+        path <- substring(path, 2)
+    }
     
     uri <- httr::modify_url(env$api_host, "path" = path)
+    useragent <- sprintf('SolveBio R Client %s [%s %s]',
+                         packageVersion('solvebio'),
+                         R.version$version.string,
+                         R.version$platform)
     config <- httr::config(
                            httpheader = headers,
-                           useragent = 'SolveBio R Client'
+                           useragent = useragent
                            )
+
+    if (!missing(body)) {
+        body <- jsonlite::toJSON(body, auto_unbox=TRUE)
+    }
 
     switch(method, 
            GET={
@@ -84,7 +97,9 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                res <- httr::POST(
                                  uri,
                                  config = config,
+                                 body = body,
                                  encode = 'json',
+                                 # httr::verbose(),
                                  ...
                                  )
            },
@@ -92,6 +107,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                res <- httr::PUT(
                                  uri,
                                  config = config,
+                                 body = body,
                                  encode = 'json',
                                  ...
                                  )
@@ -100,6 +116,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                res <- httr::PATCH(
                                  uri,
                                  config = config,
+                                 body = body,
                                  encode = 'json',
                                  ...
                                  )

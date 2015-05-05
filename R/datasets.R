@@ -10,8 +10,8 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.all <- function(params) {
-    .request('GET', '/v1/datasets', )
+Dataset.all <- function(...) {
+    .request('GET', "v1/datasets", query=list(...))
 }
 
 #' Dataset.retrieve
@@ -28,20 +28,13 @@ Dataset.all <- function(params) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.retrieve <- function(id, ...) {
+Dataset.retrieve <- function(id) {
     if (missing(id)) {
         stop("A dataset ID or name is required.")
     }
 
-    path <- paste("/v1/datasets", paste(id), sep="/")
-    obj <- .request('GET', path=path)
-    # Add .query() shortcut method
-    # attr(res, 'query') <- function(filters = NULL, params = list()) {
-    #     print("Querying")
-    #     print(res$id)
-    #     Dataset.query(res$id, filters, params)
-    # }
-    return(obj)
+    path <- paste("v1/datasets", paste(id), sep="/")
+    .request('GET', path=path)
 }
 
 #' Dataset.query
@@ -61,8 +54,7 @@ Dataset.retrieve <- function(id, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.query <- function(id, filters = NULL, params = list()) {
-    print("Caling dataset.query")
+Dataset.query <- function(id, ...) {
     if (missing(id)) {
         stop("A dataset ID or name is required.")
     }
@@ -70,8 +62,8 @@ Dataset.query <- function(id, filters = NULL, params = list()) {
         id <- id$id
     }
 
-    path <- paste("/v1/datasets", paste(id), "data", sep="/")
-    .request('POST', path=path, body=filters, query=params)
+    path <- paste("v1/datasets", paste(id), "data", sep="/")
+    .request('POST', path=path, body=list(...))
 }
 
 # TODO: pretty-print Dataset objects

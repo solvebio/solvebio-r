@@ -4,14 +4,14 @@
 \alias{Dataset.query}
 \title{Dataset.query}
 \usage{
-Dataset.query(id, filters = NULL, params = list())
+Dataset.query(id, ...)
 }
 \arguments{
-\item{id}{String The ID or full name of a SolveBio dataset}
+\item{id}{String The ID or full name of a SolveBio dataset, or a Dataset object.}
 
-\item{filters}{Json}
+\item{filters}{Json (optional) Query filters.}
 
-\item{params}{Json Additional query parameters}
+\item{params}{Json (optional) Query parameters.}
 }
 \description{
 Returns filtered documents from a SolveBio dataset.

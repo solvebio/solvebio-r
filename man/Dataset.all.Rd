@@ -4,7 +4,7 @@
 \alias{Dataset.all}
 \title{Dataset.all}
 \usage{
-Dataset.all(params)
+Dataset.all(...)
 }
 \description{
 Retrieves the metadata about all datasets on SolveBio.
