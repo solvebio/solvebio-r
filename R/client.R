@@ -126,5 +126,11 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
     }
 
     res = formatSolveBioResult(res, raw = FALSE)
-    return(res)
+
+    if (!is.null(res$class_name)) {
+        # Classify the result object
+        return(structure(res, class=res$class_name))
+    } else {
+        return(res)
+    }
 }
