@@ -83,6 +83,12 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
 
     if (!missing(body)) {
         body <- jsonlite::toJSON(body, auto_unbox=TRUE)
+    } else {
+        body = NULL
+    }
+
+    if (missing(query)) {
+        query = NULL
     }
 
     switch(method, 
@@ -90,6 +96,8 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                res <- httr::GET(
                                 uri,
                                 config = config,
+                                query = query,
+                                httr::verbose(),
                                 ...
                                 )
            },
@@ -98,6 +106,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                                  uri,
                                  config = config,
                                  body = body,
+                                 query = query,
                                  encode = 'json',
                                  # httr::verbose(),
                                  ...
@@ -108,6 +117,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                                  uri,
                                  config = config,
                                  body = body,
+                                 query = query,
                                  encode = 'json',
                                  ...
                                  )
@@ -117,6 +127,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                                  uri,
                                  config = config,
                                  body = body,
+                                 query = query,
                                  encode = 'json',
                                  ...
                                  )

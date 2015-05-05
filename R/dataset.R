@@ -55,7 +55,7 @@ Dataset.retrieve <- function(id) {
 #'
 #' @export
 Dataset.query <- function(id, ...) {
-    if (missing(id)) {
+    if (missing(id) | !(class(id) %in% c("Dataset", "numeric", "character"))) {
         stop("A dataset ID or name is required.")
     }
     if (class(id) == "Dataset") {
