@@ -1,4 +1,4 @@
-# SolveBio for R
+# SolveBio for R (alpha)
 
 **PLEASE NOTE: The SolveBio R Bindings are currently in alpha. The bindings may change frequently so please check back for updates.**
 
