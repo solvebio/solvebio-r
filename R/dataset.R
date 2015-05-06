@@ -54,7 +54,7 @@ Dataset.retrieve <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.query <- function(id, ...) {
+Dataset.query <- function(id, filters, ...) {
     if (missing(id) | !(class(id) %in% c("Dataset", "numeric", "character"))) {
         stop("A dataset ID or name is required.")
     }
@@ -62,8 +62,20 @@ Dataset.query <- function(id, ...) {
         id <- id$id
     }
 
+    body = list(...)
+
+    # Filters can be passed as a JSON string
+    if (!missing(filters)) {
+        if (class(filters) == "character") {
+            # Convert JSON string to an R structure
+            filters <- jsonlite::fromJSON(filters)
+        }
+        # Add filters to body
+        body = modifyList(body, list(filters=filters))
+    }
+
     path <- paste("v1/datasets", paste(id), "data", sep="/")
-    .request('POST', path=path, body=list(...))
+    .request('POST', path=path, body=body)
 }
 
 # TODO: pretty-print Dataset objects

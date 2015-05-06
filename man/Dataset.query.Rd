@@ -4,7 +4,7 @@
 \alias{Dataset.query}
 \title{Dataset.query}
 \usage{
-Dataset.query(id, ...)
+Dataset.query(id, filters, ...)
 }
 \arguments{
 \item{id}{String The ID or full name of a SolveBio dataset, or a Dataset object.}

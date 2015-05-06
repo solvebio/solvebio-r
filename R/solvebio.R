@@ -97,7 +97,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                                 uri,
                                 config = config,
                                 query = query,
-                                httr::verbose(),
+                                # httr::verbose(),
                                 ...
                                 )
            },
@@ -107,7 +107,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                                  config = config,
                                  body = body,
                                  query = query,
-                                 encode = 'json',
+                                 encode = "json",
                                  # httr::verbose(),
                                  ...
                                  )
@@ -118,7 +118,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                                  config = config,
                                  body = body,
                                  query = query,
-                                 encode = 'json',
+                                 encode = "json",
                                  ...
                                  )
            },
@@ -128,7 +128,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                                  config = config,
                                  body = body,
                                  query = query,
-                                 encode = 'json',
+                                 encode = "json",
                                  ...
                                  )
            },
