@@ -52,16 +52,18 @@ datasets = Dataset.all()
 dataset = Dataset.retrieve('ClinVar/Variants')
 
 # Query a dataset with filters as JSON:
-query = '[["gene_symbol", "BRCA1"]]'
+filters = '[["gene_symbol", "BRCA1"]]'
 # or, filters as R code:
-query = matrix(c("gene_symbol", "BRCA2"), nrow=1, ncol=2)
-response = Dataset.query('ClinVar/Variants', query=query, offset=0, limit=50)
+filters = matrix(c("gene_symbol", "BRCA2"), nrow=1, ncol=2)
+
+# Execute the query
+response = Dataset.query('ClinVar/Variants', filters=filters, offset=0, limit=50)
 # Access the results
 response$results
 
 # Load the next page of results
 # reponse$offset will be NULL if there are no more results.
 if (!is.null(response$offset)) {
-    response = Dataset.query('ClinVar/Variants', query=query, offset=response$offset)
+    response = Dataset.query('ClinVar/Variants', filters=filters, offset=response$offset)
 }
 ```
