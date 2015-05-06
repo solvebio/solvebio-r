@@ -1,6 +1,6 @@
 # SolveBio for R
 
-**The SolveBio R Bindings are currently in alpha. The bindings may change frequently so please check back for updates.**
+**PLEASE NOTE: The SolveBio R Bindings are currently in alpha. The bindings may change frequently so please check back for updates.**
 
 This package contains the SolveBio R language bindings. SolveBio makes it easy
 to access genomic reference data.
