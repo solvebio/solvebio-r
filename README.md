@@ -56,7 +56,7 @@ dataset = Dataset.retrieve('ClinVar/Variants')
 # Query a dataset with filters as JSON:
 filters = '[["gene_symbol", "BRCA1"]]'
 # or, filters as R code:
-filters = matrix(c("gene_symbol", "BRCA2"), nrow=1, ncol=2)
+filters = list(list('gene_symbol', 'BRCA1'))
 
 # Execute the query
 response = Dataset.query('ClinVar/Variants', filters=filters, offset=0, limit=50)
