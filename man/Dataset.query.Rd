@@ -7,11 +7,11 @@
 Dataset.query(id, filters, ...)
 }
 \arguments{
-\item{id}{String The ID or full name of a SolveBio dataset, or a Dataset object.}
+\item{id}{The ID or full name of a SolveBio dataset, or a Dataset object.}
 
-\item{filters}{Json (optional) Query filters.}
+\item{filters}{(optional) Query filters.}
 
-\item{params}{Json (optional) Query parameters.}
+\item{...}{(optional) Additional query parameters (e.g. limit, offset).}
 }
 \description{
 Returns filtered documents from a SolveBio dataset.

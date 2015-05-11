@@ -8,6 +8,8 @@ Depository.versions(id, ...)
 }
 \arguments{
 \item{id}{String The ID or full name of a SolveBio depository.}
+
+\item{...}{(optional) Additional query parameters (e.g. limit, offset).}
 }
 \description{
 Returns the list of versions for a given depository.

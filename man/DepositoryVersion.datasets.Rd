@@ -8,6 +8,8 @@ DepositoryVersion.datasets(id, ...)
 }
 \arguments{
 \item{id}{String The ID or full name of a depository version.}
+
+\item{...}{(optional) Additional query parameters (e.g. page).}
 }
 \description{
 Returns the list of datasets for a given depository version.

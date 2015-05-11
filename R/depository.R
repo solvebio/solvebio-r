@@ -2,6 +2,8 @@
 #'
 #' Retrieves the metadata about all depositories on SolveBio.
 #'
+#' @param ... (optional) Additional query parameters (e.g. limit, offset).
+#'
 #' @examples \dontrun{
 #' Depository.all()
 #' }
@@ -42,6 +44,7 @@ Depository.retrieve <- function(id) {
 #' Returns the list of versions for a given depository.
 #'
 #' @param id String The ID or full name of a SolveBio depository.
+#' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
 #' Depository.versions("ClinVar")
@@ -69,6 +72,7 @@ Depository.versions <- function(id, ...) {
 #' Retrieves the latest version for a given depository.
 #'
 #' @param id String The ID or full name of a depository, or a Depository object.
+#' @param ... (optional) Additional query parameters.
 #'
 #' @examples \dontrun{
 #' Depository.latest_version("ClinVar")

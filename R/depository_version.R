@@ -2,6 +2,8 @@
 #'
 #' Retrieves the metadata about all depository versions on SolveBio.
 #'
+#' @param ... (optional) Additional query parameters (e.g. page).
+#'
 #' @examples \dontrun{
 #' DepositoryVersion.all()
 #' }
@@ -42,6 +44,7 @@ DepositoryVersion.retrieve <- function(id) {
 #' Returns the list of datasets for a given depository version.
 #'
 #' @param id String The ID or full name of a depository version.
+#' @param ... (optional) Additional query parameters (e.g. page).
 #'
 #' @examples \dontrun{
 #' DepositoryVersion.datasets("ClinVar/1.0.0")

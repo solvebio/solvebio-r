@@ -1,13 +1,22 @@
-formatSolveBioResult <- function (res, raw = FALSE) {
+formatSolveBioResponse <- function (res, raw = FALSE) {
   url = res$url
   body = httr::content(res, as="text")
   if (raw) {
-    body
+    return(body)
   } else {
     res = jsonlite::fromJSON(body)
     res$'_url' = url
-    res
+    return(res)
   }
+}
+
+formatSolveBioQueryResponse <- function (res, raw = FALSE) {
+    # res will be the output of formatSolveBioResponse
+    if (!raw) {
+        # Flatten results, convert to data.table
+        res$results <- data.table::as.data.table(jsonlite::flatten(res$results))
+    }
+    return(res)
 }
 
 prepareArgs <- function (args) {

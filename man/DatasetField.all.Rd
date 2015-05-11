@@ -6,6 +6,9 @@
 \usage{
 DatasetField.all(...)
 }
+\arguments{
+\item{...}{(optional) Additional query parameters (e.g. page).}
+}
 \description{
 Retrieves the metadata about all dataset fields on SolveBio.
 }

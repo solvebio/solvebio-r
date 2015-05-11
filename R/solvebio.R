@@ -14,6 +14,7 @@
 #'
 #' @param api_key Your SolveBio API key
 #' @param api_host SolveBio API host (default: https://api.solvebio.com)
+#' @param envir (optional) The R environment used to store API credentials.
 #'
 #' @examples \dontrun{
 #' login()
@@ -143,7 +144,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
             stop(sprintf("API error: Too many requests, please retry in %i seconds\n", res$header$'retry-after')) 
         }
         if (res$status == 400) {
-            content = formatSolveBioResult(res, raw = FALSE)
+            content = formatSolveBioResponse(res, raw = FALSE)
             stop(sprintf("API error: %s\n", content$detail)) 
         }
         stop(sprintf("API error: %s\n", res$status)) 
@@ -153,7 +154,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
         return(res)
     }
 
-    res = formatSolveBioResult(res, raw = FALSE)
+    res = formatSolveBioResponse(res, raw = FALSE)
 
     if (!is.null(res$class_name)) {
         # Classify the result object

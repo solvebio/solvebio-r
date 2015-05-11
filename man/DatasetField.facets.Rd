@@ -8,6 +8,8 @@ DatasetField.facets(id, ...)
 }
 \arguments{
 \item{id}{String The ID or full name of a dataset field.}
+
+\item{...}{(optional) Additional query parameters.}
 }
 \description{
 Returns the facets for a given dataset field.

@@ -2,6 +2,8 @@
 #'
 #' Retrieves the metadata about all dataset fields on SolveBio.
 #'
+#' @param ... (optional) Additional query parameters (e.g. page).
+#'
 #' @examples \dontrun{
 #' DatasetField.all()
 #' }
@@ -42,6 +44,7 @@ DatasetField.retrieve <- function(id) {
 #' Returns the facets for a given dataset field.
 #'
 #' @param id String The ID or full name of a dataset field.
+#' @param ... (optional) Additional query parameters.
 #'
 #' @examples \dontrun{
 #' DatasetField.facets(691)

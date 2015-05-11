@@ -2,6 +2,8 @@
 #'
 #' Retrieves the metadata about all datasets on SolveBio.
 #'
+#' @param ... (optional) Additional query parameters (e.g. page).
+#'
 #' @examples \dontrun{
 #' Dataset.all()
 #' }
@@ -41,9 +43,9 @@ Dataset.retrieve <- function(id) {
 #'
 #' Returns filtered documents from a SolveBio dataset.
 #' \code{query} executes a SolveBio dataset query and retrieves the results.
-#' @param id String The ID or full name of a SolveBio dataset, or a Dataset object.
-#' @param filters Json (optional) Query filters.
-#' @param params Json (optional) Query parameters.
+#' @param id The ID or full name of a SolveBio dataset, or a Dataset object.
+#' @param filters (optional) Query filters.
+#' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
 #' login()
@@ -75,7 +77,14 @@ Dataset.query <- function(id, filters, ...) {
     }
 
     path <- paste("v1/datasets", paste(id), "data", sep="/")
-    .request('POST', path=path, body=body)
+
+    tryCatch({
+        res <- .request('POST', path=path, body=body)
+        # Return a data.table
+        return(formatSolveBioQueryResponse(res))
+    }, error = function(e) {
+        cat(sprintf("Query failed: %s\n", e$message))
+    })
 }
 
 # TODO: pretty-print Dataset objects

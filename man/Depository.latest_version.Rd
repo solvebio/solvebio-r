@@ -8,6 +8,8 @@ Depository.latest_version(id, ...)
 }
 \arguments{
 \item{id}{String The ID or full name of a depository, or a Depository object.}
+
+\item{...}{(optional) Additional query parameters.}
 }
 \description{
 Retrieves the latest version for a given depository.

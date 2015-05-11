@@ -6,6 +6,9 @@
 \usage{
 Depository.all(...)
 }
+\arguments{
+\item{...}{(optional) Additional query parameters (e.g. limit, offset).}
+}
 \description{
 Retrieves the metadata about all depositories on SolveBio.
 }
