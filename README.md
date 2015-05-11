@@ -31,7 +31,7 @@ library(solvebio)
 To install the development version of this package from GitHub, you will need the `devtools` package.
 
 ```R
-install.packages(c("devtools", "httr", "jsonlite", "data.table"))
+install.packages(c("devtools", "httr", "jsonlite"))
 library(devtools)
 devtools::install_github("solvebio/solvebio-r")
 library(solvebio)
@@ -60,7 +60,7 @@ filters = list(list('gene_symbol', 'BRCA1'))
 
 # Execute the query
 response = Dataset.query('ClinVar/Variants', filters=filters, offset=0, limit=50)
-# Access the results (results is a data.table)
+# Access the results (flattened by default)
 response$results
 
 # Load the next page of results

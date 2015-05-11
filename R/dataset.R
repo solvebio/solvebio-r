@@ -80,7 +80,6 @@ Dataset.query <- function(id, filters, ...) {
 
     tryCatch({
         res <- .request('POST', path=path, body=body)
-        # Return a data.table
         return(formatSolveBioQueryResponse(res))
     }, error = function(e) {
         cat(sprintf("Query failed: %s\n", e$message))

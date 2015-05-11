@@ -10,7 +10,5 @@ URL: https://github.com/solvebio/solvebio-r
 Imports:
     httr,
     jsonlite
-Suggests:
-    data.table
 License: MIT + file LICENSE
 Collate: solvebio.R depository.R depository_version.R dataset.R dataset_field.R utils.R zzz.R
