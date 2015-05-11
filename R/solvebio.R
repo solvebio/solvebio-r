@@ -58,7 +58,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                  "Accept-Encoding" = "gzip,deflate"
                  )
 
-    if (exists('api_key', envir=env)) {
+    if (!is.null(env$api_key) & env$api_key != "") {
         api_key <- env$api_key
         headers <- c(
                      headers, 
