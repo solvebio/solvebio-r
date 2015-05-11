@@ -1,7 +1,7 @@
 Package: solvebio
 Type: Package
 Title: SolveBio API client for R
-Version: 0.1.0
+Version: 0.1.1
 Date: 2015-03-24
 Author: David Caplan
 Maintainer: David Caplan <dcaplan@solvebio.com>
