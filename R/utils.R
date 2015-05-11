@@ -13,8 +13,12 @@ formatSolveBioResponse <- function (res, raw = FALSE) {
 formatSolveBioQueryResponse <- function (res, raw = FALSE) {
     # res will be the output of formatSolveBioResponse
     if (!raw) {
-        # Flatten results, convert to data.table
-        res$results <- data.table::as.data.table(jsonlite::flatten(res$results))
+        # Flatten results, convert to data.table (if package found)
+        if (requireNamespace("data.table", quietly = TRUE)) {
+            res$results <- data.table::as.data.table(jsonlite::flatten(res$results))
+        } else {
+            res$results <- jsonlite::flatten(res$results)
+        }
     }
     return(res)
 }

@@ -7,10 +7,10 @@ Author: David Caplan
 Maintainer: David Caplan <dcaplan@solvebio.com>
 Description: SolveBio language bindings for R.
 URL: https://github.com/solvebio/solvebio-r
-Depends:
-    data.table (>= 1.9.4)
 Imports:
     httr,
     jsonlite
+Suggests:
+    data.table
 License: MIT + file LICENSE
 Collate: solvebio.R depository.R depository_version.R dataset.R dataset_field.R utils.R zzz.R
