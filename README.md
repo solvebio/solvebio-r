@@ -45,7 +45,7 @@ library(solvebio)
 # By default it will look for a key in the $SOLVEBIO_API_KEY environment variable.
 require(solvebio)
 # You may also manually supply an API key in your code
-# login(api_key="<Your SolveBio API key">)
+# login(api_key="<Your SolveBio API key>")
 
 # Retrieve a list of all datasets
 datasets = Dataset.all()
