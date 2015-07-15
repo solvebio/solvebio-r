@@ -77,10 +77,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                          packageVersion('solvebio'),
                          R.version$version.string,
                          R.version$platform)
-    config <- httr::config(
-                           httpheader = headers,
-                           useragent = useragent
-                           )
+    config <- httr::config(useragent = useragent)
 
     if (!missing(body)) {
         body <- jsonlite::toJSON(body, auto_unbox=TRUE)
@@ -96,6 +93,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
            GET={
                res <- httr::GET(
                                 uri,
+                                httr::add_headers(headers),
                                 config = config,
                                 query = query,
                                 # httr::verbose(),
@@ -105,6 +103,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
            POST={
                res <- httr::POST(
                                  uri,
+                                 httr::add_headers(headers),
                                  config = config,
                                  body = body,
                                  query = query,
@@ -116,6 +115,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
            PUT={
                res <- httr::PUT(
                                  uri,
+                                 httr::add_headers(headers),
                                  config = config,
                                  body = body,
                                  query = query,
@@ -126,6 +126,7 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
            PATCH={
                res <- httr::PATCH(
                                  uri,
+                                 httr::add_headers(headers),
                                  config = config,
                                  body = body,
                                  query = query,
