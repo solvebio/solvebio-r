@@ -6,3 +6,4 @@
 *.swp
 *.Rcheck
 *.tgz
+.Rd2pdf*

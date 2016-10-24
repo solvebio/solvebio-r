@@ -3,4 +3,6 @@
 ^\.git$
 ^\.gitignore$
 ^\.bumpversion\.cfg$
+^.*\.gz$
+^\.Rd2pdf.*$
 Makefile
