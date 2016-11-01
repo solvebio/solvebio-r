@@ -1,3 +1,5 @@
+#' @importFrom utils modifyList packageVersion
+
 formatSolveBioResponse <- function (res, raw = FALSE) {
   url = res$url
   body = httr::content(res, as="text")
