@@ -25,13 +25,12 @@
 #'
 #' @export
 login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
-    # TODO: log in manually with username and password
     if (!missing(api_key)) {
         assign('api_key', api_key, envir=envir)
     }
 
     if(nchar(envir$api_key) == 0L) {
-        stop("No API key found. Please set the 'SOLVEBIO_API_KEY' environment variable, or specify your key as the 'api_key' parameter of this function. Your API key can be found on the Account page of the SolveBio website: https://www.solvebio.com/account")
+        stop("No API key found. Please set the 'SOLVEBIO_API_KEY' environment variable, or specify your key as the 'api_key' parameter of this function. Your API key can be found on the Account page of the SolveBio website: https://my.solvebio.com/settings/security")
     }
 
     if (!missing(api_host)) {
@@ -96,7 +95,6 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                                 httr::add_headers(headers),
                                 config = config,
                                 query = query,
-                                # httr::verbose(),
                                 ...
                                 )
            },
@@ -108,7 +106,6 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                                  body = body,
                                  query = query,
                                  encode = "json",
-                                 # httr::verbose(),
                                  ...
                                  )
            },

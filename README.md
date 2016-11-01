@@ -59,13 +59,14 @@ filters = '[["gene_symbol", "BRCA1"]]'
 filters = list(list('gene_symbol', 'BRCA1'))
 
 # Execute the query
-response = Dataset.query('ClinVar/Variants', filters=filters, offset=0, limit=50)
+response = Dataset.query('ClinVar/3.7.2-2016-08-02/Variants', filters=filters, offset=0, limit=50)
 # Access the results (flattened by default)
-response$results
+response
 
 # Load the next page of results
 # reponse$offset will be NULL if there are no more results.
 if (!is.null(response$offset)) {
-    response = Dataset.query('ClinVar/Variants', filters=filters, offset=response$offset)
+    response = Dataset.query('ClinVar/3.7.2-2016-08-02/Variants', filters=filters, offset=response$offset)
 }
+
 ```

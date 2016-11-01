@@ -4,23 +4,23 @@
 \alias{Dataset.query}
 \title{Dataset.query}
 \usage{
-Dataset.query(id, filters, ...)
+Dataset.query(id, paginate = FALSE, ...)
 }
 \arguments{
 \item{id}{The ID or full name of a SolveBio dataset, or a Dataset object.}
 
-\item{filters}{(optional) Query filters.}
+\item{paginate}{When set to TRUE, retrieves up to 500,000 records.}
 
-\item{...}{(optional) Additional query parameters (e.g. limit, offset).}
+\item{...}{(optional) Additional query parameters (e.g. filters, limit, offset).}
 }
 \description{
-Returns filtered documents from a SolveBio dataset.
-\code{query} executes a SolveBio dataset query and retrieves the results.
+Queries a SolveBio dataset and returns an R data frame containing all records (up to 500,000).
+Returns a single page of results otherwise (default).
 }
 \examples{
 \dontrun{
 login()
-Dataset.query("ClinVar/ClinVar")
+Dataset.query("ClinVar/ClinVar", paginate=TRUE)
 }
 
 }
