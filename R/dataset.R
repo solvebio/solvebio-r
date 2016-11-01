@@ -43,7 +43,7 @@ Dataset.retrieve <- function(id) {
 #'
 #' Returns one page of documents from a SolveBio dataset and processes the response.
 #' @param id The ID or full name of a SolveBio dataset, or a Dataset object.
-#' @param filters (optional) query filters.
+#' @param filters (optional) Query filters.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{

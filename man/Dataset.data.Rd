@@ -9,7 +9,7 @@ Dataset.data(id, filters, ...)
 \arguments{
 \item{id}{The ID or full name of a SolveBio dataset, or a Dataset object.}
 
-\item{filters}{(optional) query filters.}
+\item{filters}{(optional) Query filters.}
 
 \item{...}{(optional) Additional query parameters (e.g. limit, offset).}
 }

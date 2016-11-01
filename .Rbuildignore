@@ -5,4 +5,5 @@
 ^\.bumpversion\.cfg$
 ^.*\.gz$
 ^\.Rd2pdf.*$
+^\.travis.yml$
 Makefile
