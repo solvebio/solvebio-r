@@ -41,10 +41,9 @@ Dataset.retrieve <- function(id) {
 
 #' Dataset.data
 #'
-#' Returns one page of documents from a SolveBio dataset.
-#' \code{query} executes a request for a page of data and processes the response.
+#' Returns one page of documents from a SolveBio dataset and processes the response.
 #' @param id The ID or full name of a SolveBio dataset, or a Dataset object.
-#' @param filters (optional) Query filters.
+#' @param filters (optional) query filters.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
@@ -64,7 +63,7 @@ Dataset.data <- function(id, filters, ...) {
         id <- id$id
     }
 
-    params = list(...)
+    body = list(...)
 
     # Filters can be passed as a JSON string
     if (!missing(filters)) {
@@ -72,14 +71,14 @@ Dataset.data <- function(id, filters, ...) {
             # Convert JSON string to an R structure
             filters <- jsonlite::fromJSON(filters)
         }
-        # Add filters to params
-        params = modifyList(params, list(filters=filters))
+        # Add filters to request body
+        body = modifyList(body, list(filters=filters))
     }
 
     path <- paste("v1/datasets", paste(id), "data", sep="/")
 
     tryCatch({
-        res <- .request('POST', path=path, body=params)
+        res <- .request('POST', path=path, body=body)
         return(formatSolveBioQueryResponse(res))
     }, error = function(e) {
         cat(sprintf("Query failed: %s\n", e$message))
@@ -87,40 +86,52 @@ Dataset.data <- function(id, filters, ...) {
 }
 
 
-Dataset.query <- function(id, paginate=TRUE, ...) {
+#' Dataset.query
+#'
+#' Queries a SolveBio dataset and returns an R data frame containing all records (up to 500,000).
+#' Returns a single page of results otherwise (default).
+#' @param id The ID or full name of a SolveBio dataset, or a Dataset object.
+#' @param filters (optional) query filters.
+#' @param paginate When set to TRUE, retrieves up to 500,000 records.
+#' @param ... (optional) Additional query parameters (e.g. limit, offset).
+#'
+#' @examples \dontrun{
+#' login()
+#' Dataset.query("ClinVar/ClinVar", paginate=TRUE)
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Dataset.query <- function(id, filters, paginate=FALSE, ...) {
     # Max allowed records (total) when paginating
-    max_records = 1000000
+    max_records = 500000
     params <- list(...)
-    filters <- a$filters
-    # Remove filters from params since it is an explicit param of Dataset.data()
-    params['filters'] <- NULL
 
     # Retrieve the first page of results
-    response <- do.call(Dataset.data, c(id=id, filters, params))
+    response <- do.call(Dataset.data, c(id=id, filters=filters, params))
     df <- response$result
     offset <- response$offset
 
-    cat(sprintf("offset: %s\n", offset))
-
-    # continue to make requests for data if paginate=TRUE and there is data
+    # continue to make requests for data if pagination is enabled and there are more records
     while (isTRUE(paginate) && !is.null(offset)) {
         params['offset'] <- offset
-        response <- do.call(Dataset.data, c(id=id, filters, params))
+        response <- do.call(Dataset.data, c(id=id, filters=filters, params))
         df_page <- response$results
         df <- rbind(df, df_page)
         offset <- response$offset
-        cat(sprintf("offset: %s\n", offset))
 
-        # only fetch a maximum of 1,000,000 rows
+        # only fetch max_records
         if (nrow(df) >= max_records && !is.null(offset)) {
-            warning(paste("This call returns more than 1M records, which is larger than Dataset.query() allows.",
+            warning(paste("This call returns more than 500,000 records, which is larger than Dataset.query() allows.",
                           "Please contact SolveBio Support for help with retrieving more data."), call. = FALSE)
             break
         }
     }
 
     if (!isTRUE(paginate) && !is.null(offset)) {
-        warning(paste("This call returned only the first page of records. To retrieve more pages automatically,"
+        warning(paste("This call returned only the first page of records. To retrieve more pages automatically,",
                       "please set paginate=TRUE when calling Dataset.query().", call. = FALSE))
     }
 
