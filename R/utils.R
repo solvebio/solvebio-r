@@ -2,7 +2,7 @@
 
 formatSolveBioResponse <- function (res, raw = FALSE) {
   url = res$url
-  body = httr::content(res, as="text")
+  body = httr::content(res, as="text", encoding="UTF-8")
   if (raw) {
     return(body)
   } else {
