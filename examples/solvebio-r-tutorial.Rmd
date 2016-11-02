@@ -1,0 +1,31 @@
+---
+title: "SolveBio R Demo"
+output: html_document
+---
+Install the R solvebio package:
+https://github.com/solvebio/solvebio-r#installation
+
+Load the solvebio package:
+```{r}
+library(solvebio)
+```
+Retrieve and access data about a dataset:
+```{r, message = FALSE}
+ClinVar = Dataset.retrieve('ClinVar/3.7.2-2016-08-02/Variants')
+```
+Query the dataset using a filter. Set paginate=TRUE in order to query the whole dataset. Default limit = 100. The output of Dataset.query() is a data.frame.
+```{r, message = FALSE}
+filters = '[["gene_symbol", "BRCA1"]]'
+q = Dataset.query('ClinVar/3.7.2-2016-08-02/Variants', paginate=TRUE,filters=filters,limit = 10000)
+colnames(q)
+head(q[,1:5])
+dim(q)
+```
+Narrow down your query using more than one filter:
+```{r, message = FALSE}
+filters = '[["gene_symbol", "BRCA1"],["clinical_significance", "Pathogenic"],["review_status", "criteria provided, single submitter"]]'
+q = Dataset.query('ClinVar/3.7.2-2016-08-02/Variants', paginate=TRUE,filters=filters,limit = 10000)
+dim(q)
+```
+
+
