@@ -1,4 +1,4 @@
-# SolveBio for R (alpha)
+# SolveBio for R
 
 **PLEASE NOTE: The SolveBio R Bindings are currently in alpha. The bindings may change frequently so please check back for updates.**
 
@@ -56,17 +56,13 @@ dataset = Dataset.retrieve('ClinVar/Variants')
 # Query a dataset with filters as JSON:
 filters = '[["gene_symbol", "BRCA1"]]'
 # or, filters as R code:
-filters = list(list('gene_symbol', 'BRCA1'))
+filters = list(list('gene_symbol', 'BRCA1'), list('clinical_significance',
+'Benign'))
 
-# Execute the query
-response = Dataset.query('ClinVar/3.7.2-2016-08-02/Variants', filters=filters, offset=0, limit=50)
+# Execute the queries, retrieve all the results (paginate=TRUE may execute many
+queries)
+results = Dataset.query('ClinVar/3.7.2-2016-08-02/Variants', filters=filters, limit=1000, paginate=TRUE)
 # Access the results (flattened by default)
-response
-
-# Load the next page of results
-# reponse$offset will be NULL if there are no more results.
-if (!is.null(response$offset)) {
-    response = Dataset.query('ClinVar/3.7.2-2016-08-02/Variants', filters=filters, offset=response$offset)
-}
+results
 
 ```
