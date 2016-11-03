@@ -116,7 +116,7 @@ Dataset.query <- function(id, paginate=FALSE, ...) {
     # continue to make requests for data if pagination is enabled and there are more records
     while (isTRUE(paginate) && !is.null(offset)) {
         params['offset'] <- offset
-        response <- do.call(Dataset.data, c(id=id, params))
+        response <- do.call(dataset.data, c(id=id, params))
         df_page <- response$results
         df <- rbind(df, df_page)
         offset <- response$offset
@@ -135,4 +135,70 @@ Dataset.query <- function(id, paginate=FALSE, ...) {
     }
 
     return(df)
+}
+
+
+#' Dataset.facets
+#'
+#' Retrieves aggregated statistics or term counts for one or more fields in a SolveBio dataset. Returns a list of data frames, one for each requested facet.
+#' @param id The ID or full name of a SolveBio dataset, or a Dataset object.
+#' @param facets A list of one or more field facets.
+#' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
+#'
+#' @examples \dontrun{
+#' login()
+#' Dataset.facets("ClinVar/Combined", list("clinical_significance", "gene_symbol"))
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Dataset.facets <- function(id, facets, ...) {
+    if (missing(facets) || is.null(facets) || facets == "") {
+        stop("A list of one or more facets is required.")
+    }
+
+    if (class(facets) == "character") {
+        if (grepl("[[{]", facets)) {
+            # If it looks like JSON, try to convert to an R structure
+            facets <- jsonlite::fromJSON(facets)
+        }
+    }
+
+    params <- list(...)
+    # Facet queries should not return results
+    params$limit = 0
+    params <- modifyList(params, list(facets=facets))
+
+    response <- do.call(Dataset.data, c(id=id, params))
+
+    return(response$facets)
+}
+
+
+#' Dataset.count
+#'
+#' Returns the total number of records for a given SolveBio dataset.
+#' @param id The ID or full name of a SolveBio dataset, or a Dataset object.
+#' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
+#'
+#' @examples \dontrun{
+#' login()
+#' Dataset.count("ClinVar/Variants")
+#' Dataset.count("ClinVar/Variants", filters='[["gene_symbol", "BRCA2"]]')
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Dataset.count <- function(id, ...) {
+    params <- list(...)
+    # Count queries should not return results
+    params$limit = 0
+
+    response <- do.call(Dataset.data, c(id=id, params))
+
+    return(response$total)
 }
