@@ -116,7 +116,7 @@ Dataset.query <- function(id, paginate=FALSE, ...) {
     # continue to make requests for data if pagination is enabled and there are more records
     while (isTRUE(paginate) && !is.null(offset)) {
         params['offset'] <- offset
-        response <- do.call(dataset.data, c(id=id, params))
+        response <- do.call(Dataset.data, c(id=id, params))
         df_page <- response$results
         df <- rbind(df, df_page)
         offset <- response$offset

@@ -7,3 +7,4 @@
 *.Rcheck
 *.tgz
 .Rd2pdf*
+*\~
