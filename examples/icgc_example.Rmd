@@ -23,7 +23,7 @@ We'll set the initial Kaplan-Meier interval sizes and total interval sizes as we
 interval_size = 90
 total_interval_to_follow = 1825
 #filter by donor survival time for the control group
-filter1 = '[["donor_survival_time__gt",0]]' 
+filter1 = '[{"not":["project_code__prefix","PACA"]},["donor_survival_time__gt",0]]'
 #filter for the survival time and and project code to get the the query for PACA
 filter2 = '[["project_code__prefix","PACA"],["donor_survival_time__gt",0]]'
 #run the initial queries for both datasets
@@ -62,9 +62,10 @@ for(day in seq(interval_size,total_interval_to_follow,interval_size)) {
   f2_y  <- c(f2_y, f2_percent_alive)
 }
 ```
-Now we plot the survival data for each group:
+Now we plot the survival data for each group in a Kaplan-Meier plot. This graph shows the drop-off in survival rates for the two groups, control and PACA.
 ```{r,message = FALSE}
 plot(f1_x,f1_y,t="S",col="blue",main = "Kaplan-Meier Survival Curve",xlab="Time",ylab="Percent survival",xaxt='n')
 axis(side=1, at=seq(0, total_interval_to_follow, by=interval_size))
 lines(f2_x,f2_y,t="S",col="orange")
+legend(1500,99,legend=c("Control", "PACA"),col=c("blue","orange"),bty='n', cex=.8,lty=1)
 ```
