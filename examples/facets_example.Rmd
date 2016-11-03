@@ -47,7 +47,7 @@ hist = Dataset.facets("clinvar/combined",
 #plot the facets histogram:
 plot(hist$genomic_coordinates.start[,1],hist$genomic_coordinates.start[,2],type = "h",main = "genomic_coordinates.start: number of occurences",ylab = "count",xlab = "")
 ```
----
+
 Alternately, R has a built-in function to calculate the intervals, but in that case one needs to download the query first, which may take a little longer. To speed up the download, only the field of interest can be queried.
 ```{r}
 # load the whole dataset
