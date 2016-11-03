@@ -137,7 +137,10 @@ $(document).ready(function () {
 interval_size = 90
 total_interval_to_follow = 1825
 #filter by donor survival time for the control group
+#filter1 = '[[&quot;donor_survival_time__gt&quot;,0]]' 
 filter1 = '[{&quot;not&quot;:[&quot;project_code__prefix&quot;,&quot;PACA&quot;]},[&quot;donor_survival_time__gt&quot;,0]]'
+#query1 = Dataset.query(&quot;ICGC/2.0.0-21/Donor&quot;, filters=filters1,paginate=TRUE,limit = 10000)
+
 #filter for the survival time and and project code to get the the query for PACA
 filter2 = '[[&quot;project_code__prefix&quot;,&quot;PACA&quot;],[&quot;donor_survival_time__gt&quot;,0]]'
 #run the initial queries for both datasets

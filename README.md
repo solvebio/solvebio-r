@@ -18,7 +18,7 @@ information about the platform.
 
 ## Installation
 
-Installing this package requires an installed [R environment](http://www.r-project.org).
+Installing this package requires an installed [R environment](https://www.r-project.org).
 
 ```R
 install.packages("solvebio")
