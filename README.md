@@ -59,8 +59,8 @@ filters = '[["gene_symbol", "BRCA1"]]'
 filters = list(list('gene_symbol', 'BRCA1'), list('clinical_significance',
 'Benign'))
 
-# Execute the queries, retrieve all the results (paginate=TRUE may execute many
-queries)
+# Execute the queries
+# NOTE: paginate=TRUE may issue multiple requests, depending on the dataset and filters
 results = Dataset.query('ClinVar/3.7.2-2016-08-02/Variants', filters=filters, limit=1000, paginate=TRUE)
 # Access the results (flattened by default)
 results
