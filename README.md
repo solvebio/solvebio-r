@@ -2,6 +2,9 @@
 
 **PLEASE NOTE: The SolveBio R Bindings are currently in alpha. The bindings may change frequently so please check back for updates.**
 
+[![Build Status](https://travis-ci.org/solvebio/solvebio-r.png?branch=master)](https://travis-ci.org/solvebio/solvebio-r)
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/solvebio)](http://cran.r-project.org/package=solvebio)
+
 This package contains the SolveBio R language bindings. SolveBio makes it easy
 to access genomic reference data.
 
