@@ -7,3 +7,4 @@
 ^\.Rd2pdf.*$
 ^\.travis\.yml$
 Makefile
+examples
