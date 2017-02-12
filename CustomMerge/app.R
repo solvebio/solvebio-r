@@ -1,6 +1,5 @@
 library(solvebio)
 library(data.table)
-login(api_key="af2eab3c7aeda65b50f400ca941c0296be812683", api_host="https://api.solvebio.com")
 # genes = c("MYBPC3", "RDH5", "MYO15A", "FZD4", "DMD", "GLIS3", "ISPD", "C3", "APOB", "ATP6V0A2", "KIF5A", "SNCA", "LDLR", "ANK1", "FBN2")
 genes=c("BRCA2", "BRCA1")
 man_genes_filter = list(list('gene_symbol__in', paste(genes)))
