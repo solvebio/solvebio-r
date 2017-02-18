@@ -9,7 +9,11 @@ ui <- shinyUI(fluidPage(
       mainPanel(
         tabsetPanel(
           tabPanel("Analysis", plotOutput("plot")),
-          tabPanel("Merged Table", DT::dataTableOutput('table1'))
+          tabPanel(
+            "Merged Table",
+            fluidRow(
+              column(12, DT::dataTableOutput('table1')))
+          )
         )
       ),
   sidebarPanel(
