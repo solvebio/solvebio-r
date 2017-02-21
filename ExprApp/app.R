@@ -10,8 +10,11 @@ ui <- shinyUI(fluidPage(
   titlePanel("Gene Expression Analysis"),
   mainPanel(
     tabsetPanel(
-      
+      tabPanel("Select corr",
+               sliderInput("cutoff", "Correlation cutoff", min = 0, max = 1, value = 0.95),
+               uiOutput("corrplot")),
       tabPanel("Analysis",
+               sliderInput("cutoff", "Correlation cutoff", min = 0, max = 1, value = 0.95),
                plotOutput("plot",  height=600,
                           click = "plot_click",
                           brush = "plot_brush"
@@ -27,7 +30,10 @@ ui <- shinyUI(fluidPage(
                plotlyOutput("correlationTR"),
                verbatimTextOutput("info")
                ),
-      tabPanel("correlation pairs", DT::dataTableOutput('genepairs'))
+      tabPanel("patient correlations", DT::dataTableOutput('ptpairs')),
+      tabPanel("gene correlations", DT::dataTableOutput('genepairs'),
+               sliderInput("cutoff", "Correlation cutoff", min = 0, max = 1, value = 0.95))
+
     )
   ),
 
@@ -122,17 +128,35 @@ server <- shinyServer(function(input, output, session) {
     )
   })
   
-  genepairslist <- reactive({
+  ptpairslist <- reactive({
     as.data.frame(as.table(cor(expr_m())))
   })
   
+  genepairslist <- reactive({
+    as.data.frame(as.table(cor(t(expr_m()))))
+  })
+  observe({ print(ptpairslist())})
   observe({ print(genepairslist())})
   
+  output$ptpairs <- DT::renderDataTable({
+    DT::datatable(ptpairslist())
+  })
+  
   output$genepairs <- DT::renderDataTable({
-    # DT::datatable(subset(genepairslist(), abs(Freq) > 0.5))
     DT::datatable(genepairslist())
-    
   })
 
+  # rm_diag_genes <- reactive({
+  #   
+  #   t(expr_m()) - diag(dim(expr_m())[1])
+  # })
+  # 
+  # observe({ print(rm_diag_genes())})
+  # 
+  # output$corrplot <- renderUI({
+  #   plotOutput("plot", width = paste0(input$width, "%"), height = input$height)
+  # })  
+  
+  
 })
 shinyApp(ui = ui, server = server)
