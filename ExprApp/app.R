@@ -5,7 +5,7 @@ library(shiny)
 library(plotly)
 library(shinythemes)
 
-pt_ann = Dataset.query("solvebio:NanoString/1.0.0/SampleAnnot", paginate=TRUE)
+pt_ann = Dataset.query("solvebio:NanoString/1.0.0/SampleAnnot", paginate = TRUE)
 
 make0 <-function (m, c){
   m[which(abs(m)<c)]=0
@@ -71,7 +71,7 @@ server <- shinyServer(function(input, output, session) {
   expr_dt <- reactive({
     if (is.null(datasetName())) {
       return(NULL)}
-    as.data.table(Dataset.query(datasetName(), paginate=TRUE)) # limit = 10)) # paginate=TRUE))
+    as.data.table(Dataset.query(datasetName(), limit = 30)) # paginate=TRUE))
   })
 
 #   # observe({ print(dim(expr_dt()))})
