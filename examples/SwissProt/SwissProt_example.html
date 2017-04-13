@@ -120,13 +120,13 @@ $(document).ready(function () {
 </div>
 
 
-<p>SolveBio presents SwissProt as readily usable tables that can go straight into R data frames. With simple commands, users can query and filter SwissProt without having to download all of SwissProt onto their computer. In this example, we show how easy it is to quickly extract very specific information for your gene of interest. We use the ‘PTEN’ gene as an example.</p>
+<p>SolveBio presents SwissProt as readily usable tables that can go straight into R data frames. With simple commands, users can query and filter SwissProt without having to download all of SwissProt onto their computer. In this example, we show how easy it is to quickly extract very specific information for your gene of interest. We use the ‘BRCA1’ gene as an example.</p>
 <pre class="r"><code>library(solvebio)
 library(data.table)</code></pre>
 <p>login to SolveBio:</p>
 <pre class="r"><code>login(api_key=&quot;&lt;api_key&gt;&quot;, api_host=&quot;&lt;api_host&gt;&quot;)</code></pre>
-<p>Define a filter to extract the PTEN entry:</p>
-<pre class="r"><code>genes = c(&quot;PTEN&quot;)
+<p>Define a filter to extract the BRCA1 entry:</p>
+<pre class="r"><code>genes = c(&quot;BRCA1&quot;)
 genes_filter = list(list('gene_symbol', paste(genes)))</code></pre>
 <p>Run your query on the main SwissProt dataset:</p>
 <pre class="r"><code>swissprot = Dataset.query('SwissProt/1.0.0-2017-02/SwissProt',  filters=genes_filter, paginate=TRUE)
@@ -145,31 +145,31 @@ colnames(swissprot)</code></pre>
 ## [23] &quot;sequence_update&quot;         &quot;_id&quot;                    
 ## [25] &quot;organism&quot;                &quot;data_class&quot;</code></pre>
 <pre class="r"><code>swissprot</code></pre>
-<pre><code>##                                                                                                                                                                                                                                                      description
-## 1 RecName: Full=Phosphatidylinositol 3,4,5-trisphosphate 3-phosphatase and dual-specificity protein phosphatase PTEN; EC=3.1.3.16; EC=3.1.3.48; EC=3.1.3.67; AltName: Full=Mutated in multiple advanced cancers 1; AltName: Full=Phosphatase and tensin homolog;
+<pre><code>##                                                                                                                                                                                                                                                                                                                                                          description
+## 1 RecName: Full=Breast cancer type 1 susceptibility protein; EC=2.3.2.27 {ECO:0000269|PubMed:10500182, ECO:0000269|PubMed:12887909, ECO:0000269|PubMed:12890688, ECO:0000269|PubMed:16818604, ECO:0000269|PubMed:18056443, ECO:0000269|PubMed:20351172}; AltName: Full=RING finger protein 53; AltName: Full=RING-type E3 ubiquitin transferase BRCA1 {ECO:0000305};
 ##   swissprot_id
-## 1       P60484
-##                                                                                                                                                                                                                                                                                                                                                                                                              sequence
-## 1 MTAIIKEIVSRNKRRYQEDGFDLDLTYIYPNIIAMGFPAERLEGVYRNNIDDVVRFLDSKHKNHYKIYNLCAERHYDTAKFNCRVAQYPFEDHNPPQLELIKPFCEDLDQWLSEDDNHVAAIHCKAGKGRTGVMICAYLLHRGKFLKAQEALDFYGEVRTRDKKGVTIPSQRRYVYYYSYLLKNHLDYRPVALLFHKMMFETIPMFSGGTCNPQFVVCQLKVKIYSSNSGPTRREDKFMYFEFPQPLPVCGDIKVEFFHKQNKMLKKDKMFHFWVNTFFIPGPEETSEKVENGSLCDQEIDSICSIERADNDKEYLVLTLTKNDLDKANKDKANRYFSPNFKVKLYFTKTVEEPSNPEASSSTSVTPDVSDNEPDHYRYSDTTDSDPENEPFDEDQHTQITKV
-##   host_organism    synonyms entry_name molecule_type taxonomy_id
-## 1          NULL MMAC1, TEP1       PTEN            NA        9606
+## 1       P38398
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  sequence
+## 1 MDLSALRVEEVQNVINAMQKILECPICLELIKEPVSTKCDHIFCKFCMLKLLNQKKGPSQCPLCKNDITKRSLQESTRFSQLVEELLKIICAFQLDTGLEYANSYNFAKKENNSPEHLKDEVSIIQSMGYRNRAKRLLQSEPENPSLQETSLSVQLSNLGTVRTLRTKQRIQPQKTSVYIELGSDSSEDTVNKATYCSVGDQELLQITPQGTRDEISLDSAKKAACEFSETDVTNTEHHQPSNNDLNTTEKRAAERHPEKYQGSSVSNLHVEPCGTNTHASSLQHENSSLLLTKDRMNVEKAEFCNKSKQPGLARSQHNRWAGSKETCNDRRTPSTEKKVDLNADPLCERKEWNKQKLPCSENPRDTEDVPWITLNSSIQKVNEWFSRSDELLGSDDSHDGESESNAKVADVLDVLNEVDEYSGSSEKIDLLASDPHEALICKSERVHSKSVESNIEDKIFGKTYRKKASLPNLSHVTENLIIGAFVTEPQIIQERPLTNKLKRKRRPTSGLHPEDFIKKADLAVQKTPEMINQGTNQTEQNGQVMNITNSGHENKTKGDSIQNEKNPNPIESLEKESAFKTKAEPISSSISNMELELNIHNSKAPKKNRLRRKSSTRHIHALELVVSRNLSPPNCTELQIDSCSSSEEIKKKKYNQMPVRHSRNLQLMEGKEPATGAKKSNKPNEQTSKRHDSDTFPELKLTNAPGSFTKCSNTSELKEFVNPSLPREEKEEKLETVKVSNNAEDPKDLMLSGERVLQTERSVESSSISLVPGTDYGTQESISLLEVSTLGKAKTEPNKCVSQCAAFENPKGLIHGCSKDNRNDTEGFKYPLGHEVNHSRETSIEMEESELDAQYLQNTFKVSKRQSFAPFSNPGNAEEECATFSAHSGSLKKQSPKVTFECEQKEENQGKNESNIKPVQTVNITAGFPVVGQKDKPVDNAKCSIKGGSRFCLSSQFRGNETGLITPNKHGLLQNPYRIPPLFPIKSFVKTKCKKNLLEENFEEHSMSPEREMGNENIPSTVSTISRNNIRENVFKEASSSNINEVGSSTNEVGSSINEIGSSDENIQAELGRNRGPKLNAMLRLGVLQPEVYKQSLPGSNCKHPEIKKQEYEEVVQTVNTDFSPYLISDNLEQPMGSSHASQVCSETPDDLLDDGEIKEDTSFAENDIKESSAVFSKSVQKGELSRSPSPFTHTHLAQGYRRGAKKLESSEENLSSEDEELPCFQHLLFGKVNNIPSQSTRHSTVATECLSKNTEENLLSLKNSLNDCSNQVILAKASQEHHLSEETKCSASLFSSQCSELEDLTANTNTQDPFLIGSSKQMRHQSESQGVGLSDKELVSDDEERGTGLEENNQEEQSMDSNLGEAASGCESETSVSEDCSGLSSQSDILTTQQRDTMQHNLIKLQQEMAELEAVLEQHGSQPSNSYPSIISDSSALEDLRNPEQSTSEKAVLTSQKSSEYPISQNPEGLSADKFEVSADSSTSKNKEPGVERSSPSKCPSLDDRWYMHSCSGSLQNRNYPSQEELIKVVDVEEQQLEESGPHDLTETSYLPRQDLEGTPYLESGISLFSDDPESDPSEDRAPESARVGNIPSSTSALKVPQLKVAESAQSPAAAHTTDTAGYNAMEESVSREKPELTASTERVNKRMSMVVSGLTPEEFMLVYKFARKHHITLTNLITEETTHVVMKTDAEFVCERTLKYFLGIAGGKWVVSYFWVTQSIKERKMLNEHDFEVRGDVVNGRNHQGPKRARESQDRKIFRGLEICCYGPFTNMPTDQLEWMVQLCGASVVKELSSFTLGTGVHPIVVVQPDAWTEDNGFHAIGQMCEAPVVTREWVLDSVALYQCQELDTYLIPQIPHSHY
+##   host_organism synonyms entry_name molecule_type taxonomy_id
+## 1          NULL    RNF53      BRCA1            NA        9606
 ##   sequence_length            _commit eco_id host_taxonomy_id    created
-## 1             403 431821895740221876     NA             NULL 2004-02-16
+## 1            1863 431821895740221876     NA             NULL 1994-10-01
 ##                                                                                                                                      organism_classification
 ## 1 Eukaryota, Metazoa, Chordata, Craniata, Vertebrata, Euteleostomi, Mammalia, Eutheria, Euarchontoglires, Primates, Haplorrhini, Catarrhini, Hominidae, Homo
 ##   orf_names annotation_update molecular_weight organelle gene_symbol
-## 1        NA        2017-02-15            47166                  PTEN
-##                                  refseq_nm_id
-## 1 NM_000314.6, NM_001304717.2, NM_001304718.1
-##                                       accessions
-## 1 P60484, B2R904, F2YHV0, O00633, O02679, Q6ICT7
-##                                                                                                                                                                                                                                                                                                                                                               keywords
-## 1 3D-structure, Acetylation, Alternative initiation, Alternative splicing, Apoptosis, Autism spectrum disorder, Complete proteome, Cytoplasm, Disease mutation, Hydrolase, Isopeptide bond, Lipid metabolism, Lipid-binding, Neurogenesis, Nucleus, Phosphoprotein, Polymorphism, Protein phosphatase, Reference proteome, Secreted, Tumor suppressor, Ubl conjugation
+## 1        NA        2017-02-15           207721                 BRCA1
+##                                                      refseq_nm_id
+## 1 NM_007294.3, NM_007297.3, NM_007298.3, NM_007299.3, NM_007300.3
+##                                                       accessions
+## 1 P38398, E9PFZ0, O15129, Q1RMC1, Q3LRJ0, Q3LRJ6, Q6IN79, Q7KYU9
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      keywords
+## 1 3D-structure, Acetylation, Activator, Alternative initiation, Alternative splicing, Cell cycle, Chromosome, Complete proteome, Cytoplasm, Direct protein sequencing, Disease mutation, DNA damage, DNA recombination, DNA repair, DNA-binding, Fatty acid biosynthesis, Fatty acid metabolism, Isopeptide bond, Lipid biosynthesis, Lipid metabolism, Metal-binding, Nucleus, Phosphoprotein, Polymorphism, Reference proteome, Repeat, Transcription, Transcription regulation, Transferase, Tumor suppressor, Ubl conjugation, Ubl conjugation pathway, Zinc, Zinc-finger
 ##   sequence_update                  _id              organism data_class
-## 1      2004-02-16 AVteL720C0a5BPxHLq4J Homo sapiens (Human).   Reviewed</code></pre>
+## 1      1995-02-01 AVteL4RIC0a5BPxHLn8w Homo sapiens (Human).   Reviewed</code></pre>
 <pre class="r"><code>dim(swissprot)</code></pre>
 <pre><code>## [1]  1 26</code></pre>
-<p>SwissProt provides extensive protein annotation information. SolveBio enables easy access and usability of this key information by extracting it into its own ‘Features’ dataset, where each feature is keyed by swissprot_id. For our example, let’s extract the “DOMAIN” features for “PTEN”. We need to filter the ‘Features’ dataset by PTEN’s swissprot ID and by the feature category ‘DOMAIN’.</p>
+<p>SwissProt provides extensive protein annotation information. SolveBio enables easy access and usability of this key information by extracting it into its own ‘Features’ dataset, where each feature is keyed by swissprot_id. For our example, let’s extract the “DOMAIN” features for “BRCA1”. We need to filter the ‘Features’ dataset by BRCA1’s swissprot ID and by the feature category ‘DOMAIN’.</p>
 <pre class="r"><code># define the filter
 swissprot_feature_filter = list(list('swissprot_id', paste(swissprot$swissprot_id)), list('feature', paste('DOMAIN')))
 # query the dataset with the filter
@@ -181,14 +181,14 @@ colnames(swissprot_features)</code></pre>
 ## [10] &quot;feature_description&quot;</code></pre>
 <pre class="r"><code>swissprot_features</code></pre>
 <pre><code>##              _commit swissprot_id stop feature start stop_value
-## 1 431823644774995769       P60484  350  DOMAIN   190        350
-## 2 431823644774995769       P60484  185  DOMAIN    14        185
+## 1 431823644774995769       P38398 1855  DOMAIN  1756       1855
+## 2 431823644774995769       P38398 1736  DOMAIN  1642       1736
 ##   start_value                  _id feature_source
-## 1         190 AVteNFsesOzr6UjlwR7S               
-## 2          14 AVteNFsesOzr6UjlwR7T               
-##                                                feature_description
-## 1         C2 tensin-type. {ECO:0000255|PROSITE- ProRule:PRU00589}.
-## 2 Phosphatase tensin-type. {ECO:0000255|PROSITE-ProRule:PRU00590}.</code></pre>
+## 1        1756 AVteMprXsOzr6UjlvC9O               
+## 2        1642 AVteMprXsOzr6UjlvC9P               
+##                                feature_description
+## 1 BRCT 2. {ECO:0000255|PROSITE- ProRule:PRU00033}.
+## 2 BRCT 1. {ECO:0000255|PROSITE- ProRule:PRU00033}.</code></pre>
 <pre class="r"><code>dim(swissprot_features)</code></pre>
 <pre><code>## [1]  2 10</code></pre>
 <p>From here, let’s extract the actual amino acid sequences for the domains:</p>
@@ -198,40 +198,40 @@ swissprot_features &lt;- as.data.table(swissprot_features)
 # add a column &quot;domain_sequence&quot; and extract from the whole sequence
 swissprot_features[,domain_sequence:=substr(sequence,start_value,stop_value)]</code></pre>
 <pre><code>##    swissprot_id            _commit stop feature start stop_value
-## 1:       P60484 431823644774995769  350  DOMAIN   190        350
-## 2:       P60484 431823644774995769  185  DOMAIN    14        185
+## 1:       P38398 431823644774995769 1855  DOMAIN  1756       1855
+## 2:       P38398 431823644774995769 1736  DOMAIN  1642       1736
 ##    start_value                  _id feature_source
-## 1:         190 AVteNFsesOzr6UjlwR7S               
-## 2:          14 AVteNFsesOzr6UjlwR7T               
-##                                                 feature_description
-## 1:         C2 tensin-type. {ECO:0000255|PROSITE- ProRule:PRU00589}.
-## 2: Phosphatase tensin-type. {ECO:0000255|PROSITE-ProRule:PRU00590}.
-##                                                                                                                                                                                                                                                                                                                                                                                                               sequence
-## 1: MTAIIKEIVSRNKRRYQEDGFDLDLTYIYPNIIAMGFPAERLEGVYRNNIDDVVRFLDSKHKNHYKIYNLCAERHYDTAKFNCRVAQYPFEDHNPPQLELIKPFCEDLDQWLSEDDNHVAAIHCKAGKGRTGVMICAYLLHRGKFLKAQEALDFYGEVRTRDKKGVTIPSQRRYVYYYSYLLKNHLDYRPVALLFHKMMFETIPMFSGGTCNPQFVVCQLKVKIYSSNSGPTRREDKFMYFEFPQPLPVCGDIKVEFFHKQNKMLKKDKMFHFWVNTFFIPGPEETSEKVENGSLCDQEIDSICSIERADNDKEYLVLTLTKNDLDKANKDKANRYFSPNFKVKLYFTKTVEEPSNPEASSSTSVTPDVSDNEPDHYRYSDTTDSDPENEPFDEDQHTQITKV
-## 2: MTAIIKEIVSRNKRRYQEDGFDLDLTYIYPNIIAMGFPAERLEGVYRNNIDDVVRFLDSKHKNHYKIYNLCAERHYDTAKFNCRVAQYPFEDHNPPQLELIKPFCEDLDQWLSEDDNHVAAIHCKAGKGRTGVMICAYLLHRGKFLKAQEALDFYGEVRTRDKKGVTIPSQRRYVYYYSYLLKNHLDYRPVALLFHKMMFETIPMFSGGTCNPQFVVCQLKVKIYSSNSGPTRREDKFMYFEFPQPLPVCGDIKVEFFHKQNKMLKKDKMFHFWVNTFFIPGPEETSEKVENGSLCDQEIDSICSIERADNDKEYLVLTLTKNDLDKANKDKANRYFSPNFKVKLYFTKTVEEPSNPEASSSTSVTPDVSDNEPDHYRYSDTTDSDPENEPFDEDQHTQITKV
-##                                                                                                                                                                 domain_sequence
-## 1:            PVALLFHKMMFETIPMFSGGTCNPQFVVCQLKVKIYSSNSGPTRREDKFMYFEFPQPLPVCGDIKVEFFHKQNKMLKKDKMFHFWVNTFFIPGPEETSEKVENGSLCDQEIDSICSIERADNDKEYLVLTLTKNDLDKANKDKANRYFSPNFKVKLYFTKT
-## 2: RRYQEDGFDLDLTYIYPNIIAMGFPAERLEGVYRNNIDDVVRFLDSKHKNHYKIYNLCAERHYDTAKFNCRVAQYPFEDHNPPQLELIKPFCEDLDQWLSEDDNHVAAIHCKAGKGRTGVMICAYLLHRGKFLKAQEALDFYGEVRTRDKKGVTIPSQRRYVYYYSYLLKNH</code></pre>
+## 1:        1756 AVteMprXsOzr6UjlvC9O               
+## 2:        1642 AVteMprXsOzr6UjlvC9P               
+##                                 feature_description
+## 1: BRCT 2. {ECO:0000255|PROSITE- ProRule:PRU00033}.
+## 2: BRCT 1. {ECO:0000255|PROSITE- ProRule:PRU00033}.
+##                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   sequence
+## 1: MDLSALRVEEVQNVINAMQKILECPICLELIKEPVSTKCDHIFCKFCMLKLLNQKKGPSQCPLCKNDITKRSLQESTRFSQLVEELLKIICAFQLDTGLEYANSYNFAKKENNSPEHLKDEVSIIQSMGYRNRAKRLLQSEPENPSLQETSLSVQLSNLGTVRTLRTKQRIQPQKTSVYIELGSDSSEDTVNKATYCSVGDQELLQITPQGTRDEISLDSAKKAACEFSETDVTNTEHHQPSNNDLNTTEKRAAERHPEKYQGSSVSNLHVEPCGTNTHASSLQHENSSLLLTKDRMNVEKAEFCNKSKQPGLARSQHNRWAGSKETCNDRRTPSTEKKVDLNADPLCERKEWNKQKLPCSENPRDTEDVPWITLNSSIQKVNEWFSRSDELLGSDDSHDGESESNAKVADVLDVLNEVDEYSGSSEKIDLLASDPHEALICKSERVHSKSVESNIEDKIFGKTYRKKASLPNLSHVTENLIIGAFVTEPQIIQERPLTNKLKRKRRPTSGLHPEDFIKKADLAVQKTPEMINQGTNQTEQNGQVMNITNSGHENKTKGDSIQNEKNPNPIESLEKESAFKTKAEPISSSISNMELELNIHNSKAPKKNRLRRKSSTRHIHALELVVSRNLSPPNCTELQIDSCSSSEEIKKKKYNQMPVRHSRNLQLMEGKEPATGAKKSNKPNEQTSKRHDSDTFPELKLTNAPGSFTKCSNTSELKEFVNPSLPREEKEEKLETVKVSNNAEDPKDLMLSGERVLQTERSVESSSISLVPGTDYGTQESISLLEVSTLGKAKTEPNKCVSQCAAFENPKGLIHGCSKDNRNDTEGFKYPLGHEVNHSRETSIEMEESELDAQYLQNTFKVSKRQSFAPFSNPGNAEEECATFSAHSGSLKKQSPKVTFECEQKEENQGKNESNIKPVQTVNITAGFPVVGQKDKPVDNAKCSIKGGSRFCLSSQFRGNETGLITPNKHGLLQNPYRIPPLFPIKSFVKTKCKKNLLEENFEEHSMSPEREMGNENIPSTVSTISRNNIRENVFKEASSSNINEVGSSTNEVGSSINEIGSSDENIQAELGRNRGPKLNAMLRLGVLQPEVYKQSLPGSNCKHPEIKKQEYEEVVQTVNTDFSPYLISDNLEQPMGSSHASQVCSETPDDLLDDGEIKEDTSFAENDIKESSAVFSKSVQKGELSRSPSPFTHTHLAQGYRRGAKKLESSEENLSSEDEELPCFQHLLFGKVNNIPSQSTRHSTVATECLSKNTEENLLSLKNSLNDCSNQVILAKASQEHHLSEETKCSASLFSSQCSELEDLTANTNTQDPFLIGSSKQMRHQSESQGVGLSDKELVSDDEERGTGLEENNQEEQSMDSNLGEAASGCESETSVSEDCSGLSSQSDILTTQQRDTMQHNLIKLQQEMAELEAVLEQHGSQPSNSYPSIISDSSALEDLRNPEQSTSEKAVLTSQKSSEYPISQNPEGLSADKFEVSADSSTSKNKEPGVERSSPSKCPSLDDRWYMHSCSGSLQNRNYPSQEELIKVVDVEEQQLEESGPHDLTETSYLPRQDLEGTPYLESGISLFSDDPESDPSEDRAPESARVGNIPSSTSALKVPQLKVAESAQSPAAAHTTDTAGYNAMEESVSREKPELTASTERVNKRMSMVVSGLTPEEFMLVYKFARKHHITLTNLITEETTHVVMKTDAEFVCERTLKYFLGIAGGKWVVSYFWVTQSIKERKMLNEHDFEVRGDVVNGRNHQGPKRARESQDRKIFRGLEICCYGPFTNMPTDQLEWMVQLCGASVVKELSSFTLGTGVHPIVVVQPDAWTEDNGFHAIGQMCEAPVVTREWVLDSVALYQCQELDTYLIPQIPHSHY
+## 2: MDLSALRVEEVQNVINAMQKILECPICLELIKEPVSTKCDHIFCKFCMLKLLNQKKGPSQCPLCKNDITKRSLQESTRFSQLVEELLKIICAFQLDTGLEYANSYNFAKKENNSPEHLKDEVSIIQSMGYRNRAKRLLQSEPENPSLQETSLSVQLSNLGTVRTLRTKQRIQPQKTSVYIELGSDSSEDTVNKATYCSVGDQELLQITPQGTRDEISLDSAKKAACEFSETDVTNTEHHQPSNNDLNTTEKRAAERHPEKYQGSSVSNLHVEPCGTNTHASSLQHENSSLLLTKDRMNVEKAEFCNKSKQPGLARSQHNRWAGSKETCNDRRTPSTEKKVDLNADPLCERKEWNKQKLPCSENPRDTEDVPWITLNSSIQKVNEWFSRSDELLGSDDSHDGESESNAKVADVLDVLNEVDEYSGSSEKIDLLASDPHEALICKSERVHSKSVESNIEDKIFGKTYRKKASLPNLSHVTENLIIGAFVTEPQIIQERPLTNKLKRKRRPTSGLHPEDFIKKADLAVQKTPEMINQGTNQTEQNGQVMNITNSGHENKTKGDSIQNEKNPNPIESLEKESAFKTKAEPISSSISNMELELNIHNSKAPKKNRLRRKSSTRHIHALELVVSRNLSPPNCTELQIDSCSSSEEIKKKKYNQMPVRHSRNLQLMEGKEPATGAKKSNKPNEQTSKRHDSDTFPELKLTNAPGSFTKCSNTSELKEFVNPSLPREEKEEKLETVKVSNNAEDPKDLMLSGERVLQTERSVESSSISLVPGTDYGTQESISLLEVSTLGKAKTEPNKCVSQCAAFENPKGLIHGCSKDNRNDTEGFKYPLGHEVNHSRETSIEMEESELDAQYLQNTFKVSKRQSFAPFSNPGNAEEECATFSAHSGSLKKQSPKVTFECEQKEENQGKNESNIKPVQTVNITAGFPVVGQKDKPVDNAKCSIKGGSRFCLSSQFRGNETGLITPNKHGLLQNPYRIPPLFPIKSFVKTKCKKNLLEENFEEHSMSPEREMGNENIPSTVSTISRNNIRENVFKEASSSNINEVGSSTNEVGSSINEIGSSDENIQAELGRNRGPKLNAMLRLGVLQPEVYKQSLPGSNCKHPEIKKQEYEEVVQTVNTDFSPYLISDNLEQPMGSSHASQVCSETPDDLLDDGEIKEDTSFAENDIKESSAVFSKSVQKGELSRSPSPFTHTHLAQGYRRGAKKLESSEENLSSEDEELPCFQHLLFGKVNNIPSQSTRHSTVATECLSKNTEENLLSLKNSLNDCSNQVILAKASQEHHLSEETKCSASLFSSQCSELEDLTANTNTQDPFLIGSSKQMRHQSESQGVGLSDKELVSDDEERGTGLEENNQEEQSMDSNLGEAASGCESETSVSEDCSGLSSQSDILTTQQRDTMQHNLIKLQQEMAELEAVLEQHGSQPSNSYPSIISDSSALEDLRNPEQSTSEKAVLTSQKSSEYPISQNPEGLSADKFEVSADSSTSKNKEPGVERSSPSKCPSLDDRWYMHSCSGSLQNRNYPSQEELIKVVDVEEQQLEESGPHDLTETSYLPRQDLEGTPYLESGISLFSDDPESDPSEDRAPESARVGNIPSSTSALKVPQLKVAESAQSPAAAHTTDTAGYNAMEESVSREKPELTASTERVNKRMSMVVSGLTPEEFMLVYKFARKHHITLTNLITEETTHVVMKTDAEFVCERTLKYFLGIAGGKWVVSYFWVTQSIKERKMLNEHDFEVRGDVVNGRNHQGPKRARESQDRKIFRGLEICCYGPFTNMPTDQLEWMVQLCGASVVKELSSFTLGTGVHPIVVVQPDAWTEDNGFHAIGQMCEAPVVTREWVLDSVALYQCQELDTYLIPQIPHSHY
+##                                                                                         domain_sequence
+## 1: QDRKIFRGLEICCYGPFTNMPTDQLEWMVQLCGASVVKELSSFTLGTGVHPIVVVQPDAWTEDNGFHAIGQMCEAPVVTREWVLDSVALYQCQELDTYLI
+## 2:      STERVNKRMSMVVSGLTPEEFMLVYKFARKHHITLTNLITEETTHVVMKTDAEFVCERTLKYFLGIAGGKWVVSYFWVTQSIKERKMLNEHDFEV</code></pre>
 <p>SolveBio extracts RefSeq transcript IDs to the main SwissProt database, so it is easy to quickly find genomic sequence references for the proteins.</p>
 <pre class="r"><code>swissprot$refseq_nm_id</code></pre>
 <pre><code>## [[1]]
-## [1] &quot;NM_000314.6&quot;    &quot;NM_001304717.2&quot; &quot;NM_001304718.1&quot;</code></pre>
-<p>SwissProt provides a comprehensive cross-reference list for its entries which enable easy mapping of its entries to other databases. Let’s look at a summary of the top 10 databses which have cross references for PTEN. We will use SolveBio’s facets to do this.</p>
+## [1] &quot;NM_007294.3&quot; &quot;NM_007297.3&quot; &quot;NM_007298.3&quot; &quot;NM_007299.3&quot; &quot;NM_007300.3&quot;</code></pre>
+<p>SwissProt provides a comprehensive cross-reference list for its entries which enable easy mapping of its entries to other databases. Let’s look at a summary of the top 10 databses which have cross references for BRCA1. We will use SolveBio’s facets to do this.</p>
 <pre class="r"><code>crossreference_filter = list(list('swissprot_id', paste(swissprot$swissprot_id)))
 cross_reference_facets = Dataset.facets('SwissProt/1.0.0-2017-02/CrossReferences', filters=crossreference_filter,list('database'))
 cross_reference_facets</code></pre>
 <pre><code>## $database
-##       [,1]       [,2] 
-##  [1,] &quot;GO&quot;       &quot;121&quot;
-##  [2,] &quot;EMBL&quot;     &quot;23&quot; 
-##  [3,] &quot;MIM&quot;      &quot;11&quot; 
-##  [4,] &quot;Orphanet&quot; &quot;10&quot; 
-##  [5,] &quot;InterPro&quot; &quot;8&quot;  
-##  [6,] &quot;Reactome&quot; &quot;8&quot;  
-##  [7,] &quot;PDB&quot;      &quot;6&quot;  
-##  [8,] &quot;PDBsum&quot;   &quot;6&quot;  
-##  [9,] &quot;RefSeq&quot;   &quot;3&quot;  
-## [10,] &quot;CleanEx&quot;  &quot;2&quot;</code></pre>
+##       [,1]       [,2]
+##  [1,] &quot;GO&quot;       &quot;82&quot;
+##  [2,] &quot;PDB&quot;      &quot;27&quot;
+##  [3,] &quot;PDBsum&quot;   &quot;27&quot;
+##  [4,] &quot;EMBL&quot;     &quot;16&quot;
+##  [5,] &quot;Reactome&quot; &quot;16&quot;
+##  [6,] &quot;Ensembl&quot;  &quot;8&quot; 
+##  [7,] &quot;InterPro&quot; &quot;8&quot; 
+##  [8,] &quot;Orphanet&quot; &quot;6&quot; 
+##  [9,] &quot;CCDS&quot;     &quot;5&quot; 
+## [10,] &quot;MIM&quot;      &quot;5&quot;</code></pre>
 
 
 

@@ -2,7 +2,7 @@
 title: "SwissProt queries made easy through SolveBio!"
 output: html_document
 ---
-SolveBio presents SwissProt as readily usable tables that can go straight into R data frames. With simple commands, users can query and filter SwissProt without having to download all of SwissProt onto their computer. In this example, we show how easy it is to quickly extract very specific information for your gene of interest. We use the 'PTEN' gene as an example.
+SolveBio presents SwissProt as readily usable tables that can go straight into R data frames. With simple commands, users can query and filter SwissProt without having to download all of SwissProt onto their computer. In this example, we show how easy it is to quickly extract very specific information for your gene of interest. We use the 'BRCA1' gene as an example.
 ```{r, message = FALSE, warning=FALSE}
 library(solvebio)
 library(data.table)
@@ -11,9 +11,9 @@ login to SolveBio:
 ```{r eval=FALSE}
 login(api_key="<api_key>", api_host="<api_host>")
 ```
-Define a filter to extract the PTEN entry:
+Define a filter to extract the BRCA1 entry:
 ```{r}
-genes = c("PTEN")
+genes = c("BRCA1")
 genes_filter = list(list('gene_symbol', paste(genes)))
 ```
 Run your query on the main SwissProt dataset:
@@ -23,7 +23,7 @@ colnames(swissprot)
 swissprot
 dim(swissprot)
 ```
-SwissProt provides extensive protein annotation information. SolveBio enables easy access and usability of this key information by extracting it into its own 'Features' dataset, where each feature is keyed by swissprot_id. For our example, let's extract the "DOMAIN" features for "PTEN". We need to filter the 'Features' dataset by PTEN's swissprot ID and by the feature category 'DOMAIN'.
+SwissProt provides extensive protein annotation information. SolveBio enables easy access and usability of this key information by extracting it into its own 'Features' dataset, where each feature is keyed by swissprot_id. For our example, let's extract the "DOMAIN" features for "BRCA1". We need to filter the 'Features' dataset by BRCA1's swissprot ID and by the feature category 'DOMAIN'.
 ```{r}
 # define the filter
 swissprot_feature_filter = list(list('swissprot_id', paste(swissprot$swissprot_id)), list('feature', paste('DOMAIN')))
@@ -45,7 +45,7 @@ SolveBio extracts RefSeq transcript IDs to the main SwissProt database, so it is
 ```{r}
 swissprot$refseq_nm_id
 ```
-SwissProt provides a comprehensive cross-reference list for its entries which enable easy mapping of its entries to other databases. Let's look at a summary of the top 10 databses which have cross references for PTEN. We will use SolveBio's facets to do this.
+SwissProt provides a comprehensive cross-reference list for its entries which enable easy mapping of its entries to other databases. Let's look at a summary of the top 10 databses which have cross references for BRCA1. We will use SolveBio's facets to do this.
 ```{r}
 crossreference_filter = list(list('swissprot_id', paste(swissprot$swissprot_id)))
 cross_reference_facets = Dataset.facets('SwissProt/1.0.0-2017-02/CrossReferences', filters=crossreference_filter,list('database'))
