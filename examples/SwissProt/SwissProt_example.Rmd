@@ -1,6 +1,6 @@
 ---
 title: "SwissProt queries made easy through SolveBio!"
-output: html_document
+output: md_document
 ---
 SolveBio presents SwissProt as readily usable tables that can go straight into R data frames. With simple commands, users can query and filter SwissProt without having to download all of SwissProt onto their computer. In this example, we show how easy it is to quickly extract very specific information for your gene of interest. We use the 'BRCA1' gene as an example.
 ```{r, message = FALSE, warning=FALSE}
