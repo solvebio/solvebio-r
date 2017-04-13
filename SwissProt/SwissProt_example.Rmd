@@ -1,0 +1,53 @@
+---
+title: "SwissProt queries made easy through SolveBio!"
+output: html_document
+---
+SolveBio presents SwissProt as readily usable tables that can go straight into R data frames. With simple commands, users can query and filter SwissProt without having to download all of SwissProt onto their computer. In this example, we show how easy it is to quickly extract very specific information for your gene of interest. We use the 'PTEN' gene as an example.
+```{r, message = FALSE, warning=FALSE}
+library(solvebio)
+library(data.table)
+```
+login to SolveBio:
+```{r eval=FALSE}
+login(api_key="<api_key>", api_host="<api_host>")
+```
+Define a filter to extract the PTEN entry:
+```{r}
+genes = c("PTEN")
+genes_filter = list(list('gene_symbol', paste(genes)))
+```
+Run your query on the main SwissProt dataset:
+```{r}
+swissprot = Dataset.query('SwissProt/1.0.0-2017-02/SwissProt',  filters=genes_filter, paginate=TRUE)
+colnames(swissprot)
+swissprot
+dim(swissprot)
+```
+SwissProt provides extensive protein annotation information. SolveBio enables easy access and usability of this key information by extracting it into its own 'Features' dataset, where each feature is keyed by swissprot_id. For our example, let's extract the "DOMAIN" features for "PTEN". We need to filter the 'Features' dataset by PTEN's swissprot ID and by the feature category 'DOMAIN'.
+```{r}
+# define the filter
+swissprot_feature_filter = list(list('swissprot_id', paste(swissprot$swissprot_id)), list('feature', paste('DOMAIN')))
+# query the dataset with the filter
+swissprot_features = Dataset.query('SwissProt/1.0.0-2017-02/Features', filters=swissprot_feature_filter, paginate=TRUE)
+colnames(swissprot_features)
+swissprot_features
+dim(swissprot_features)
+```
+From here, let's extract the actual amino acid sequences for the domains:
+```{r}
+# add the sequence from SwissProt to the Features data frame
+swissprot_features <- merge(swissprot_features, swissprot[, c("swissprot_id", "sequence")], by="swissprot_id")
+swissprot_features <- as.data.table(swissprot_features)
+# add a column "domain_sequence" and extract from the whole sequence
+swissprot_features[,domain_sequence:=substr(sequence,start_value,stop_value)]
+```
+SolveBio extracts RefSeq transcript IDs to the main SwissProt database, so it is easy to quickly find genomic sequence references for the proteins.
+```{r}
+swissprot$refseq_nm_id
+```
+SwissProt provides a comprehensive cross-reference list for its entries which enable easy mapping of its entries to other databases. Let's look at a summary of the top 10 databses which have cross references for PTEN. We will use SolveBio's facets to do this.
+```{r}
+crossreference_filter = list(list('swissprot_id', paste(swissprot$swissprot_id)))
+cross_reference_facets = Dataset.facets('SwissProt/1.0.0-2017-02/CrossReferences', filters=crossreference_filter,list('database'))
+cross_reference_facets
+```
