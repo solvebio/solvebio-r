@@ -118,8 +118,7 @@ Dataset.query <- function(id, paginate=FALSE, ...) {
         params['offset'] <- offset
         response <- do.call(Dataset.data, c(id=id, params))
         df_page <- response$results
-        df <- plyr::rbind.fill(df, df_page)
-        # df <- rbind(df, df_page)
+        df <- dplyr::bind_rows(df, df_page)
         offset <- response$offset
 
         # only fetch max_records
