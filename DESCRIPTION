@@ -13,7 +13,8 @@ Description: R language bindings for SolveBio's API.
 URL: https://github.com/solvebio/solvebio-r
 Imports:
     httr,
-    jsonlite
+    jsonlite,
+    dplyr (>= 0.5.0)
 License: MIT + file LICENSE
 Collate:
     solvebio.R
