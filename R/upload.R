@@ -53,10 +53,6 @@ Upload.retrieve <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-
-#library(devtools)
-#load_all('./')
-
 Upload.create <- function(path) {
     if (missing(path) || !file.exists(path)) {
         stop("A valid path to a local file is required.")
