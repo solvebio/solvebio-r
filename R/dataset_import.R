@@ -82,7 +82,7 @@ DatasetImport.create <- function(dataset_id, upload_id, manifest, commit_mode, a
                   upload_id=upload_id,
                   manifest=manifest,
                   commit_mode=commit_mode,
-                  auto_approve=auto_approve
+                  auto_approve=auto_approve,
                   ...
                   )
 
