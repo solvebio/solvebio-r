@@ -8,6 +8,8 @@ Dataset.get_or_create_by_full_name(full_name, ...)
 }
 \arguments{
 \item{full_name}{A valid dataset full name (<depository/version/dataset>).}
+
+\item{...}{(optional) Additional dataset attributes.}
 }
 \description{
 A helper function to create a dataset on SolveBio using a full name.

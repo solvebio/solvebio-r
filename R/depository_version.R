@@ -72,7 +72,6 @@ DepositoryVersion.datasets <- function(id, ...) {
 #' DepositoryVersion.create
 #'
 #' Create a new SolveBio depository version, within a depository.
-#'
 #' @param depository_id The ID of the parent depository.
 #' @param name The semantic version (i.e. "1.0.0").
 #' @param ... (optional) Additional depository version attributes.

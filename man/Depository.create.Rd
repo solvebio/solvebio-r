@@ -8,6 +8,8 @@ Depository.create(name, ...)
 }
 \arguments{
 \item{name}{The unique name of the depository.}
+
+\item{...}{(optional) Additional depository attributes.}
 }
 \description{
 Create a new SolveBio depository.

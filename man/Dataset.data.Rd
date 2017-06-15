@@ -18,7 +18,6 @@ Returns one page of documents from a SolveBio dataset and processes the response
 }
 \examples{
 \dontrun{
-login()
 Dataset.data("ClinVar/ClinVar")
 }
 

@@ -10,6 +10,8 @@ Dataset.create(depository_version_id, name, ...)
 \item{depository_version_id}{The ID of the parent depository verison.}
 
 \item{name}{The unique name of the dataset witin the version.}
+
+\item{...}{(optional) Additional dataset attributes.}
 }
 \description{
 Create an empty SolveBio dataset.

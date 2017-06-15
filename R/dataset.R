@@ -47,7 +47,6 @@ Dataset.retrieve <- function(id) {
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
-#' login()
 #' Dataset.data("ClinVar/ClinVar")
 #' }
 #'
@@ -95,7 +94,6 @@ Dataset.data <- function(id, filters, ...) {
 #' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
 #'
 #' @examples \dontrun{
-#' login()
 #' Dataset.query("ClinVar/ClinVar", paginate=TRUE)
 #' }
 #'
@@ -146,7 +144,6 @@ Dataset.query <- function(id, paginate=FALSE, ...) {
 #' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
 #'
 #' @examples \dontrun{
-#' login()
 #' Dataset.facets("ClinVar/Combined", list("clinical_significance", "gene_symbol"))
 #' }
 #'
@@ -184,7 +181,6 @@ Dataset.facets <- function(id, facets, ...) {
 #' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
 #'
 #' @examples \dontrun{
-#' login()
 #' Dataset.count("ClinVar/Variants")
 #' Dataset.count("ClinVar/Variants", filters='[["gene_symbol", "BRCA2"]]')
 #' }
@@ -207,7 +203,6 @@ Dataset.count <- function(id, ...) {
 #' Dataset.create
 #'
 #' Create an empty SolveBio dataset.
-#'
 #' @param depository_version_id The ID of the parent depository verison.
 #' @param name The unique name of the dataset witin the version.
 #' @param ... (optional) Additional dataset attributes.
@@ -245,7 +240,6 @@ Dataset.create <- function(depository_version_id, name, ...) {
 #' Dataset.get_or_create_by_full_name
 #'
 #' A helper function to create a dataset on SolveBio using a full name.
-#'
 #' @param full_name A valid dataset full name (<depository/version/dataset>).
 #' @param ... (optional) Additional dataset attributes.
 #'

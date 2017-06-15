@@ -10,6 +10,8 @@ DepositoryVersion.create(depository_id, name, ...)
 \item{depository_id}{The ID of the parent depository.}
 
 \item{name}{The semantic version (i.e. "1.0.0").}
+
+\item{...}{(optional) Additional depository version attributes.}
 }
 \description{
 Create a new SolveBio depository version, within a depository.
