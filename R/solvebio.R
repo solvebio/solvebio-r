@@ -143,7 +143,11 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
         }
         if (res$status == 400) {
             content = formatSolveBioResponse(res, raw = FALSE)
-            stop(sprintf("API error: %s\n", content$detail)) 
+            if (!is.null(content$detail)) {
+                stop(sprintf("API error: %s\n", content$detail)) 
+            } else {
+                stop(sprintf("API error: %s\n", content)) 
+            }
         }
         stop(sprintf("API error: %s\n", res$status)) 
     }
