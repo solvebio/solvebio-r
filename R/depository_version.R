@@ -75,6 +75,7 @@ DepositoryVersion.datasets <- function(id, ...) {
 #'
 #' @param depository_id The ID of the parent depository.
 #' @param name The semantic version (i.e. "1.0.0").
+#' @param ... (optional) Additional depository version attributes.
 #'
 #' @examples \dontrun{
 #' DepositoryVersion.create(depository_id=<DEPOSITORY ID>, name="1.0.0")

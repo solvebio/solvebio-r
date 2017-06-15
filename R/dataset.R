@@ -210,6 +210,7 @@ Dataset.count <- function(id, ...) {
 #'
 #' @param depository_version_id The ID of the parent depository verison.
 #' @param name The unique name of the dataset witin the version.
+#' @param ... (optional) Additional dataset attributes.
 #'
 #' @examples \dontrun{
 #' Dataset.create(depository_version_id=1, name="MyDataset")
@@ -246,6 +247,7 @@ Dataset.create <- function(depository_version_id, name, ...) {
 #' A helper function to create a dataset on SolveBio using a full name.
 #'
 #' @param full_name A valid dataset full name (<depository/version/dataset>).
+#' @param ... (optional) Additional dataset attributes.
 #'
 #' @examples \dontrun{
 #' Dataset.get_or_create_by_full_name(<FULL NAME>)

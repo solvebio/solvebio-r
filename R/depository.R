@@ -102,6 +102,7 @@ Depository.latest_version <- function(id, ...) {
 #' Create a new SolveBio depository.
 #'
 #' @param name The unique name of the depository.
+#' @param ... (optional) Additional depository attributes.
 #'
 #' @examples \dontrun{
 #' Depository.create(name="my-domain:MyDepository")
