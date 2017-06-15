@@ -208,7 +208,8 @@ Dataset.count <- function(id, ...) {
 #'
 #' Create an empty SolveBio dataset.
 #'
-#' @param path The path to the local file
+#' @param depository_version_id The ID of the parent depository verison.
+#' @param name The unique name of the dataset witin the version.
 #'
 #' @examples \dontrun{
 #' Dataset.create(depository_version_id=1, name="MyDataset")
@@ -228,7 +229,7 @@ Dataset.create <- function(depository_version_id, name, ...) {
 
     # TODO: Use title if available in (...)
     params = list(
-                  depository_version_id=version_obj$id,
+                  depository_version_id=depository_version_id,
                   name=name,
                   title=name,
                   ...
@@ -244,7 +245,7 @@ Dataset.create <- function(depository_version_id, name, ...) {
 #'
 #' A helper function to create a dataset on SolveBio using a full name.
 #'
-#' @param full_name A valid dataset full name (<depository/version/dataset>)
+#' @param full_name A valid dataset full name (<depository/version/dataset>).
 #'
 #' @examples \dontrun{
 #' Dataset.get_or_create_by_full_name(<FULL NAME>)
@@ -279,30 +280,32 @@ Dataset.get_or_create_by_full_name <- function(full_name, ...) {
     dataset_name <- parts[[3]]
 
     # Get or create Depository
-    tryCatch({
+    depository_obj = tryCatch({
         depository_obj <- Depository.retrieve(depository_name)
     }, error = function(e) {
         depository_obj <- Depository.create(depository_name)
+        return(depository_obj)
     })
 
     # Get or create DepositoryVersion
-    tryCatch({
-        version_full_name = paste(depository_name, "/", version_name)
-        version_obj <- DepositoryVersion.retrieve(version_full_name)
+    version_obj = tryCatch({
+        version_full_name <- paste(depository_name, version_name, sep="/")
+        version_obj = DepositoryVersion.retrieve(version_full_name)
     }, error = function(e) {
         version_obj <- DepositoryVersion.create(
                                                 depository_id=depository_obj$id,
                                                 name=version_name,
                                                 title=version_name
                                                 )
+        return(version_obj)
     })
 
     # Create the Dataset
-    Dataset.create(
-                  depository_version_id=version_obj$id,
-                  name=dataset_name,
-                  ...
-                  )
+    dataset_obj <- Dataset.create(
+                                  depository_version_id=version_obj$id,
+                                  name=dataset_name,
+                                  ...
+                                  )
 
     return(dataset_obj)
 }
