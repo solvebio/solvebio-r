@@ -11,21 +11,9 @@ DatasetField.create(dataset_id, name, data_type, ...)
 
 \item{name}{The name of the dataset field.}
 
-\item{data_type}{The data type for the field.}
+\item{data_type}{(optional) The data type for the field (default: auto).}
 
 \item{...}{(optional) Additional dataset import attributes.}
-
-\item{description}{(optional) A description for the field.}
-
-\item{expression}{(optional) An expression to evaluate when importing/migrating to the dataset.}
-
-\item{ordering}{(optional) The order this field should be displayed and evaluated (if it has an expression).}
-
-\item{is_list}{(optional) Set to TRUE if this field contains a list of values.}
-
-\item{is_hidden}{(optional) Set to TRUE if this field should be hidden by default.}
-
-\item{title}{(optional) The display name of the dataset field.}
 }
 \description{
 Create a new dataset field.
