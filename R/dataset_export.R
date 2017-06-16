@@ -38,3 +38,38 @@ DatasetExport.retrieve <- function(id) {
     path <- paste("v1/dataset_exports", paste(id), sep="/")
     .request('GET', path=path)
 }
+
+
+#' DatasetExport.create
+#'
+#' Create a new dataset export.
+#'
+#' @param dataset_id The target dataset ID.
+#' @param format (optional) The export format (default: json).
+#' @param params (optional) Query parameters for the export.
+#' @param ... (optional) Additional dataset export parameters.
+#'
+#' @examples \dontrun{
+#' DatasetExport.create(dataset_id=<ID>, format='json', params=list(fields=c("field_1"), limit=100))
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+DatasetExport.create <- function(dataset_id, format, params, ...) {
+    if (missing(dataset_id)) {
+        stop("A dataset ID is required.")
+    }
+
+    params = list(
+                  dataset_id=dataset_id,
+                  format=format,
+                  params=params,
+                  ...
+                  )
+
+    dataset_export <- .request('POST', path='v1/dataset_exports', query=NULL, body=params)
+
+    return(dataset_export)
+}
