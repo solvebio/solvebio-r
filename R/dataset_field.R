@@ -73,13 +73,7 @@ DatasetField.facets <- function(id, ...) {
 #'
 #' @param dataset_id The dataset ID.
 #' @param name The name of the dataset field.
-#' @param data_type The data type for the field.
-#' @param description (optional) A description for the field.
-#' @param expression (optional) An expression to evaluate when importing/migrating to the dataset.
-#' @param ordering (optional) The order this field should be displayed and evaluated (if it has an expression). 
-#' @param is_list (optional) Set to TRUE if this field contains a list of values.
-#' @param is_hidden (optional) Set to TRUE if this field should be hidden by default. 
-#' @param title (optional) The display name of the dataset field.
+#' @param data_type (optional) The data type for the field (default: auto).
 #' @param ... (optional) Additional dataset import attributes.
 #'
 #' @examples \dontrun{
