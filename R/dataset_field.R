@@ -65,3 +65,51 @@ DatasetField.facets <- function(id, ...) {
     path <- paste("v1/dataset_fields", paste(id), "facets", sep="/")
     .request('GET', path=path, query=list(...))
 }
+
+
+#' DatasetField.create
+#'
+#' Create a new dataset field.
+#'
+#' @param dataset_id The dataset ID.
+#' @param name The name of the dataset field.
+#' @param data_type The data type for the field.
+#' @param description (optional) A description for the field.
+#' @param expression (optional) An expression to evaluate when importing/migrating to the dataset.
+#' @param ordering (optional) The order this field should be displayed and evaluated (if it has an expression). 
+#' @param is_list (optional) Set to TRUE if this field contains a list of values.
+#' @param is_hidden (optional) Set to TRUE if this field should be hidden by default. 
+#' @param title (optional) The display name of the dataset field.
+#' @param ... (optional) Additional dataset import attributes.
+#'
+#' @examples \dontrun{
+#' DatasetField.create(dataset_id=<ID>, name="my_field", title="My Field", data_type="string")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+DatasetField.create <- function(dataset_id, name, data_type, ...) {
+    if (missing(dataset_id)) {
+        stop("A dataset ID is required.")
+    }
+    if (missing(name)) {
+        stop("A field name is required.")
+    }
+
+    if (missing(data_type)) {
+        data_type = 'auto'
+    }
+
+    params = list(
+                  dataset_id=dataset_id,
+                  name=name,
+                  data_type=data_type,
+                  ...
+                  )
+
+    dataset_field <- .request('POST', path='v1/dataset_fields', query=NULL, body=params)
+
+    return(dataset_field)
+}
