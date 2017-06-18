@@ -84,16 +84,12 @@ DatasetField.facets <- function(id, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetField.create <- function(dataset_id, name, data_type, ...) {
+DatasetField.create <- function(dataset_id, name, data_type='auto', ...) {
     if (missing(dataset_id)) {
         stop("A dataset ID is required.")
     }
     if (missing(name)) {
         stop("A field name is required.")
-    }
-
-    if (missing(data_type)) {
-        data_type = 'auto'
     }
 
     params = list(

@@ -60,21 +60,19 @@ DatasetImport.retrieve <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetImport.create <- function(dataset_id, upload_id, manifest, commit_mode, auto_approve, ...) {
+DatasetImport.create <- function(
+                                 dataset_id,
+                                 upload_id,
+                                 manifest,
+                                 commit_mode='append',
+                                 auto_approve=TRUE,
+                                 ...) {
     if (missing(dataset_id)) {
         stop("A dataset ID is required.")
     }
 
     if (missing(upload_id) && missing(manifest)) {
         stop("Either an upload ID or manifest is required.")
-    }
-
-    if (missing(commit_mode)) {
-        commit_mode = 'append'
-    }
-
-    if (missing(auto_approve)) {
-        auto_approve = TRUE
     }
 
     params = list(

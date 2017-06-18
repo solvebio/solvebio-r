@@ -4,7 +4,7 @@
 \alias{DatasetExport.create}
 \title{DatasetExport.create}
 \usage{
-DatasetExport.create(dataset_id, format, params, ...)
+DatasetExport.create(dataset_id, format = "json", params = list(), ...)
 }
 \arguments{
 \item{dataset_id}{The target dataset ID.}

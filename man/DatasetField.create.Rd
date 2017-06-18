@@ -4,7 +4,7 @@
 \alias{DatasetField.create}
 \title{DatasetField.create}
 \usage{
-DatasetField.create(dataset_id, name, data_type, ...)
+DatasetField.create(dataset_id, name, data_type = "auto", ...)
 }
 \arguments{
 \item{dataset_id}{The dataset ID.}

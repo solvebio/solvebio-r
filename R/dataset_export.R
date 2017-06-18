@@ -57,7 +57,11 @@ DatasetExport.retrieve <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetExport.create <- function(dataset_id, format, params, ...) {
+DatasetExport.create <- function(
+                                 dataset_id,
+                                 format='json',
+                                 params=list(),
+                                 ...) {
     if (missing(dataset_id)) {
         stop("A dataset ID is required.")
     }
