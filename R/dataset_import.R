@@ -46,7 +46,7 @@ DatasetImport.retrieve <- function(id) {
 #' Create a new dataset import.
 #'
 #' @param dataset_id The target dataset ID.
-#' @param upload_id An upload ID.
+#' @param upload_id An upload ID
 #' @param manifest (optional) A valid file manifest (alternative to upload_id).
 #' @param commit_mode (optional) The commit mode (default: append).
 #' @param auto_approve (optional) Automatically approve the commit (default: TRUE).
@@ -63,7 +63,7 @@ DatasetImport.retrieve <- function(id) {
 DatasetImport.create <- function(
                                  dataset_id,
                                  upload_id,
-                                 manifest,
+                                 manifest=NULL,
                                  commit_mode='append',
                                  auto_approve=TRUE,
                                  ...) {
@@ -71,8 +71,11 @@ DatasetImport.create <- function(
         stop("A dataset ID is required.")
     }
 
-    if (missing(upload_id) && missing(manifest)) {
-        stop("Either an upload ID or manifest is required.")
+    if (missing(upload_id)) {
+        if (is.null(manifest)) {
+            stop("Either an upload ID or manifest is required.")
+        }
+        upload_id = NULL
     }
 
     params = list(
