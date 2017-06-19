@@ -4,8 +4,8 @@
 \alias{DatasetMigration.create}
 \title{DatasetMigration.create}
 \usage{
-DatasetMigration.create(source_id, target_id, source_params = list(),
-  target_fields = list(), commit_mode = "append", auto_approve = TRUE,
+DatasetMigration.create(source_id, target_id, commit_mode = "append",
+  source_params = NULL, target_fields = NULL, auto_approve = TRUE,
   include_errors = FALSE, ...)
 }
 \arguments{
@@ -13,11 +13,11 @@ DatasetMigration.create(source_id, target_id, source_params = list(),
 
 \item{target_id}{The target dataset ID.}
 
+\item{commit_mode}{(optional) The commit mode (default: append).}
+
 \item{source_params}{(optional) The query parameters used on the source dataset.}
 
 \item{target_fields}{(optional) A list of valid dataset fields to add or override in the target dataset.}
-
-\item{commit_mode}{(optional) The commit mode (default: append).}
 
 \item{auto_approve}{(optional) Set to TRUE to automatically approve (and start) the resulting commit (default: TRUE).}
 

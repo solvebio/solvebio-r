@@ -4,13 +4,13 @@
 \alias{DatasetImport.create}
 \title{DatasetImport.create}
 \usage{
-DatasetImport.create(dataset_id, upload_id, manifest, commit_mode = "append",
-  auto_approve = TRUE, ...)
+DatasetImport.create(dataset_id, upload_id, manifest = NULL,
+  commit_mode = "append", auto_approve = TRUE, ...)
 }
 \arguments{
 \item{dataset_id}{The target dataset ID.}
 
-\item{upload_id}{An upload ID.}
+\item{upload_id}{An upload ID}
 
 \item{manifest}{(optional) A valid file manifest (alternative to upload_id).}
 
