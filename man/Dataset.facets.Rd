@@ -18,7 +18,6 @@ Retrieves aggregated statistics or term counts for one or more fields in a Solve
 }
 \examples{
 \dontrun{
-login()
 Dataset.facets("ClinVar/Combined", list("clinical_significance", "gene_symbol"))
 }
 

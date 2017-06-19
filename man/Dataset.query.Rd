@@ -19,7 +19,6 @@ Returns a single page of results otherwise (default).
 }
 \examples{
 \dontrun{
-login()
 Dataset.query("ClinVar/ClinVar", paginate=TRUE)
 }
 

@@ -20,10 +20,14 @@ Imports:
 License: MIT + file LICENSE
 Collate:
     solvebio.R
+    dataset.R
+    dataset_commit.R
+    dataset_export.R
+    dataset_field.R
+    dataset_import.R
+    dataset_migration.R
     depository.R
     depository_version.R
-    dataset.R
-    dataset_field.R
     upload.R
     utils.R
     zzz.R

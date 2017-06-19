@@ -16,7 +16,6 @@ Returns the total number of records for a given SolveBio dataset.
 }
 \examples{
 \dontrun{
-login()
 Dataset.count("ClinVar/Variants")
 Dataset.count("ClinVar/Variants", filters='[["gene_symbol", "BRCA2"]]')
 }

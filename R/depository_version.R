@@ -16,6 +16,7 @@ DepositoryVersion.all <- function(...) {
     .request('GET', "v1/depository_versions", query=list(...))
 }
 
+
 #' DepositoryVersion.retrieve
 #'
 #' Retrieves the metadata about a specific depository version.
@@ -38,6 +39,7 @@ DepositoryVersion.retrieve <- function(id) {
     path <- paste("v1/depository_versions", paste(id), sep="/")
     .request('GET', path=path)
 }
+
 
 #' DepositoryVersion.datasets
 #'
@@ -64,4 +66,39 @@ DepositoryVersion.datasets <- function(id, ...) {
 
     path <- paste("v1/depository_versions", paste(id), "datasets", sep="/")
     .request('GET', path=path, query=list(...))
+}
+
+
+#' DepositoryVersion.create
+#'
+#' Create a new SolveBio depository version, within a depository.
+#' @param depository_id The ID of the parent depository.
+#' @param name The semantic version (i.e. "1.0.0").
+#' @param ... (optional) Additional depository version attributes.
+#'
+#' @examples \dontrun{
+#' DepositoryVersion.create(depository_id=<DEPOSITORY ID>, name="1.0.0")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+DepositoryVersion.create <- function(depository_id, name, ...) {
+    if (missing(depository_id)) {
+        stop("A depository ID is required.")
+    }
+    if (missing(name)) {
+        stop("A name is required.")
+    }
+
+    params = list(
+                  depository_id=depository_id,
+                  name=name,
+                  ...
+                  )
+
+    version <- .request('POST', path='v1/depository_versions', query=NULL, body=params)
+
+    return(version)
 }

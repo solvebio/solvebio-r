@@ -95,3 +95,33 @@ Depository.latest_version <- function(id, ...) {
     path <- paste("v1/depository_versions", paste(id$latest_version), sep="/")
     .request('GET', path=path, query=list(...))
 }
+
+
+#' Depository.create
+#'
+#' Create a new SolveBio depository.
+#' @param name The unique name of the depository.
+#' @param ... (optional) Additional depository attributes.
+#'
+#' @examples \dontrun{
+#' Depository.create(name="my-domain:MyDepository")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Depository.create <- function(name, ...) {
+    if (missing(name)) {
+        stop("A name is required.")
+    }
+
+    params = list(
+                  name=name,
+                  ...
+                  )
+
+    depository <- .request('POST', path='v1/depositories', query=NULL, body=params)
+
+    return(depository)
+}
