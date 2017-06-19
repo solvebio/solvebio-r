@@ -1,6 +1,11 @@
+# solvebio 0.4.0
+
+* Added support for uploads, dataset imports, migrations, and exports
+* Uses dplyr bind_rows to handle JSON inconsistencies in data
+
 # solvebio 0.3.0
 
-* Adds `Dataset.count()` and `Dataset.facets()` methods
+* Adds`Dataset.count()` and `Dataset.facets()` methods
 * Adds NEWS.md file
 
 
