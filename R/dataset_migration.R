@@ -46,9 +46,9 @@ DatasetMigration.retrieve <- function(id) {
 #'
 #' @param source_id The source dataset ID.
 #' @param target_id The target dataset ID.
+#' @param commit_mode (optional) The commit mode (default: append).
 #' @param source_params (optional) The query parameters used on the source dataset.
 #' @param target_fields (optional) A list of valid dataset fields to add or override in the target dataset.
-#' @param commit_mode (optional) The commit mode (default: append).
 #' @param auto_approve (optional) Set to TRUE to automatically approve (and start) the resulting commit (default: TRUE).
 #' @param include_errors (optional) If TRUE, a new field (_errors) will be added to each record containing expression evaluation errors (default: FALSE).
 #' @param ... (optional) Additional dataset migration attributes.
@@ -64,9 +64,9 @@ DatasetMigration.retrieve <- function(id) {
 DatasetMigration.create <- function(
                                     source_id,
                                     target_id,
-                                    source_params=list(),
-                                    target_fields=list(),
                                     commit_mode='append',
+                                    source_params=NULL,
+                                    target_fields=NULL,
                                     auto_approve=TRUE,
                                     include_errors=FALSE,
                                     ...) {
