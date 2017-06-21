@@ -21,4 +21,3 @@ Dataset.retrieve("ClinVar/ClinVar")
 \references{
 \url{https://docs.solvebio.com/}
 }
-

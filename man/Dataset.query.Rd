@@ -26,4 +26,3 @@ Dataset.query("ClinVar/ClinVar", paginate=TRUE)
 \references{
 \url{https://docs.solvebio.com/}
 }
-
