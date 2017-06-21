@@ -21,4 +21,3 @@ Depository.retrieve("ClinVar")
 \references{
 \url{https://docs.solvebio.com/}
 }
-

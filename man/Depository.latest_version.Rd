@@ -23,4 +23,3 @@ Depository.latest_version("ClinVar")
 \references{
 \url{https://docs.solvebio.com/}
 }
-

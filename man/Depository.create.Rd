@@ -23,4 +23,3 @@ Depository.create(name="my-domain:MyDepository")
 \references{
 \url{https://docs.solvebio.com/}
 }
-

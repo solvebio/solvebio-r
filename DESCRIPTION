@@ -20,6 +20,7 @@ Imports:
 License: MIT + file LICENSE
 Collate:
     solvebio.R
+    annotation.R
     dataset.R
     dataset_commit.R
     dataset_export.R
@@ -31,4 +32,4 @@ Collate:
     upload.R
     utils.R
     zzz.R
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

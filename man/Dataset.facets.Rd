@@ -25,4 +25,3 @@ Dataset.facets("ClinVar/Combined", list("clinical_significance", "gene_symbol"))
 \references{
 \url{https://docs.solvebio.com/}
 }
-

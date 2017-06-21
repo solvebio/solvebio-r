@@ -24,4 +24,3 @@ Dataset.count("ClinVar/Variants", filters='[["gene_symbol", "BRCA2"]]')
 \references{
 \url{https://docs.solvebio.com/}
 }
-
