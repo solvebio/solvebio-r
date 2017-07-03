@@ -16,11 +16,12 @@ DatasetCommit.all <- function(...) {
     .request('GET', "v1/dataset_commits", query=list(...))
 }
 
+
 #' DatasetCommit.retrieve
 #'
 #' Retrieves the metadata about a specific dataset commit on SolveBio.
 #'
-#' @param id String The ID or full name of a SolveBio dataset commit.
+#' @param id String The ID of a SolveBio dataset commit.
 #'
 #' @examples \dontrun{
 #' DatasetCommit.retrieve(<ID>)
@@ -37,4 +38,28 @@ DatasetCommit.retrieve <- function(id) {
 
     path <- paste("v1/dataset_commits", paste(id), sep="/")
     .request('GET', path=path)
+}
+
+
+#' DatasetCommit.delete
+#'
+#' Deletes a specific dataset commit on SolveBio.
+#'
+#' @param id String The ID or full name of a SolveBio dataset commit.
+#'
+#' @examples \dontrun{
+#' DatasetCommit.delete(<ID>)
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+DatasetCommit.delete <- function(id) {
+    if (missing(id)) {
+        stop("A dataset commit ID is required.")
+    }
+
+    path <- paste("v1/dataset_commits", paste(id), sep="/")
+    .request('DELETE', path=path)
 }

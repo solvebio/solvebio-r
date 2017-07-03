@@ -131,6 +131,15 @@ login <- function(api_key, api_host, envir = solvebio:::.solveEnv$current) {
                                  ...
                                  )
            },
+           DELETE={
+               res <- httr::DELETE(
+                                 uri,
+                                 httr::add_headers(headers),
+                                 config = config,
+                                 query = query,
+                                 ...
+                                 )
+           },
            {
                stop('Invalid request method!')
            }
