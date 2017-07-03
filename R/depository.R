@@ -16,6 +16,7 @@ Depository.all <- function(...) {
     .request('GET', "v1/depositories", query=list(...))
 }
 
+
 #' Depository.retrieve
 #'
 #' Retrieves the metadata about a specific SolveBio depository.
@@ -38,6 +39,31 @@ Depository.retrieve <- function(id) {
     path <- paste("v1/depositories", paste(id), sep="/")
     .request('GET', path=path)
 }
+
+
+#' Depository.delete
+#'
+#' Delete a specific depository from SolveBio.
+#'
+#' @param id String The ID or full name of a SolveBio depository.
+#'
+#' @examples \dontrun{
+#' Depository.delete("1")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Depository.delete <- function(id) {
+    if (missing(id)) {
+        stop("A depository ID or name is required.")
+    }
+
+    path <- paste("v1/depository", paste(id), sep="/")
+    .request('DELETE', path=path)
+}
+
 
 #' Depository.versions
 #'
