@@ -20,7 +20,7 @@ DatasetExport.all <- function(...) {
 #'
 #' Retrieves the metadata about a specific dataset export on SolveBio.
 #'
-#' @param id String The ID or full name of a SolveBio dataset export.
+#' @param id String The ID of a SolveBio dataset export.
 #'
 #' @examples \dontrun{
 #' DatasetExport.retrieve(<ID>)
@@ -37,6 +37,30 @@ DatasetExport.retrieve <- function(id) {
 
     path <- paste("v1/dataset_exports", paste(id), sep="/")
     .request('GET', path=path)
+}
+
+
+#' DatasetExport.delete
+#'
+#' Deletes a specific dataset export on SolveBio.
+#'
+#' @param id String The ID of a SolveBio dataset export.
+#'
+#' @examples \dontrun{
+#' DatasetExport.delete(<ID>)
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+DatasetExport.delete <- function(id) {
+    if (missing(id)) {
+        stop("A dataset export ID is required.")
+    }
+
+    path <- paste("v1/dataset_exports", paste(id), sep="/")
+    .request('DELETE', path=path)
 }
 
 

@@ -21,7 +21,7 @@ DatasetImport.all <- function(...) {
 #'
 #' Retrieves the metadata about a specific dataset import on SolveBio.
 #'
-#' @param id String The ID or full name of a SolveBio dataset import.
+#' @param id String The ID of a SolveBio dataset import.
 #'
 #' @examples \dontrun{
 #' DatasetImport.retrieve(<ID>)
@@ -38,6 +38,30 @@ DatasetImport.retrieve <- function(id) {
 
     path <- paste("v1/dataset_imports", paste(id), sep="/")
     .request('GET', path=path)
+}
+
+
+#' DatasetImport.delete
+#'
+#' Deletes a specific dataset import on SolveBio.
+#'
+#' @param id String The ID of a SolveBio dataset import.
+#'
+#' @examples \dontrun{
+#' DatasetImport.delete(<ID>)
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+DatasetImport.delete <- function(id) {
+    if (missing(id)) {
+        stop("A dataset import ID is required.")
+    }
+
+    path <- paste("v1/dataset_imports", paste(id), sep="/")
+    .request('DELETE', path=path)
 }
 
 
