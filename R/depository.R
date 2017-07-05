@@ -60,7 +60,7 @@ Depository.delete <- function(id) {
         stop("A depository ID or name is required.")
     }
 
-    path <- paste("v1/depository", paste(id), sep="/")
+    path <- paste("v1/depositories", paste(id), sep="/")
     .request('DELETE', path=path)
 }
 
