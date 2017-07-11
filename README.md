@@ -28,26 +28,15 @@ install.packages("solvebio")
 library(solvebio)
 ```
 
-
-## Developers
-
-To install the development version of this package from GitHub, you will need the `devtools` package.
-
-```R
-install.packages(c("devtools", "httr", "jsonlite"))
-library(devtools)
-devtools::install_github("solvebio/solvebio-r")
-library(solvebio)
-```
-
-
 ## Usage
 
 ```R
 # By default it will look for a key in the $SOLVEBIO_API_KEY environment variable.
 require(solvebio)
 # You may also supply an API key in your code
-login(api_key="<Your SolveBio API key>")
+login(api_key="<Your API key>")
+# RStudio users can put the following line in ~/.Rprofile
+# Sys.setenv(SOLVEBIO_API_KEY="<Your API key>")
 
 # Retrieve a list of all datasets
 datasets = Dataset.all()
@@ -68,3 +57,16 @@ results = Dataset.query('ClinVar/3.7.2-2016-08-02/Variants', filters=filters, li
 results
 
 ```
+
+
+## Developers
+
+To install the development version of this package from GitHub, you will need the `devtools` package.
+
+```R
+install.packages(c("devtools", "httr", "jsonlite"))
+library(devtools)
+devtools::install_github("solvebio/solvebio-r")
+library(solvebio)
+```
+
