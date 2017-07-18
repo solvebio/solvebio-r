@@ -13,7 +13,7 @@
 #'
 #' @export
 DatasetExport.all <- function(...) {
-    .request('GET', "v1/dataset_exports", query=list(...))
+    .request('GET', "v2/dataset_exports", query=list(...))
 }
 
 #' DatasetExport.retrieve
@@ -35,7 +35,7 @@ DatasetExport.retrieve <- function(id) {
         stop("A dataset export ID is required.")
     }
 
-    path <- paste("v1/dataset_exports", paste(id), sep="/")
+    path <- paste("v2/dataset_exports", paste(id), sep="/")
     .request('GET', path=path)
 }
 
@@ -59,7 +59,7 @@ DatasetExport.delete <- function(id) {
         stop("A dataset export ID is required.")
     }
 
-    path <- paste("v1/dataset_exports", paste(id), sep="/")
+    path <- paste("v2/dataset_exports", paste(id), sep="/")
     .request('DELETE', path=path)
 }
 
@@ -97,7 +97,7 @@ DatasetExport.create <- function(
                   ...
                   )
 
-    dataset_export <- .request('POST', path='v1/dataset_exports', query=NULL, body=params)
+    dataset_export <- .request('POST', path='v2/dataset_exports', query=NULL, body=params)
 
     return(dataset_export)
 }

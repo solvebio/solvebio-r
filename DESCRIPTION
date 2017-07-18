@@ -27,9 +27,9 @@ Collate:
     dataset_field.R
     dataset_import.R
     dataset_migration.R
-    depository.R
-    depository_version.R
+    object.R
     upload.R
     utils.R
+    vault.R
     zzz.R
 RoxygenNote: 6.0.1

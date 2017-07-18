@@ -13,7 +13,7 @@
 #'
 #' @export
 DatasetMigration.all <- function(...) {
-    .request('GET', "v1/dataset_migrations", query=list(...))
+    .request('GET', "v2/dataset_migrations", query=list(...))
 }
 
 
@@ -36,7 +36,7 @@ DatasetMigration.retrieve <- function(id) {
         stop("A dataset migration ID is required.")
     }
 
-    path <- paste("v1/dataset_migrations", paste(id), sep="/")
+    path <- paste("v2/dataset_migrations", paste(id), sep="/")
     .request('GET', path=path)
 }
 
@@ -60,7 +60,7 @@ DatasetMigration.delete <- function(id) {
         stop("A dataset migration ID is required.")
     }
 
-    path <- paste("v1/dataset_migrations", paste(id), sep="/")
+    path <- paste("v2/dataset_migrations", paste(id), sep="/")
     .request('DELETE', path=path)
 }
 
@@ -74,7 +74,6 @@ DatasetMigration.delete <- function(id) {
 #' @param commit_mode (optional) The commit mode (default: append).
 #' @param source_params (optional) The query parameters used on the source dataset.
 #' @param target_fields (optional) A list of valid dataset fields to add or override in the target dataset.
-#' @param auto_approve (optional) Set to TRUE to automatically approve (and start) the resulting commit (default: TRUE).
 #' @param include_errors (optional) If TRUE, a new field (_errors) will be added to each record containing expression evaluation errors (default: FALSE).
 #' @param ... (optional) Additional dataset migration attributes.
 #'
@@ -92,7 +91,6 @@ DatasetMigration.create <- function(
                                     commit_mode='append',
                                     source_params=NULL,
                                     target_fields=NULL,
-                                    auto_approve=TRUE,
                                     include_errors=FALSE,
                                     ...) {
     if (missing(source_id)) {
@@ -109,12 +107,11 @@ DatasetMigration.create <- function(
                   source_params=source_params,
                   target_fields=target_fields,
                   commit_mode=commit_mode,
-                  auto_approve=auto_approve,
                   include_errors=include_errors,
                   ...
                   )
 
-    dataset_migration <- .request('POST', path='v1/dataset_migrations', query=NULL, body=params)
+    dataset_migration <- .request('POST', path='v2/dataset_migrations', query=NULL, body=params)
 
     return(dataset_migration)
 }
