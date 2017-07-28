@@ -206,3 +206,80 @@ Object.get_download_url <- function(id) {
 
     return(response$download_url)
 }
+
+
+#' Object.upload_file
+#'
+#' Upload a local file to a vault on SolveBio. The vault path provided is the parent directory for uploaded file.
+#'
+#' @param local_path The path to the local file
+#' @param vault_id The SolveBio vault ID
+#' @param vault_path The remote path in the vault
+#' @param vault_filename (optional) The filename for the uploaded file in the vault (default: the basename of the local_path)
+#'
+#' @examples \dontrun{
+#' Object.upload_file("my_file.json.gz", vault$id, "/path/to/my_file.json.gz")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Object.upload_file <- function(local_path, vault_id, vault_path, filename) {
+    if (missing(local_path) || !file.exists(local_path)) {
+        stop("A valid path to a local file is required.")
+    }
+    if (missing(vault_id)) {
+        stop("A valid vault ID is required.")
+    }
+        
+    if (missing(filename) || is.null(filename)) {
+        filename = basename(local_path)
+    }
+
+    if (missing(vault_path) || is.null(vault_path) || vault_path == '/') {
+        parent_object_id = NULL
+    }
+    else {
+        # Create all folders as necessary in the vault path
+        parent_object = Vault.create_folder(
+                                            id=vault_id,
+                                            path=vault_path,
+                                            recursive=TRUE)
+        parent_object_id = parent_object$id
+    }
+
+    # Create the file, and upload it to the Upload URL
+    obj = Object.create(
+                        vault_id=vault$id,
+                        parent_object_id=parent_object_id,
+                        object_type='file',
+                        filename=filename,
+                        # md5=digest::digest(file=local_path),
+                        size=file.size(local_path),
+                        mimetype=mime::guess_type(local_path)
+                        )
+
+    # TODO: Get base64_md5 from API
+    # base64_md5 = jsonlite::base64_enc(hex2bin(obj$md5))
+    headers <- c(
+                 # 'Content-MD5'=base64_md5,
+                 'Content-Type'=obj$mimetype,
+                 'Content-Length'=obj$size
+                 )
+
+
+    res <- httr::PUT(
+                     obj$upload_url,
+                     httr::add_headers(headers),
+                     body=httr::upload_file(local_path, type=obj$mimetype)
+                     )
+    if (res$status != 200) {
+        # Clean up after a failed upload
+        Object.delete(obj$id)
+        cat(res$status)
+        stop(sprintf("Error: Failed to upload file"))
+    }
+
+    return(obj)
+}

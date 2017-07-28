@@ -353,38 +353,22 @@ Dataset.get_or_create_by_full_path <- function(full_path, ...) {
     dataset_name = parts[[length(parts)]]
     # Remove the filename from the path
     dirs = head(parts, -1)
-    current_path = ''
-    parent_object_id = NULL
 
-    # Check for existing objects, and ensure they are folders.
-    # Create directories as needed
-    for (dir in dirs) {
-        if (dir == '') {
-            next
-        }
-
-        current_path = paste(current_path, dir, sep='/')
-        obj = Object.get_by_path(path=current_path, vault_id=vault$id)
-        if (is.null(obj) || (is.data.frame(df) && nrow(df) == 0)) {
-            obj = Object.create(
-                          vault_id=vault$id,
-                          parent_object_id=parent_object_id,
-                          object_type='folder',
-                          filename=dir
-                          )
-        }
-
-        if (obj$object_type != 'folder') {
-            stop(sprintf("Invalid path: existing object at '%s' is not a folder\n", current_path))
-        }
-
-        parent_object_id = obj$id
+    parent_path = paste(dirs, collapse="/")
+    # Get or create the parent folder
+    parent_object = Object.get_by_path(path=parent_path, vault_id=vault$id)
+    if (is.null(parent_object) || (is.data.frame(parent_object) && nrow(parent_object) == 0)) {
+        parent_object = Vault.create_folder(
+                                            id=vault$id,
+                                            path=parent_path,
+                                            recursive=TRUE
+                                            )
     }
 
     # Create the dataset under parent_object_id
     dataset = Dataset.create(
                              vault_id=vault$id,
-                             vault_parent_object_id=parent_object_id,
+                             vault_parent_object_id=parent_object$id,
                              name=dataset_name
                              )
 

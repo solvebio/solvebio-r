@@ -4,16 +4,18 @@
 \alias{Vault.create_folder}
 \title{Vault.create_folder}
 \usage{
-Vault.create_folder(id, path, name, ...)
+Vault.create_folder(id, path, recursive = FALSE, ...)
 }
 \arguments{
 \item{id}{The ID of the vault.}
 
 \item{path}{The path to the folder, within the vault.}
 
-\item{name}{The name (filename) of the new folder.}
+\item{recursive}{Create all parent directories that do not yet exist (default: FALSE).}
 
 \item{...}{(optional) Additional folder creation parameters.}
+
+\item{name}{The name (filename) of the new folder.}
 }
 \description{
 Create a new folder in a vault.
@@ -21,7 +23,7 @@ Create a new folder in a vault.
 \examples{
 \dontrun{
 vault = Vault.get_personal_vault()
-Vault.create_folder(vault$id, path="/", name="My Folder")
+Vault.create_folder(vault$id, "/My Folder")
 }
 
 }

@@ -380,33 +380,76 @@ Vault.create_dataset <- function(id, path, name, ...) {
 #' @param id The ID of the vault.
 #' @param path The path to the folder, within the vault.
 #' @param name The name (filename) of the new folder.
+#' @param recursive Create all parent directories that do not yet exist (default: FALSE).
 #' @param ... (optional) Additional folder creation parameters.
 #'
 #' @examples \dontrun{
 #' vault = Vault.get_personal_vault()
-#' Vault.create_folder(vault$id, path="/", name="My Folder")
+#' Vault.create_folder(vault$id, "/My Folder")
 #' }
 #'
 #' @references
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.create_folder <- function(id, path, name, ...) {
-    if (missing(id)) {
+Vault.create_folder <- function(id, path, recursive=FALSE, ...) {
+    if (missing(id) || is.null(id)) {
         stop("A vault ID is required.")
+    }
+    if (missing(path) || is.null(path)) {
+        stop("A path is required.")
     }
 
     vault = Vault.retrieve(id)
 
-    if (missing(path) || path == "/" || is.null(path)) {
-        vault_parent_object_id = NULL
+    if (substring(path, 1, 1) != '/') {
+        # Add missing / to path
+        path = paste('/', path, sep='')
+    }
+
+    parts <- strsplit(path, split='/', fixed=TRUE)[[1]]
+    # Get the final folder name from the last part of the path
+    folder_name = parts[[length(parts)]]
+    # Remove the folder name from the path
+    parents = head(parts, -1)
+
+    if (recursive) {
+        current_dir = ''
+        parent_object_id = NULL
+
+        # Check for existing objects, and ensure they are folders.
+        # Create directories as needed
+        for (dir in parents) {
+            if (dir == '') {
+                next
+            }
+
+            current_dir = paste(current_dir, dir, sep='/')
+            obj = Object.get_by_path(path=current_dir, vault_id=vault$id)
+
+            if (is.null(obj) || (is.data.frame(obj) && nrow(obj) == 0)) {
+                obj = Object.create(
+                              vault_id=vault$id,
+                              parent_object_id=parent_object_id,
+                              object_type='folder',
+                              filename=dir
+                              )
+            }
+
+            if (obj$object_type != 'folder') {
+                stop(sprintf("Invalid path: existing object at '%s' is not a folder\n", current_dir))
+            }
+
+            parent_object_id = obj$id
+        }
     }
     else {
-        user = .request("GET", path="v1/user")
-        account_domain = user$account$domain
-        full_path = paste(account_domain, vault$name, path, sep=":")
         # Find the parent object (folder) at the provided path
-        parent_object = Object.get_by_full_path(full_path)
+        parent_path = paste(parents, collapse="/")
+        parent_object = Object.get_by_path(parent_path, vault_id=vault$id)
+        if (is.null(parent_object) || parent_object$object_type != 'folder') {
+            stop(sprintf("Invalid path: existing object at '%s' is not a folder\n", parent_object))
+        }
         parent_object_id = parent_object$id
     }
 
@@ -414,7 +457,7 @@ Vault.create_folder <- function(id, path, name, ...) {
                    vault_id=vault$id,
                    parent_object_id=parent_object_id,
                    object_type='folder',
-                   filename=name,
+                   filename=folder_name,
                    ...)
 
     return(object)
