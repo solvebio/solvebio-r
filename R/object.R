@@ -165,3 +165,29 @@ Object.get_by_path <- function(path, ...) {
 
     return(response$data)
 }
+
+
+#' Object.get_download_url
+#'
+#' Helper method to get the download URL for a file object.
+#'
+#' @param id The ID of the object.
+#'
+#' @examples \dontrun{
+#' Object.get_download_url("1234567890")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Object.get_download_url <- function(id) {
+    if (missing(id)) {
+        stop("A object ID is required.")
+    }
+
+    path <- paste("v2/objects", paste(id), "download", sep="/")
+    response <- .request('GET', path=path, query=list(redirect=NULL))
+
+    return(response$download_url)
+}

@@ -67,7 +67,7 @@ DatasetImport.delete <- function(id) {
 
 #' DatasetImport.create
 #'
-#' Create a new dataset import. Either an upload_id, manifest, or data_records is required.
+#' Create a new dataset import. Either an object_id, manifest, or data_records is required.
 #'
 #' @param dataset_id The target dataset ID.
 #' @param commit_mode (optional) The commit mode (default: append).
@@ -89,11 +89,30 @@ DatasetImport.create <- function(
         stop("A dataset ID is required.")
     }
 
+    args = list(...)
+    if (is.null(args$object_id) && is.null(args$manifest) && is.null(args$data_records)) {
+        stop("Either an object, manifest, or data_records is required.")
+    }
+
     params = list(
                   dataset_id=dataset_id,
                   commit_mode=commit_mode,
                   ...
                   )
+
+    if (!is.null(args$object_id)) {
+        # Create a manifest from the object
+        object = Object.retrieve(args$object_id)
+        url = Object.get_download_url(object$id)
+
+        params$manifest = list(
+                               list(
+                                    url=url,
+                                    logical_object_id=object$id,
+                                    name=object$filename
+                                    )
+                               )
+    }
 
     dataset_import <- .request('POST', path='v2/dataset_imports', query=NULL, body=params)
 

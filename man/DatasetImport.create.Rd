@@ -14,7 +14,7 @@ DatasetImport.create(dataset_id, commit_mode = "append", ...)
 \item{...}{(optional) Additional dataset import attributes.}
 }
 \description{
-Create a new dataset import. Either an upload_id, manifest, or data_records is required.
+Create a new dataset import. Either an object_id, manifest, or data_records is required.
 }
 \examples{
 \dontrun{
