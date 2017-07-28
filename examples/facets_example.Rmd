@@ -7,56 +7,80 @@ Facets allows the user to see different types of summaries. For example, facets 
 ```{r}
 library(solvebio)
 library(data.table)
+
+# log into your SolveBio account
+login()
+
 # get the top 10 most common gene_symbols and clinical significance for the ClinVar/Combined dataset
-facets = Dataset.facets("ClinVar/Combined", list("clinical_significance", "gene_symbol"))
+ClinVar <- Dataset.get_by_full_path("solveBio:public:/ClinVar/3.7.4-2017-01-30/Combined-GRCh37")
+facets <- Dataset.facets(id = ClinVar$id, facets = list("clinical_significance", "gene_symbol"))
 
 # convert the outputs into corresponding data tables:
-clin_sign_table = as.data.table(facets$clinical_significance)
-gene_symbol_table = as.data.table(facets$gene_symbol)
+clin_sign_table <- as.data.table(facets$clinical_significance)
+gene_symbol_table <- as.data.table(facets$gene_symbol)
 
 # assign the names to the columns of data tables
-names(clin_sign_table)<-c("clinical_significace","count")
-names(gene_symbol_table)<-c("gene_symbol","count")
+names(clin_sign_table) <- c("clinical_significace","count")
+names(gene_symbol_table) <- c("gene_symbol","count")
 
 # counts are returned as strings, so convert to integers for further analysis, eg
-barplot(as.integer(gene_symbol_table$count),main = "Top 10 occurring Gene Symbol counts",names.arg = gene_symbol_table$gene_symbol,cex.names=0.6)
-mean_count = mean(as.integer(gene_symbol_table$count))
+barplot(as.integer(gene_symbol_table$count),
+        main = "Top 10 occurring Gene Symbol counts",
+        names.arg = gene_symbol_table$gene_symbol,
+        cex.names=0.6)
+
+mean_count <-mean(as.integer(gene_symbol_table$count))
 
 ```
 ---
 Using histogram and percentile facets.
 ```{r}
 # return quantile information for genomic_coordinates.start field:
-dataset = Dataset.retrieve("clinvar/combined")
-perc = Dataset.facets("clinvar/combined", '{"genomic_coordinates.start": {"facet_type": "percentiles"}}')
+perc <- Dataset.facets(ClinVar$id, '{"genomic_coordinates.start": {"facet_type": "percentiles"}}')
+
 #return a histogram for genomic_coordinates.start field
-hist = Dataset.facets("clinvar/combined", 
+hist <- Dataset.facets(ClinVar$id, 
                       '{"genomic_coordinates.start": 
                       {"facet_type": "histogram"}}')
+
 #One can use facets to specify the interval of the histogram, for example by calculating the Freedman–Diaconis (FD) binsize:
 # first, get the number of total records
-total_doc = dataset$documents_count
+total_doc <- ClinVar$documents_count
+
 # calculate the interquantile range:
-iqr = perc$genomic_coordinates.start$`75.0` - perc$genomic_coordinates.start$`25.0`
+iqr <- perc$genomic_coordinates.start$`75.0` - perc$genomic_coordinates.start$`25.0`
+
 # use the FD formula to get the binsize
-binsize = 2*iqr/(total_doc^(1/3)) # binsize = 3112312
+binsize <- 2*iqr/(total_doc^(1/3)) # binsize = 3112312
+
 # set the interval equal to the binsize
-hist = Dataset.facets("clinvar/combined", 
+hist <- Dataset.facets(ClinVar$id, 
                       '{"genomic_coordinates.start": 
                       {"facet_type": "histogram", "interval":"3112312"}}')
+
 #plot the facets histogram:
-plot(hist$genomic_coordinates.start[,1],hist$genomic_coordinates.start[,2],type = "h",main = "genomic_coordinates.start: number of occurences",ylab = "count",xlab = "")
+plot(hist$genomic_coordinates.start[,1],
+     hist$genomic_coordinates.start[,2],
+     type = "h",
+     main = "genomic_coordinates.start: number of occurences",
+     ylab = "count",
+     xlab = "")
+
 ```
 
 Alternately, R has a built-in function to calculate the intervals, but in that case one needs to download the query first, which may take a little longer. To speed up the download, only the field of interest can be queried.
 ```{r}
 # load the whole dataset
-whole_query = Dataset.query("clinvar/combined",paginate=TRUE,limit = 10000)
+whole_query <- Dataset.query(ClinVar, paginate=TRUE, limit = 10000)
+
 # alternately, load only the field of interest, e.g. genomic_coordinates.start to make it faster:
-gen_coord_start_query = Dataset.query("clinvar/combined",paginate=TRUE,limit = 10000,
+gen_coord_start_query <- Dataset.query(ClinVar, paginate=TRUE, limit = 10000,
                                       fields=list("genomic_coordinates.start"))
+
 # R can calculate the Freedman–Diaconis binsize = use breaks = "FD"
-hist = hist(whole_query$genomic_coordinates.start,breaks="FD",
+hist <- hist(whole_query$genomic_coordinates.start,
+            breaks="FD",
             main = "Genomic.coordinates.start: count of term occurences",
-            ylab = "count",xlab = "")
+            ylab = "count",
+            xlab = "")
 ```
