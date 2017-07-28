@@ -7,14 +7,14 @@
 Object.retrieve(id)
 }
 \arguments{
-\item{id}{String The ID of a SolveBio object}
+\item{id}{The ID of the object.}
 }
 \description{
-Retrieves the metadata about a specific object from SolveBio.
+Retrieves the metadata about a specific object on SolveBio.
 }
 \examples{
 \dontrun{
-Object.retrieve("ClinVar/ClinVar")
+Object.retrieve("1234567890")
 }
 
 }

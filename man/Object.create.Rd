@@ -4,21 +4,25 @@
 \alias{Object.create}
 \title{Object.create}
 \usage{
-Object.create(depository_version_id, name, ...)
+Object.create(vault_id, parent_object_id, object_type, filename, ...)
 }
 \arguments{
-\item{depository_version_id}{The ID of the parent depository verison.}
+\item{vault_id}{The target vault ID.}
 
-\item{name}{The unique name of the object witin the version.}
+\item{parent_object_id}{The ID of the parent object (folder) or NULL for the vault root.}
+
+\item{object_type}{The type of object (i.e. "folder").}
+
+\item{filename}{The filename (i.e. the name) of the object.}
 
 \item{...}{(optional) Additional object attributes.}
 }
 \description{
-Create an empty SolveBio object.
+Create a SolveBio object.
 }
 \examples{
 \dontrun{
-Object.create(depository_version_id=1, name="MyObject")
+Object.create(vault_id="1234567890", parent_object_id=NULL, object_type="folder", filename="My Folder")
 }
 
 }

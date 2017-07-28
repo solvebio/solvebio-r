@@ -7,14 +7,14 @@
 Object.delete(id)
 }
 \arguments{
-\item{id}{String The ID of a SolveBio object}
+\item{id}{The ID of the object.}
 }
 \description{
 Delete a specific object from SolveBio.
 }
 \examples{
 \dontrun{
-Object.delete("1")
+Object.delete("1234567890")
 }
 
 }

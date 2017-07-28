@@ -7,10 +7,10 @@
 Object.all(...)
 }
 \arguments{
-\item{...}{(optional) Additional query parameters (e.g. page).}
+\item{...}{(optional) Additional query parameters.}
 }
 \description{
-Retrieves the metadata about all objects on SolveBio.
+Retrieves the metadata about all objects on SolveBio accessible to the current user.
 }
 \examples{
 \dontrun{
