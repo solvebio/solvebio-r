@@ -103,8 +103,11 @@ DatasetImport.create <- function(
     if (!is.null(args$object_id)) {
         # Create a manifest from the object
         object = Object.retrieve(args$object_id)
-        url = Object.get_download_url(object$id)
+        if (is.null(object) || object$object_type != 'file') {
+            stop("Invalid object: input object must be a file")
+        }
 
+        url = Object.get_download_url(object$id)
         params$manifest = list(
                                list(
                                     url=url,
