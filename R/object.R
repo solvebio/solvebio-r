@@ -277,7 +277,6 @@ Object.upload_file <- function(local_path, vault_id, vault_path, filename) {
     if (res$status != 200) {
         # Clean up after a failed upload
         Object.delete(obj$id)
-        cat(res$status)
         stop(sprintf("Error: Failed to upload file"))
     }
 
