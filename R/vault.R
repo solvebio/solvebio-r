@@ -121,7 +121,7 @@ Vault.get_by_full_path <- function(full_path, verbose=TRUE) {
         stop("A vault full path is required.")
     }
 
-    split_path = strsplit(full_path, ":")[[1]]
+    split_path = strsplit(full_path, ":", fixed=TRUE)[[1]]
 
     if (length(split_path) == 1) {
         # Get the user"s account for them
@@ -135,12 +135,11 @@ Vault.get_by_full_path <- function(full_path, verbose=TRUE) {
         name = split_path[[2]]
     }
 
-    path = "v2/vaults"
     params = list(
                   account_domain=account_domain,
                   name=name
                   )
-    response = .request("GET", path=path, query=params)
+    response = .request("GET", path="v2/vaults", query=params)
 
     if (response$total == 1) {
         # Found exactly 1 vault
@@ -408,12 +407,12 @@ Vault.create_folder <- function(id, path, name, ...) {
         full_path = paste(account_domain, vault$name, path, sep=":")
         # Find the parent object (folder) at the provided path
         parent_object = Object.get_by_full_path(full_path)
-        vault_parent_object_id = parent_object$id
+        parent_object_id = parent_object$id
     }
 
     object = Object.create(
                    vault_id=vault$id,
-                   vault_parent_object_id=vault_parent_object_id,
+                   parent_object_id=parent_object_id,
                    object_type='folder',
                    filename=name,
                    ...)

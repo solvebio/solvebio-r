@@ -134,14 +134,14 @@ Dataset.query <- function(id, paginate=FALSE, ...) {
     params <- list(...)
 
     # Retrieve the first page of results
-    response <- do.call(Dataset.data, c(id=id, params))
+    response <- do.call(Dataset.data, c(id, params))
     df <- response$result
     offset <- response$offset
 
     # continue to make requests for data if pagination is enabled and there are more records
     while (isTRUE(paginate) && !is.null(offset)) {
         params['offset'] <- offset
-        response <- do.call(Dataset.data, c(id=id, params))
+        response <- do.call(Dataset.data, c(id, params))
         df_page <- response$results
         df <- dplyr::bind_rows(df, df_page)
         offset <- response$offset
@@ -270,71 +270,123 @@ Dataset.create <- function(vault_id, vault_parent_object_id, name, ...) {
 }
 
 
-#' Dataset.get_or_create_by_full_name
+#' Dataset.get_by_full_path
 #'
-#' A helper function to create a dataset on SolveBio using a full name.
-#' @param full_name A valid dataset full name (<depository/version/dataset>).
-#' @param ... (optional) Additional dataset attributes.
+#' A helper function to get a dataset by its full path.
+#'
+#' @param full_path A valid full path to a dataset.
 #'
 #' @examples \dontrun{
-#' Dataset.get_or_create_by_full_name(<FULL NAME>)
+#' Dataset.get_by_full_path("SolveBio:Public:/ClinVar/3.7.4-2017-01-30/Variants-GRCh37")
 #' }
 #'
 #' @references
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-# Dataset.get_or_create_by_full_name <- function(full_name, ...) {
-#     if (missing(full_name)) {
-#         stop("A valid dataset full name is required.")
-#     }
-#
-#     # Split full name
-#     parts <- strsplit(full_name, split='/', fixed=TRUE)[[1]]
-#
-#     if (length(parts) != 3) {
-#         stop("Full names must be in the format: <depository>/<version>/<dataset>")
-#     }
-#
-#     # Check if Dataset already exists
-#     tryCatch({
-#         d <- Dataset.retrieve(full_name)
-#         if (!is.null(d)) {
-#             return(d)
-#         }
-#     }, error = function(e) {})
-#
-#     depository_name <- parts[[1]]
-#     version_name <- parts[[2]]
-#     dataset_name <- parts[[3]]
-#
-#     # Get or create Depository
-#     depository_obj = tryCatch({
-#         depository_obj <- Depository.retrieve(depository_name)
-#     }, error = function(e) {
-#         depository_obj <- Depository.create(depository_name)
-#         return(depository_obj)
-#     })
-#
-#     # Get or create DepositoryVersion
-#     version_obj = tryCatch({
-#         version_full_name <- paste(depository_name, version_name, sep="/")
-#         version_obj = DepositoryVersion.retrieve(version_full_name)
-#     }, error = function(e) {
-#         version_obj <- DepositoryVersion.create(
-#                                                 depository_id=depository_obj$id,
-#                                                 name=version_name,
-#                                                 title=version_name
-#                                                 )
-#         return(version_obj)
-#     })
-#
-#     # Create the Dataset
-#     dataset_obj <- Dataset.create(
-#                                   depository_version_id=version_obj$id,
-#                                   name=dataset_name,
-#                                   ...
-#                                   )
-#
-#     return(dataset_obj)
-# }
+Dataset.get_by_full_path <- function(full_path) {
+    object = Object.get_by_full_path(full_path)
+
+    if (is.null(object)) {
+        return(NULL)
+    }
+
+    # TODO: This raises an exception on 404, should we return NULL?
+    dataset = do.call(Dataset.retrieve, list(id=object$dataset_id))
+    return(dataset)
+}
+
+
+#' Dataset.get_or_create_by_full_path
+#'
+#' A helper function to get or create a dataset by its full path.
+#'
+#' @param full_path A valid full path to a dataset.
+#' @param ... Additional dataset creation parameters.
+#'
+#' @examples \dontrun{
+#' Dataset.get_or_create_by_full_path("MyVault:/folder/sub-folder/dataset")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Dataset.get_or_create_by_full_path <- function(full_path, ...) {
+    dataset = NULL
+    tryCatch({
+        dataset = do.call(Dataset.get_by_full_path, list(full_path))
+        if (!is.null(dataset)) {
+            return(dataset)
+        }
+    }, error = function(e) {})
+
+    # Create the dataset step-by-step
+    parts <- strsplit(full_path, split=':', fixed=TRUE)[[1]]
+
+    if (length(parts) == 3) {
+        account_domain = parts[[1]]
+        vault_name = parts[[2]]
+        object_path = parts[[3]]
+        vault = Vault.get_by_full_path(paste(account_domain, vault_name, sep=":"))
+    }
+    else if (length(parts) == 2) {
+        vault_name = parts[[1]]
+        object_path = parts[[2]]
+        vault = Vault.get_by_full_path(vault_name)
+    }
+    else if (length(parts) == 1) {
+        # TODO: Get or create by (relative) path?
+        stop(sprintf("Invalid full path: %s\n", full_path))
+    }
+
+    if (is.null(vault)) {
+        stop(sprintf("Invalid vault in full path: %s\n", full_path))
+    }
+
+    if (substring(object_path, 1, 1) != '/') {
+        # Add missing / to object path
+        object_path = paste('/', object_path, sep='')
+    }
+
+    parts <- strsplit(object_path, split='/', fixed=TRUE)[[1]]
+    dataset_name = parts[[length(parts)]]
+    # Remove the filename from the path
+    dirs = head(parts, -1)
+    current_path = ''
+    parent_object_id = NULL
+
+    # Check for existing objects, and ensure they are folders.
+    # Create directories as needed
+    for (dir in dirs) {
+        if (dir == '') {
+            next
+        }
+
+        current_path = paste(current_path, dir, sep='/')
+        obj = Object.get_by_path(path=current_path, vault_id=vault$id)
+        if (is.null(obj) || (is.data.frame(df) && nrow(df) == 0)) {
+            obj = Object.create(
+                          vault_id=vault$id,
+                          parent_object_id=parent_object_id,
+                          object_type='folder',
+                          filename=dir
+                          )
+        }
+
+        if (obj$object_type != 'folder') {
+            stop(sprintf("Invalid path: existing object at '%s' is not a folder\n", current_path))
+        }
+
+        parent_object_id = obj$id
+    }
+
+    # Create the dataset under parent_object_id
+    dataset = Dataset.create(
+                             vault_id=vault$id,
+                             vault_parent_object_id=parent_object_id,
+                             name=dataset_name
+                             )
+
+    return(dataset)
+}

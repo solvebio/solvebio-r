@@ -126,6 +126,16 @@ Object.create <- function(vault_id, parent_object_id, object_type, filename, ...
 #'
 #' @export
 Object.get_by_full_path <- function(full_path, ...) {
+    split_path = strsplit(full_path, ":", fixed=TRUE)[[1]]
+
+    if (length(split_path) == 2) {
+        # Get the user"s account for them
+        user = .request("GET", path="v1/user")
+        account_domain = user$account$domain
+        name = split_path[[1]]
+        full_path = paste(account_domain, name, split_path[[2]], sep=":")
+    }
+
     params = list(
                   full_path=full_path,
                   ...
@@ -164,8 +174,11 @@ Object.get_by_path <- function(path, ...) {
                   ...
                   )
     response <- .request('GET', path='v2/objects', query=params)
+    if (response$total > 0) {
+        return(response$data[1, ])
+    }
 
-    return(response$data)
+    return(NULL)
 }
 
 
