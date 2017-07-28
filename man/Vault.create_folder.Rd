@@ -14,8 +14,6 @@ Vault.create_folder(id, path, recursive = FALSE, ...)
 \item{recursive}{Create all parent directories that do not yet exist (default: FALSE).}
 
 \item{...}{(optional) Additional folder creation parameters.}
-
-\item{name}{The name (filename) of the new folder.}
 }
 \description{
 Create a new folder in a vault.

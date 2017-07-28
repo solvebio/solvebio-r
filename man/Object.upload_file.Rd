@@ -13,7 +13,7 @@ Object.upload_file(local_path, vault_id, vault_path, filename)
 
 \item{vault_path}{The remote path in the vault}
 
-\item{vault_filename}{(optional) The filename for the uploaded file in the vault (default: the basename of the local_path)}
+\item{filename}{(optional) The filename for the uploaded file in the vault (default: the basename of the local_path)}
 }
 \description{
 Upload a local file to a vault on SolveBio. The vault path provided is the parent directory for uploaded file.

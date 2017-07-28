@@ -215,7 +215,7 @@ Object.get_download_url <- function(id) {
 #' @param local_path The path to the local file
 #' @param vault_id The SolveBio vault ID
 #' @param vault_path The remote path in the vault
-#' @param vault_filename (optional) The filename for the uploaded file in the vault (default: the basename of the local_path)
+#' @param filename (optional) The filename for the uploaded file in the vault (default: the basename of the local_path)
 #'
 #' @examples \dontrun{
 #' Object.upload_file("my_file.json.gz", vault$id, "/path/to/my_file.json.gz")
@@ -251,7 +251,7 @@ Object.upload_file <- function(local_path, vault_id, vault_path, filename) {
 
     # Create the file, and upload it to the Upload URL
     obj = Object.create(
-                        vault_id=vault$id,
+                        vault_id=vault_id,
                         parent_object_id=parent_object_id,
                         object_type='file',
                         filename=filename,

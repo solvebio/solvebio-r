@@ -379,7 +379,6 @@ Vault.create_dataset <- function(id, path, name, ...) {
 #'
 #' @param id The ID of the vault.
 #' @param path The path to the folder, within the vault.
-#' @param name The name (filename) of the new folder.
 #' @param recursive Create all parent directories that do not yet exist (default: FALSE).
 #' @param ... (optional) Additional folder creation parameters.
 #'
