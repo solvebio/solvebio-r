@@ -16,7 +16,7 @@ A helper function to get an object on SolveBio by its full path.
 }
 \examples{
 \dontrun{
-Object.get_by_full_path("SolveBio:Public:/ClinVar")
+Object.get_by_full_path("solvebio:public:/ClinVar")
 }
 
 }

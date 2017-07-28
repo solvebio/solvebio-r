@@ -14,7 +14,7 @@ A helper function to get a dataset by its full path.
 }
 \examples{
 \dontrun{
-Dataset.get_by_full_path("SolveBio:Public:/ClinVar/3.7.4-2017-01-30/Variants-GRCh37")
+Dataset.get_by_full_path("solvebio:public:/ClinVar/3.7.4-2017-01-30/Variants-GRCh37")
 }
 
 }

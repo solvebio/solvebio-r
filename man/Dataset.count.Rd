@@ -16,7 +16,7 @@ Returns the total number of records for a given SolveBio dataset.
 }
 \examples{
 \dontrun{
-dataset <- Dataset.get_by_full_path("SolveBio:Public:/ClinVar/3.7.4-2017-01-30/Variants-GRCh37")
+dataset <- Dataset.get_by_full_path("solvebio:public:/ClinVar/3.7.4-2017-01-30/Variants-GRCh37")
 Dataset.count(dataset)
 Dataset.count(dataset, filters='[["gene_symbol", "BRCA2"]]')
 }
