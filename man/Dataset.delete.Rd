@@ -7,14 +7,14 @@
 Dataset.delete(id)
 }
 \arguments{
-\item{id}{String The ID or full name of a SolveBio dataset}
+\item{id}{String The ID of a SolveBio dataset}
 }
 \description{
 Delete a specific dataset from SolveBio.
 }
 \examples{
 \dontrun{
-Dataset.delete("1")
+Dataset.delete("1234567890")
 }
 
 }

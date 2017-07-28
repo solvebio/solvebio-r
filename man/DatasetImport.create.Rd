@@ -4,20 +4,17 @@
 \alias{DatasetImport.create}
 \title{DatasetImport.create}
 \usage{
-DatasetImport.create(dataset_id, commit_mode = "append",
-  auto_approve = TRUE, ...)
+DatasetImport.create(dataset_id, commit_mode = "append", ...)
 }
 \arguments{
 \item{dataset_id}{The target dataset ID.}
 
 \item{commit_mode}{(optional) The commit mode (default: append).}
 
-\item{auto_approve}{(optional) Automatically approve the commit (default: TRUE).}
-
 \item{...}{(optional) Additional dataset import attributes.}
 }
 \description{
-Create a new dataset import. Either an upload_id, manifest, or data_records is required.
+Create a new dataset import. Either an object_id, manifest, or data_records is required.
 }
 \examples{
 \dontrun{

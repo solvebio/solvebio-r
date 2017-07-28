@@ -4,12 +4,14 @@
 \alias{Dataset.create}
 \title{Dataset.create}
 \usage{
-Dataset.create(depository_version_id, name, ...)
+Dataset.create(vault_id, vault_parent_object_id, name, ...)
 }
 \arguments{
-\item{depository_version_id}{The ID of the parent depository verison.}
+\item{vault_id}{The ID of the vault.}
 
-\item{name}{The unique name of the dataset witin the version.}
+\item{vault_parent_object_id}{The parent object (folder) ID in the vault.}
+
+\item{name}{The name of the dataset in the parent folder.}
 
 \item{...}{(optional) Additional dataset attributes.}
 }
@@ -18,7 +20,7 @@ Create an empty SolveBio dataset.
 }
 \examples{
 \dontrun{
-Dataset.create(depository_version_id=1, name="MyDataset")
+Dataset.create(vault_id=vault$id, vault_parent_object_id=NULL, name="My Dataset")
 }
 
 }

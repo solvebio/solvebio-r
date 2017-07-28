@@ -5,8 +5,7 @@
 \title{DatasetMigration.create}
 \usage{
 DatasetMigration.create(source_id, target_id, commit_mode = "append",
-  source_params = NULL, target_fields = NULL, auto_approve = TRUE,
-  include_errors = FALSE, ...)
+  source_params = NULL, target_fields = NULL, include_errors = FALSE, ...)
 }
 \arguments{
 \item{source_id}{The source dataset ID.}
@@ -18,8 +17,6 @@ DatasetMigration.create(source_id, target_id, commit_mode = "append",
 \item{source_params}{(optional) The query parameters used on the source dataset.}
 
 \item{target_fields}{(optional) A list of valid dataset fields to add or override in the target dataset.}
-
-\item{auto_approve}{(optional) Set to TRUE to automatically approve (and start) the resulting commit (default: TRUE).}
 
 \item{include_errors}{(optional) If TRUE, a new field (_errors) will be added to each record containing expression evaluation errors (default: FALSE).}
 

@@ -13,7 +13,7 @@
 #'
 #' @export
 DatasetCommit.all <- function(...) {
-    .request('GET', "v1/dataset_commits", query=list(...))
+    .request('GET', "v2/dataset_commits", query=list(...))
 }
 
 
@@ -36,7 +36,7 @@ DatasetCommit.retrieve <- function(id) {
         stop("A dataset commit ID is required.")
     }
 
-    path <- paste("v1/dataset_commits", paste(id), sep="/")
+    path <- paste("v2/dataset_commits", paste(id), sep="/")
     .request('GET', path=path)
 }
 
@@ -60,6 +60,6 @@ DatasetCommit.delete <- function(id) {
         stop("A dataset commit ID is required.")
     }
 
-    path <- paste("v1/dataset_commits", paste(id), sep="/")
+    path <- paste("v2/dataset_commits", paste(id), sep="/")
     .request('DELETE', path=path)
 }

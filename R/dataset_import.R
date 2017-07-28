@@ -13,7 +13,7 @@
 #'
 #' @export
 DatasetImport.all <- function(...) {
-    .request('GET', "v1/dataset_imports", query=list(...))
+    .request('GET', "v2/dataset_imports", query=list(...))
 }
 
 
@@ -36,7 +36,7 @@ DatasetImport.retrieve <- function(id) {
         stop("A dataset import ID is required.")
     }
 
-    path <- paste("v1/dataset_imports", paste(id), sep="/")
+    path <- paste("v2/dataset_imports", paste(id), sep="/")
     .request('GET', path=path)
 }
 
@@ -60,18 +60,17 @@ DatasetImport.delete <- function(id) {
         stop("A dataset import ID is required.")
     }
 
-    path <- paste("v1/dataset_imports", paste(id), sep="/")
+    path <- paste("v2/dataset_imports", paste(id), sep="/")
     .request('DELETE', path=path)
 }
 
 
 #' DatasetImport.create
 #'
-#' Create a new dataset import. Either an upload_id, manifest, or data_records is required.
+#' Create a new dataset import. Either an object_id, manifest, or data_records is required.
 #'
 #' @param dataset_id The target dataset ID.
 #' @param commit_mode (optional) The commit mode (default: append).
-#' @param auto_approve (optional) Automatically approve the commit (default: TRUE).
 #' @param ... (optional) Additional dataset import attributes.
 #'
 #' @examples \dontrun{
@@ -85,20 +84,40 @@ DatasetImport.delete <- function(id) {
 DatasetImport.create <- function(
                                  dataset_id,
                                  commit_mode='append',
-                                 auto_approve=TRUE,
                                  ...) {
     if (missing(dataset_id)) {
         stop("A dataset ID is required.")
     }
 
+    args = list(...)
+    if (is.null(args$object_id) && is.null(args$manifest) && is.null(args$data_records)) {
+        stop("Either an object, manifest, or data_records is required.")
+    }
+
     params = list(
                   dataset_id=dataset_id,
                   commit_mode=commit_mode,
-                  auto_approve=auto_approve,
                   ...
                   )
 
-    dataset_import <- .request('POST', path='v1/dataset_imports', query=NULL, body=params)
+    if (!is.null(args$object_id)) {
+        # Create a manifest from the object
+        object = Object.retrieve(args$object_id)
+        if (is.null(object) || object$object_type != 'file') {
+            stop("Invalid object: input object must be a file")
+        }
+
+        url = Object.get_download_url(object$id)
+        params$manifest = list(
+                               list(
+                                    url=url,
+                                    logical_object_id=object$id,
+                                    name=object$filename
+                                    )
+                               )
+    }
+
+    dataset_import <- .request('POST', path='v2/dataset_imports', query=NULL, body=params)
 
     return(dataset_import)
 }

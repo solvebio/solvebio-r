@@ -1,7 +1,15 @@
+# solvebio 2.0.0
+
+* Add support for Vaults, Objects (Vault Objects)
+* Remove deprecated version 1 methods for Depository and DepositoryVersion
+* Upgrade to version 2 endpoints for some methods
+
+
 # solvebio 0.4.0
 
 * Added support for uploads, dataset imports, migrations, and exports
 * Uses dplyr bind_rows to handle JSON inconsistencies in data
+
 
 # solvebio 0.3.0
 
