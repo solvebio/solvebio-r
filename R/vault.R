@@ -1,143 +1,86 @@
-#' Depository.all
+#' Vault.all
 #'
-#' Retrieves the metadata about all depositories on SolveBio.
+#' Retrieves the metadata about all accessible vaults.
 #'
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
-#' Depository.all()
+#' Vault.all()
 #' }
 #'
 #' @references
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Depository.all <- function(...) {
-    .request('GET', "v1/depositories", query=list(...))
+Vault.all <- function(...) {
+    .request("GET", "v2/vaults", query=list(...))
 }
 
 
-#' Depository.retrieve
+#' Vault.retrieve
 #'
-#' Retrieves the metadata about a specific SolveBio depository.
+#' Retrieves the metadata about a specific SolveBio vault.
 #'
-#' @param id String The ID or full name of a SolveBio depository
+#' @param id String The ID of a SolveBio vault
 #'
 #' @examples \dontrun{
-#' Depository.retrieve("ClinVar")
+#' Vault.retrieve("1234567890")
 #' }
 #'
 #' @references
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Depository.retrieve <- function(id) {
+Vault.retrieve <- function(id) {
     if (missing(id)) {
-        stop("A depository ID or name is required.")
+        stop("A vault ID is required.")
     }
 
-    path <- paste("v1/depositories", paste(id), sep="/")
-    .request('GET', path=path)
+    path <- paste("v2/vaults", paste(id), sep="/")
+    .request("GET", path=path)
 }
 
 
-#' Depository.delete
+#' Vault.delete
 #'
-#' Delete a specific depository from SolveBio.
+#' Delete a specific vault from SolveBio. This operation cannot be undone.
 #'
-#' @param id String The ID or full name of a SolveBio depository.
+#' @param id String The ID of a SolveBio vault.
 #'
 #' @examples \dontrun{
-#' Depository.delete("1")
+#' Vault.delete("1")
 #' }
 #'
 #' @references
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Depository.delete <- function(id) {
+Vault.delete <- function(id) {
     if (missing(id)) {
-        stop("A depository ID or name is required.")
+        stop("A vault ID is required.")
     }
 
-    path <- paste("v1/depositories", paste(id), sep="/")
-    .request('DELETE', path=path)
+    path <- paste("v2/vaults", paste(id), sep="/")
+    .request("DELETE", path=path)
 }
 
 
-#' Depository.versions
+#' Vault.create
 #'
-#' Returns the list of versions for a given depository.
-#'
-#' @param id String The ID or full name of a SolveBio depository.
-#' @param ... (optional) Additional query parameters (e.g. limit, offset).
+#' Create a new SolveBio vault.
+#' @param name The unique name of the vault.
+#' @param ... (optional) Additional vault attributes.
 #'
 #' @examples \dontrun{
-#' Depository.versions("ClinVar")
+#' Vault.create(name="my-domain:MyVault")
 #' }
 #'
 #' @references
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Depository.versions <- function(id, ...) {
-    if (missing(id) | !(class(id) %in% c("Depository", "numeric", "character"))) {
-        stop("A depository ID or name is required.")
-    }
-    if (class(id) == "Depository") {
-        id <- id$id
-    }
-
-    path <- paste("v1/depositories", paste(id), "versions", sep="/")
-    .request('GET', path=path, query=list(...))
-}
-
-
-#' Depository.latest_version
-#'
-#' Retrieves the latest version for a given depository.
-#'
-#' @param id String The ID or full name of a depository, or a Depository object.
-#' @param ... (optional) Additional query parameters.
-#'
-#' @examples \dontrun{
-#' Depository.latest_version("ClinVar")
-#' }
-#'
-#' @references
-#' \url{https://docs.solvebio.com/}
-#'
-#' @export
-Depository.latest_version <- function(id, ...) {
-    if (missing(id)) {
-        stop("A depository ID or name is required.")
-    }
-    if (class(id) != "Depository") {
-        # First we need to retrieve the Depository
-        id <- Depository.retrieve(id)
-    }
-        
-    # id is Depository
-    path <- paste("v1/depository_versions", paste(id$latest_version), sep="/")
-    .request('GET', path=path, query=list(...))
-}
-
-
-#' Depository.create
-#'
-#' Create a new SolveBio depository.
-#' @param name The unique name of the depository.
-#' @param ... (optional) Additional depository attributes.
-#'
-#' @examples \dontrun{
-#' Depository.create(name="my-domain:MyDepository")
-#' }
-#'
-#' @references
-#' \url{https://docs.solvebio.com/}
-#'
-#' @export
-Depository.create <- function(name, ...) {
+Vault.create <- function(name, ...) {
+    # TODO
     if (missing(name)) {
         stop("A name is required.")
     }
@@ -147,7 +90,342 @@ Depository.create <- function(name, ...) {
                   ...
                   )
 
-    depository <- .request('POST', path='v1/depositories', query=NULL, body=params)
+    vault <- .request("POST", path="v2/vaults", query=NULL, body=params)
 
-    return(depository)
+    return(vault)
+}
+
+
+#
+# Vault Helpers
+#
+
+
+#' Vault.get_by_full_path
+#'
+#' Retrieves a specific vault by its full path (domain:vault).
+#'
+#' @param full_path The full path of a SolveBio vault.
+#'
+#' @examples \dontrun{
+#' Vault.get_by_full_path("SolveBio:Public")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Vault.get_by_full_path <- function(full_path, verbose=TRUE) {
+    if (missing(full_path)) {
+        stop("A vault full path is required.")
+    }
+
+    split_path = strsplit(full_path, ":")[[1]]
+
+    if (length(split_path) == 1) {
+        # Get the user"s account for them
+        user = .request("GET", path="v1/user")
+        account_domain = user$account$domain
+        name = split_path[[1]]
+    }
+    if (length(split_path) == 2) {
+        # Full path is provided
+        account_domain = split_path[[1]]
+        name = split_path[[2]]
+    }
+
+    path = "v2/vaults"
+    params = list(
+                  account_domain=account_domain,
+                  name=name
+                  )
+    response = .request("GET", path=path, query=params)
+
+    if (response$total == 1) {
+        # Found exactly 1 vault
+        return(response$data[1, ])
+    }
+
+    if (verbose) {
+        if (response$total == 0) {
+            cat(sprintf("Warning: Could not find vault with full path: %s\n", full_path))
+        }
+
+        if (response$total > 1) {
+            cat(sprintf("Error: Multiple vaults found with full path: %s\n", full_path))
+        }
+    }
+
+    return(NULL)
+}
+
+
+#' Vault.get_or_create_by_full_path
+#'
+#' Retrieves or creates a specific vault by its full path (domain:vault).
+#'
+#' @param full_path The full path of a SolveBio vault.
+#'
+#' @examples \dontrun{
+#' Vault.get_or_create_by_full_path("My New Vault")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Vault.get_or_create_by_full_path <- function(full_path, ...) {
+    vault = Vault.get_by_full_path(full_path, verbose=FALSE)
+    if (!is.null(vault)) {
+        # Return if exists
+        return(vault)
+    }
+
+    split_path = strsplit(full_path, ":")[[1]]
+    name = split_path[length(split_path)]
+    vault = Vault.create(name=name, ...)
+
+    return(vault)
+}
+
+
+#' Vault.get_personal_vault
+#'
+#' Retrieves the current users"s personal, private vault.
+#'
+#' @examples \dontrun{
+#' Vault.get_personal_vault()
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Vault.get_personal_vault <- function() {
+    user = .request("GET", path="v1/user")
+    params = list(
+                  name=paste("user", user$id, sep="-"),
+                  vault_type="user"
+                  )
+
+    response = .request("GET", path="v2/vaults", query=params)
+
+    return(response$data[1, ])
+}
+
+
+#' Vault.files
+#'
+#' Retrieves all files in a specific vault.
+#'
+#' @param ... (optional) Additional query parameters (e.g. limit, offset).
+#'
+#' @param id The ID of the vault.
+#' @examples \dontrun{
+#' vault = Vault.get_personal_vault()
+#' Vault.files(vault$id)
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Vault.files <- function(id, ...) {
+    objects = .object_list_helper(id, object_type="file", ...)
+    return(objects)
+}
+
+
+#' Vault.folders
+#'
+#' Retrieves all folders in a specific vault.
+#'
+#' @param id The ID of the vault.
+#' @param ... (optional) Additional query parameters (e.g. limit, offset).
+#'
+#' @examples \dontrun{
+#' vault = Vault.get_personal_vault()
+#' Vault.folders(vault$id)
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Vault.folders <- function(id, ...) {
+    objects = .object_list_helper(id, object_type="folder", ...)
+    return(objects)
+}
+
+
+#' Vault.datasets
+#'
+#' Retrieves all datasets in a specific vault.
+#'
+#' @param id The ID of the vault.
+#' @param ... (optional) Additional query parameters (e.g. limit, offset).
+#'
+#' @examples \dontrun{
+#' vault = Vault.get_personal_vault()
+#' Vault.datasets(vault$id)
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Vault.datasets <- function(id, ...) {
+    objects = .object_list_helper(id, object_type="dataset", ...)
+    return(objects)
+}
+
+
+#' Vault.objects
+#'
+#' Retrieves all objects in a specific vault.
+#'
+#' @param id The ID of the vault.
+#' @param ... (optional) Additional query parameters (e.g. limit, offset).
+#'
+#' @examples \dontrun{
+#' vault = Vault.get_personal_vault()
+#' Vault.objects(vault$id)
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Vault.objects <- function(id, ...) {
+    objects = .object_list_helper(id, ...)
+    return(objects)
+}
+
+
+#' Vault.search
+#'
+#' Search for objects in a specific vault.
+#'
+#' @param id The ID of the vault.
+#' @param query The search query.
+#' @param ... (optional) Additional query parameters (e.g. limit, offset).
+#'
+#' @examples \dontrun{
+#' vault = Vault.get_personal_vault()
+#' Vault.search('test')
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Vault.search <- function(id, query, ...) {
+    objects = .object_list_helper(id, query=query, ...)
+    return(objects)
+}
+
+
+#' Vault.create_dataset
+#'
+#' Create a new dataset in a vault.
+#'
+#' @param id The ID of the vault.
+#' @param path The path to the dataset, within the vault.
+#' @param name The name (filename) for the dataset.
+#' @param ... (optional) Additional dataset creation parameters.
+#'
+#' @examples \dontrun{
+#' vault = Vault.get_personal_vault()
+#' Vault.create_dataset(vault$id, path="/", name="My Dataset")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Vault.create_dataset <- function(id, path, name, ...) {
+    if (missing(id)) {
+        stop("A vault ID is required.")
+    }
+
+    vault = Vault.retrieve(id)
+
+    if (missing(path) || path == "/" || is.null(path)) {
+        vault_parent_object_id = NULL
+    }
+    else {
+        user = .request("GET", path="v1/user")
+        account_domain = user$account$domain
+        full_path = paste(account_domain, vault$name, path, sep=":")
+        # Find the parent object (folder) at the provided path
+        parent_object = Object.get_by_full_path(full_path)
+        vault_parent_object_id = parent_object$id
+    }
+
+    dataset = Dataset.create(
+                   vault_id=vault$id,
+                   vault_parent_object_id=vault_parent_object_id,
+                   name=name,
+                   ...)
+
+    return(dataset)
+}
+
+
+#' Vault.create_folder
+#'
+#' Create a new folder in a vault.
+#'
+#' @param id The ID of the vault.
+#' @param path The path to the folder, within the vault.
+#' @param name The name (filename) of the new folder.
+#' @param ... (optional) Additional folder creation parameters.
+#'
+#' @examples \dontrun{
+#' vault = Vault.get_personal_vault()
+#' Vault.create_folder(vault$id, path="/", name="My Folder")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Vault.create_folder <- function(id, path, name, ...) {
+    if (missing(id)) {
+        stop("A vault ID is required.")
+    }
+
+    vault = Vault.retrieve(id)
+
+    if (missing(path) || path == "/" || is.null(path)) {
+        vault_parent_object_id = NULL
+    }
+    else {
+        user = .request("GET", path="v1/user")
+        account_domain = user$account$domain
+        full_path = paste(account_domain, vault$name, path, sep=":")
+        # Find the parent object (folder) at the provided path
+        parent_object = Object.get_by_full_path(full_path)
+        vault_parent_object_id = parent_object$id
+    }
+
+    object = Object.create(
+                   vault_id=vault$id,
+                   vault_parent_object_id=vault_parent_object_id,
+                   object_type='folder',
+                   filename=name,
+                   ...)
+
+    return(object)
+}
+
+
+#
+# Vault Private Methods
+#
+
+# Retrieves objects within a specific vault.
+.object_list_helper = function(id, ...) {
+    objects = Object.all(vault_id=id, ...)
+    return(objects$data)
 }

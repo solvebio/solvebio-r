@@ -228,31 +228,35 @@ Dataset.count <- function(id, ...) {
 #' Dataset.create
 #'
 #' Create an empty SolveBio dataset.
-#' @param depository_version_id The ID of the parent depository verison.
-#' @param name The unique name of the dataset witin the version.
+#' @param vault_id The ID of the vault.
+#' @param vault_parent_object_id The parent object (folder) ID in the vault.
+#' @param name The name of the dataset in the parent folder.
 #' @param ... (optional) Additional dataset attributes.
 #'
 #' @examples \dontrun{
-#' Dataset.create(depository_version_id=1, name="MyDataset")
+#' Dataset.create(vault_id=vault$id, vault_parent_object_id=NULL, name="My Dataset")
 #' }
 #'
 #' @references
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.create <- function(depository_version_id, name, ...) {
-    if (missing(depository_version_id)) {
-        stop("A depository version ID is required.")
+Dataset.create <- function(vault_id, vault_parent_object_id, name, ...) {
+    if (missing(vault_id)) {
+        stop("A vault ID is required.")
     }
     if (missing(name)) {
-        stop("A name is required.")
+        stop("A dataset name is required")
+    }
+    if (missing(vault_parent_object_id)) {
+        # Use the root of the vault (/)
+        vault_parent_object_id = NULL
     }
 
-    # TODO: Use title if available in (...)
     params = list(
-                  depository_version_id=depository_version_id,
+                  vault_id=vault_id,
+                  vault_parent_object_id=vault_parent_object_id,
                   name=name,
-                  title=name,
                   ...
                   )
 
