@@ -8,6 +8,8 @@ Object.get_by_path(path, ...)
 }
 \arguments{
 \item{path}{The path to the object, relative to a vault.}
+
+\item{...}{(optional) Additional query parameters.}
 }
 \description{
 A helper function to get an object on SolveBio by its path. Used as a pass-through function from some Vault methods.

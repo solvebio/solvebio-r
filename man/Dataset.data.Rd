@@ -7,7 +7,7 @@
 Dataset.data(id, filters, ...)
 }
 \arguments{
-\item{id}{The ID or full name of a SolveBio dataset, or a Dataset object.}
+\item{id}{The ID of a SolveBio dataset, or a Dataset object.}
 
 \item{filters}{(optional) Query filters.}
 
@@ -18,7 +18,7 @@ Returns one page of documents from a SolveBio dataset and processes the response
 }
 \examples{
 \dontrun{
-Dataset.data("ClinVar/ClinVar")
+Dataset.data("1234567890")
 }
 
 }

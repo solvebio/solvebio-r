@@ -7,7 +7,7 @@
 Dataset.query(id, paginate = FALSE, ...)
 }
 \arguments{
-\item{id}{The ID or full name of a SolveBio dataset, or a Dataset object.}
+\item{id}{The ID of a SolveBio dataset, or a Dataset object.}
 
 \item{paginate}{When set to TRUE, retrieves up to 500,000 records.}
 
@@ -19,7 +19,7 @@ Returns a single page of results otherwise (default).
 }
 \examples{
 \dontrun{
-Dataset.query("ClinVar/ClinVar", paginate=TRUE)
+Dataset.query("12345678790", paginate=TRUE)
 }
 
 }

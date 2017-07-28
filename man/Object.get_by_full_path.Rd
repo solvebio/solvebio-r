@@ -8,6 +8,8 @@ Object.get_by_full_path(full_path, ...)
 }
 \arguments{
 \item{full_path}{The full path to the object.}
+
+\item{...}{(optional) Additional query parameters.}
 }
 \description{
 A helper function to get an object on SolveBio by its full path.

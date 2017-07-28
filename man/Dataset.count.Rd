@@ -7,7 +7,7 @@
 Dataset.count(id, ...)
 }
 \arguments{
-\item{id}{The ID or full name of a SolveBio dataset, or a Dataset object.}
+\item{id}{The ID of a SolveBio dataset, or a Dataset object.}
 
 \item{...}{(optional) Additional query parameters (e.g. filters, limit, offset).}
 }
@@ -16,8 +16,9 @@ Returns the total number of records for a given SolveBio dataset.
 }
 \examples{
 \dontrun{
-Dataset.count("ClinVar/Variants")
-Dataset.count("ClinVar/Variants", filters='[["gene_symbol", "BRCA2"]]')
+dataset <- Dataset.get_by_full_path("SolveBio:Public:/ClinVar/3.7.4-2017-01-30/Variants-GRCh37")
+Dataset.count(dataset)
+Dataset.count(dataset, filters='[["gene_symbol", "BRCA2"]]')
 }
 
 }

@@ -115,6 +115,7 @@ Object.create <- function(vault_id, parent_object_id, object_type, filename, ...
 #' A helper function to get an object on SolveBio by its full path.
 #'
 #' @param full_path The full path to the object. 
+#' @param ... (optional) Additional query parameters.
 #'
 #' @examples \dontrun{
 #' Object.get_by_full_path("SolveBio:Public:/ClinVar")
@@ -147,6 +148,7 @@ Object.get_by_full_path <- function(full_path, ...) {
 #' A helper function to get an object on SolveBio by its path. Used as a pass-through function from some Vault methods.
 #'
 #' @param path The path to the object, relative to a vault.
+#' @param ... (optional) Additional query parameters.
 #'
 #' @examples \dontrun{
 #' Object.get_by_path("/ClinVar")

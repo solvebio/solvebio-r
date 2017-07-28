@@ -8,6 +8,8 @@ Vault.get_or_create_by_full_path(full_path, ...)
 }
 \arguments{
 \item{full_path}{The full path of a SolveBio vault.}
+
+\item{...}{(optional) Additional parameters.}
 }
 \description{
 Retrieves or creates a specific vault by its full path (domain:vault).

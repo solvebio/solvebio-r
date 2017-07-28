@@ -8,6 +8,8 @@ Vault.get_by_full_path(full_path, verbose = TRUE)
 }
 \arguments{
 \item{full_path}{The full path of a SolveBio vault.}
+
+\item{verbose}{Print warning/error messages (default: TRUE).}
 }
 \description{
 Retrieves a specific vault by its full path (domain:vault).

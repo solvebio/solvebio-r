@@ -106,6 +106,7 @@ Vault.create <- function(name, ...) {
 #' Retrieves a specific vault by its full path (domain:vault).
 #'
 #' @param full_path The full path of a SolveBio vault.
+#' @param verbose Print warning/error messages (default: TRUE).
 #'
 #' @examples \dontrun{
 #' Vault.get_by_full_path("SolveBio:Public")
@@ -165,6 +166,7 @@ Vault.get_by_full_path <- function(full_path, verbose=TRUE) {
 #' Retrieves or creates a specific vault by its full path (domain:vault).
 #'
 #' @param full_path The full path of a SolveBio vault.
+#' @param ... (optional) Additional parameters.
 #'
 #' @examples \dontrun{
 #' Vault.get_or_create_by_full_path("My New Vault")

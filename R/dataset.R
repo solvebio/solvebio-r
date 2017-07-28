@@ -1,6 +1,6 @@
 #' Dataset.all
 #'
-#' Retrieves the metadata about all datasets on SolveBio.
+#' Retrieves the metadata about datasets on SolveBio.
 #'
 #' @param ... (optional) Additional query parameters (e.g. page).
 #'
@@ -16,14 +16,15 @@ Dataset.all <- function(...) {
     .request('GET', "v2/datasets", query=list(...))
 }
 
+
 #' Dataset.retrieve
 #'
 #' Retrieves the metadata about a specific dataset from SolveBio.
 #'
-#' @param id String The ID or full name of a SolveBio dataset
+#' @param id String The ID of a SolveBio dataset
 #'
 #' @examples \dontrun{
-#' Dataset.retrieve("ClinVar/ClinVar")
+#' Dataset.retrieve("1234567890")
 #' }
 #'
 #' @references
@@ -32,7 +33,7 @@ Dataset.all <- function(...) {
 #' @export
 Dataset.retrieve <- function(id) {
     if (missing(id)) {
-        stop("A dataset ID or name is required.")
+        stop("A dataset ID is required.")
     }
 
     path <- paste("v2/datasets", paste(id), sep="/")
@@ -44,10 +45,10 @@ Dataset.retrieve <- function(id) {
 #'
 #' Delete a specific dataset from SolveBio.
 #'
-#' @param id String The ID or full name of a SolveBio dataset
+#' @param id String The ID of a SolveBio dataset
 #'
 #' @examples \dontrun{
-#' Dataset.delete("1")
+#' Dataset.delete("1234567890")
 #' }
 #'
 #' @references
@@ -56,7 +57,7 @@ Dataset.retrieve <- function(id) {
 #' @export
 Dataset.delete <- function(id) {
     if (missing(id)) {
-        stop("A dataset ID or name is required.")
+        stop("A dataset ID is required.")
     }
 
     path <- paste("v2/datasets", paste(id), sep="/")
@@ -67,12 +68,12 @@ Dataset.delete <- function(id) {
 #' Dataset.data
 #'
 #' Returns one page of documents from a SolveBio dataset and processes the response.
-#' @param id The ID or full name of a SolveBio dataset, or a Dataset object.
+#' @param id The ID of a SolveBio dataset, or a Dataset object.
 #' @param filters (optional) Query filters.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
-#' Dataset.data("ClinVar/ClinVar")
+#' Dataset.data("1234567890")
 #' }
 #'
 #' @references
@@ -81,7 +82,7 @@ Dataset.delete <- function(id) {
 #' @export
 Dataset.data <- function(id, filters, ...) {
     if (missing(id) | !(class(id) %in% c("Dataset", "numeric", "integer", "character"))) {
-        stop("A dataset ID or name is required.")
+        stop("A dataset ID (or object) is required.")
     }
     if (class(id) == "Dataset") {
         id <- id$id
@@ -114,12 +115,13 @@ Dataset.data <- function(id, filters, ...) {
 #'
 #' Queries a SolveBio dataset and returns an R data frame containing all records (up to 500,000).
 #' Returns a single page of results otherwise (default).
-#' @param id The ID or full name of a SolveBio dataset, or a Dataset object.
+#'
+#' @param id The ID of a SolveBio dataset, or a Dataset object.
 #' @param paginate When set to TRUE, retrieves up to 500,000 records.
 #' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
 #'
 #' @examples \dontrun{
-#' Dataset.query("ClinVar/ClinVar", paginate=TRUE)
+#' Dataset.query("12345678790", paginate=TRUE)
 #' }
 #'
 #' @references
@@ -164,12 +166,13 @@ Dataset.query <- function(id, paginate=FALSE, ...) {
 #' Dataset.facets
 #'
 #' Retrieves aggregated statistics or term counts for one or more fields in a SolveBio dataset. Returns a list of data frames, one for each requested facet.
-#' @param id The ID or full name of a SolveBio dataset, or a Dataset object.
+#'
+#' @param id The ID of a SolveBio dataset, or a Dataset object.
 #' @param facets A list of one or more field facets.
 #' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
 #'
 #' @examples \dontrun{
-#' Dataset.facets("ClinVar/Combined", list("clinical_significance", "gene_symbol"))
+#' Dataset.facets("1234567890", list("clinical_significance", "gene_symbol"))
 #' }
 #'
 #' @references
@@ -202,12 +205,13 @@ Dataset.facets <- function(id, facets, ...) {
 #' Dataset.count
 #'
 #' Returns the total number of records for a given SolveBio dataset.
-#' @param id The ID or full name of a SolveBio dataset, or a Dataset object.
+#' @param id The ID of a SolveBio dataset, or a Dataset object.
 #' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
 #'
 #' @examples \dontrun{
-#' Dataset.count("ClinVar/Variants")
-#' Dataset.count("ClinVar/Variants", filters='[["gene_symbol", "BRCA2"]]')
+#' dataset <- Dataset.get_by_full_path("SolveBio:Public:/ClinVar/3.7.4-2017-01-30/Variants-GRCh37")
+#' Dataset.count(dataset)
+#' Dataset.count(dataset, filters='[["gene_symbol", "BRCA2"]]')
 #' }
 #'
 #' @references

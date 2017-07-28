@@ -7,7 +7,7 @@
 Dataset.facets(id, facets, ...)
 }
 \arguments{
-\item{id}{The ID or full name of a SolveBio dataset, or a Dataset object.}
+\item{id}{The ID of a SolveBio dataset, or a Dataset object.}
 
 \item{facets}{A list of one or more field facets.}
 
@@ -18,7 +18,7 @@ Retrieves aggregated statistics or term counts for one or more fields in a Solve
 }
 \examples{
 \dontrun{
-Dataset.facets("ClinVar/Combined", list("clinical_significance", "gene_symbol"))
+Dataset.facets("1234567890", list("clinical_significance", "gene_symbol"))
 }
 
 }
