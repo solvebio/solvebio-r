@@ -410,7 +410,7 @@ Vault.create_folder <- function(id, path, recursive=FALSE, ...) {
     # Get the final folder name from the last part of the path
     folder_name = parts[[length(parts)]]
     # Remove the folder name from the path
-    parents = head(parts, -1)
+    parents = utils::head(parts, -1)
 
     if (recursive) {
         current_dir = ''

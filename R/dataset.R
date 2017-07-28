@@ -353,7 +353,7 @@ Dataset.get_or_create_by_full_path <- function(full_path, ...) {
     parts <- strsplit(object_path, split='/', fixed=TRUE)[[1]]
     dataset_name = parts[[length(parts)]]
     # Remove the filename from the path
-    dirs = head(parts, -1)
+    dirs = utils::head(parts, -1)
 
     parent_path = paste(dirs, collapse="/")
     # Get or create the parent folder

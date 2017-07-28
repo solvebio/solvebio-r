@@ -75,7 +75,12 @@ Object.delete <- function(id) {
 #' @param ... (optional) Additional object attributes.
 #'
 #' @examples \dontrun{
-#' Object.create(vault_id="1234567890", parent_object_id=NULL, object_type="folder", filename="My Folder")
+#' Object.create(
+#'               vault_id="1234567890",
+#'               parent_object_id=NULL,
+#'               object_type="folder",
+#'               filename="My Folder"
+#'               )
 #' }
 #'
 #' @references
