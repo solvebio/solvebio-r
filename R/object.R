@@ -118,7 +118,7 @@ Object.create <- function(vault_id, parent_object_id, object_type, filename, ...
 #' @param ... (optional) Additional query parameters.
 #'
 #' @examples \dontrun{
-#' Object.get_by_full_path("SolveBio:Public:/ClinVar")
+#' Object.get_by_full_path("solvebio:public:/ClinVar")
 #' }
 #'
 #' @references
@@ -126,6 +126,7 @@ Object.create <- function(vault_id, parent_object_id, object_type, filename, ...
 #'
 #' @export
 Object.get_by_full_path <- function(full_path, ...) {
+    # FIXME: This may break if the path in the vault contains a colon
     split_path = strsplit(full_path, ":", fixed=TRUE)[[1]]
 
     if (length(split_path) == 2) {

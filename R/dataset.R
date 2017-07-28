@@ -209,7 +209,7 @@ Dataset.facets <- function(id, facets, ...) {
 #' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
 #'
 #' @examples \dontrun{
-#' dataset <- Dataset.get_by_full_path("SolveBio:Public:/ClinVar/3.7.4-2017-01-30/Variants-GRCh37")
+#' dataset <- Dataset.get_by_full_path("solvebio:public:/ClinVar/3.7.4-2017-01-30/Variants-GRCh37")
 #' Dataset.count(dataset)
 #' Dataset.count(dataset, filters='[["gene_symbol", "BRCA2"]]')
 #' }
@@ -277,7 +277,7 @@ Dataset.create <- function(vault_id, vault_parent_object_id, name, ...) {
 #' @param full_path A valid full path to a dataset.
 #'
 #' @examples \dontrun{
-#' Dataset.get_by_full_path("SolveBio:Public:/ClinVar/3.7.4-2017-01-30/Variants-GRCh37")
+#' Dataset.get_by_full_path("solvebio:public:/ClinVar/3.7.4-2017-01-30/Variants-GRCh37")
 #' }
 #'
 #' @references
@@ -322,6 +322,7 @@ Dataset.get_or_create_by_full_path <- function(full_path, ...) {
     }, error = function(e) {})
 
     # Create the dataset step-by-step
+    # FIXME: This may break if the path in the vault contains a colon
     parts <- strsplit(full_path, split=':', fixed=TRUE)[[1]]
 
     if (length(parts) == 3) {
