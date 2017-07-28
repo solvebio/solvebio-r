@@ -29,7 +29,7 @@ barplot(as.integer(gene_symbol_table$count),
         names.arg = gene_symbol_table$gene_symbol,
         cex.names=0.6)
 
-mean_count <-mean(as.integer(gene_symbol_table$count))
+mean_count <- mean(as.integer(gene_symbol_table$count))
 
 ```
 ---
