@@ -288,7 +288,7 @@ Dataset.get_by_full_path <- function(full_path) {
     object = Object.get_by_full_path(full_path)
 
     if (is.null(object)) {
-        return(NULL)
+        stop(sprintf("Error: No object found with full path: %s\n", full_path))
     }
 
     # TODO: This raises an exception on 404, should we return NULL?
