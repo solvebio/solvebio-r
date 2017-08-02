@@ -28,6 +28,37 @@ install.packages("solvebio")
 library(solvebio)
 ```
 
+## Usage
+
+```R
+# By default it will look for a key in the $SOLVEBIO_API_KEY environment variable.
+library(solvebio)
+
+# You may also supply an API key in your code
+login(api_key="<Your API key>")
+# RStudio users can put the following line in ~/.Rprofile
+# Sys.setenv(SOLVEBIO_API_KEY="<Your API key>")
+
+# Retrieve a list of all datasets
+datasets <- Dataset.all()
+
+# Retrieve a specific dataset (metadata)
+ClinVar <- Dataset.get_by_full_path("solveBio:public:/ClinVar/3.7.4-2017-01-30/Variants-GRCh37")
+
+# Query a dataset with filters as JSON:
+filters <- '[["gene_symbol", "BRCA1"]]'
+# or, filters as R code:
+filters <- list(list('gene_symbol', 'BRCA1'), list('clinical_significance',
+'Benign'))
+
+# Execute the queries
+# NOTE: paginate=TRUE may issue multiple requests, depending on the dataset and filters
+results <- Dataset.query(id = ClinVar$id, filters=filters, limit=1000, paginate=TRUE)
+# Access the results (flattened by default)
+results
+
+```
+
 
 ## Developers
 
@@ -40,31 +71,3 @@ devtools::install_github("solvebio/solvebio-r")
 library(solvebio)
 ```
 
-
-## Usage
-
-```R
-# By default it will look for a key in the $SOLVEBIO_API_KEY environment variable.
-require(solvebio)
-# You may also supply an API key in your code
-login(api_key="<Your SolveBio API key>")
-
-# Retrieve a list of all datasets
-datasets = Dataset.all()
-
-# Retrieve a specific dataset (metadata)
-dataset = Dataset.retrieve('ClinVar/Variants')
-
-# Query a dataset with filters as JSON:
-filters = '[["gene_symbol", "BRCA1"]]'
-# or, filters as R code:
-filters = list(list('gene_symbol', 'BRCA1'), list('clinical_significance',
-'Benign'))
-
-# Execute the queries
-# NOTE: paginate=TRUE may issue multiple requests, depending on the dataset and filters
-results = Dataset.query('ClinVar/3.7.2-2016-08-02/Variants', filters=filters, limit=1000, paginate=TRUE)
-# Access the results (flattened by default)
-results
-
-```

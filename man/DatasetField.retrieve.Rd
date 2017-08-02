@@ -7,7 +7,7 @@
 DatasetField.retrieve(id)
 }
 \arguments{
-\item{id}{String The ID or full name of a dataset field.}
+\item{id}{String The ID of a dataset field.}
 }
 \description{
 Retrieves the metadata about a specific dataset field.
@@ -21,4 +21,3 @@ DatasetField.retrieve(691)
 \references{
 \url{https://docs.solvebio.com/}
 }
-

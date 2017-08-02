@@ -10,7 +10,7 @@ Dataset.all(...)
 \item{...}{(optional) Additional query parameters (e.g. page).}
 }
 \description{
-Retrieves the metadata about all datasets on SolveBio.
+Retrieves the metadata about datasets on SolveBio.
 }
 \examples{
 \dontrun{
@@ -21,4 +21,3 @@ Dataset.all()
 \references{
 \url{https://docs.solvebio.com/}
 }
-
