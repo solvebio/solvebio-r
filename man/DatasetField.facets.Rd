@@ -7,7 +7,7 @@
 DatasetField.facets(id, ...)
 }
 \arguments{
-\item{id}{String The ID or full name of a dataset field.}
+\item{id}{String The ID of a dataset field.}
 
 \item{...}{(optional) Additional query parameters.}
 }
@@ -23,4 +23,3 @@ DatasetField.facets(691)
 \references{
 \url{https://docs.solvebio.com/}
 }
-

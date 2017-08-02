@@ -1,8 +1,8 @@
 Package: solvebio
 Type: Package
 Title: The Official SolveBio API Client for R
-Version: 0.3.0
-Date: 2016-11-02
+Version: 2.0.0
+Date: 2017-07-28
 Author: David Caplan
 Maintainer: David Caplan <dcaplan@solvebio.com>
 Description: R language bindings for SolveBio's API.
@@ -13,14 +13,23 @@ Description: R language bindings for SolveBio's API.
 URL: https://github.com/solvebio/solvebio-r
 Imports:
     httr,
-    jsonlite
+    jsonlite,
+    dplyr (>= 0.5.0),
+    mime,
+    digest
 License: MIT + file LICENSE
 Collate:
     solvebio.R
-    depository.R
-    depository_version.R
+    annotation.R
     dataset.R
+    dataset_commit.R
+    dataset_export.R
     dataset_field.R
+    dataset_import.R
+    dataset_migration.R
+    object.R
+    upload.R
     utils.R
+    vault.R
     zzz.R
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

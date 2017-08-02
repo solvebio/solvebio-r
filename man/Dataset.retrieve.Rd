@@ -7,18 +7,17 @@
 Dataset.retrieve(id)
 }
 \arguments{
-\item{id}{String The ID or full name of a SolveBio dataset}
+\item{id}{String The ID of a SolveBio dataset}
 }
 \description{
 Retrieves the metadata about a specific dataset from SolveBio.
 }
 \examples{
 \dontrun{
-Dataset.retrieve("ClinVar/ClinVar")
+Dataset.retrieve("1234567890")
 }
 
 }
 \references{
 \url{https://docs.solvebio.com/}
 }
-
