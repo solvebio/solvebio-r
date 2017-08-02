@@ -77,7 +77,7 @@ EGFR_sig_res <- EGFR_sig_res[, length_vsbid:=lapply(EGFR_sig_res$variant_sbid,le
 EGFR_sig_res$length_vsbid <- unlist(EGFR_sig_res$length_vsbid)
 extra_rows <- data.table(rep(EGFR_sig_res$rowID, EGFR_sig_res$length_vsbid))
 names(extra_rows) <- c("rowID")
-expand_EGFR_sig_res <- merge(EGFR_sig_res, extra_rows, all=T)
+expand_EGFR_sig_res <- merge(EGFR_sig_res, extra_rows)
 varsbids <- unlist(EGFR_sig_res$variant_sbid)
 setnames(expand_EGFR_sig_res, "variant_sbid", "variant_sbid_list")
 expand_EGFR_sig_res[, 'variant_sbid'] <- varsbids
