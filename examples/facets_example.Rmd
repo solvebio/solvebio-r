@@ -4,13 +4,17 @@ output: html_document
 ---
 Facets allows the user to see different types of summaries. For example, facets of a string fields, such as "gene_symbol" returns the 10 most common gene_symbols in the dataset and their counts. Facets, may be used to return percentiles, histograms and statistics depending on the queried field. These are a few examples of how facets can be used in SolveBio.
 
-```{r}
+```{r, message = FALSE, warning=FALSE}
 library(solvebio)
 library(data.table)
+```
 
-# log into your SolveBio account
-login()
+login to SolveBio:
+```{r eval=FALSE}
+login(api_key="<api_key>", api_host="<api_host>")
+```
 
+```{r}
 # get the top 10 most common gene_symbols and clinical significance for the ClinVar/Combined dataset
 ClinVar <- Dataset.get_by_full_path("solveBio:public:/ClinVar/3.7.4-2017-01-30/Combined-GRCh37")
 facets <- Dataset.facets(id = ClinVar$id, facets = list("clinical_significance", "gene_symbol"))
@@ -32,16 +36,17 @@ barplot(as.integer(gene_symbol_table$count),
 mean_count <- mean(as.integer(gene_symbol_table$count))
 
 ```
+
 ---
 Using histogram and percentile facets.
+
 ```{r}
 # return quantile information for genomic_coordinates.start field:
-perc <- Dataset.facets(ClinVar$id, '{"genomic_coordinates.start": {"facet_type": "percentiles"}}')
+perc <- Dataset.facets(id = ClinVar$id, facets = '{"genomic_coordinates.start": {"facet_type": "percentiles"}}')
 
 #return a histogram for genomic_coordinates.start field
-hist <- Dataset.facets(ClinVar$id, 
-                      '{"genomic_coordinates.start": 
-                      {"facet_type": "histogram"}}')
+hist <- Dataset.facets(id = ClinVar$id, 
+                       facets = '{"genomic_coordinates.start": {"facet_type": "histogram"}}')
 
 #One can use facets to specify the interval of the histogram, for example by calculating the Freedman–Diaconis (FD) binsize:
 # first, get the number of total records
@@ -69,6 +74,7 @@ plot(hist$genomic_coordinates.start[,1],
 ```
 
 Alternately, R has a built-in function to calculate the intervals, but in that case one needs to download the query first, which may take a little longer. To speed up the download, only the field of interest can be queried.
+
 ```{r}
 # load the whole dataset
 whole_query <- Dataset.query(ClinVar, paginate=TRUE, limit = 10000)
