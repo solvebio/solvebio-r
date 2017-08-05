@@ -256,7 +256,7 @@ Object.upload_file <- function(local_path, vault_id, vault_path, filename) {
                                                 recursive=TRUE
                                                 )
         }
-        if (parent_object.object_type != 'folder') {
+        if (parent_object$object_type != 'folder') {
             stop(sprintf("Error: Vault path is not a valid folder: %s\n", vault_path))
         }
         parent_object_id = parent_object$id
