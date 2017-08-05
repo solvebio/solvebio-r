@@ -248,10 +248,17 @@ Object.upload_file <- function(local_path, vault_id, vault_path, filename) {
     }
     else {
         # Create all folders as necessary in the vault path
-        parent_object = Vault.create_folder(
-                                            id=vault_id,
-                                            path=vault_path,
-                                            recursive=TRUE)
+        parent_object = Object.get_by_path(path=vault_path, vault_id=vault_id)
+        if (is.null(parent_object)) {
+            parent_object = Vault.create_folder(
+                                                id=vault_id,
+                                                path=vault_path,
+                                                recursive=TRUE
+                                                )
+        }
+        if (parent_object.object_type != 'folder') {
+            stop(sprintf("Error: Vault path is not a valid folder: %s\n", vault_path))
+        }
         parent_object_id = parent_object$id
     }
 
