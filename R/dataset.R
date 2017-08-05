@@ -356,20 +356,27 @@ Dataset.get_or_create_by_full_path <- function(full_path, ...) {
     dirs = utils::head(parts, -1)
 
     parent_path = paste(dirs, collapse="/")
-    # Get or create the parent folder
-    parent_object = Object.get_by_path(path=parent_path, vault_id=vault$id)
-    if (is.null(parent_object) || (is.data.frame(parent_object) && nrow(parent_object) == 0)) {
-        parent_object = Vault.create_folder(
-                                            id=vault$id,
-                                            path=parent_path,
-                                            recursive=TRUE
-                                            )
+
+    if (parent_path == "") {
+        parent_object_id = NULL
+    }
+    else {
+        # Get or create the parent folder
+        parent_object = Object.get_by_path(path=parent_path, vault_id=vault$id)
+        if (is.null(parent_object) || (is.data.frame(parent_object) && nrow(parent_object) == 0)) {
+            parent_object = Vault.create_folder(
+                                                id=vault$id,
+                                                path=parent_path,
+                                                recursive=TRUE
+                                                )
+        }
+        parent_object_id = parent_object$id
     }
 
     # Create the dataset under parent_object_id
     dataset = Dataset.create(
                              vault_id=vault$id,
-                             vault_parent_object_id=parent_object$id,
+                             vault_parent_object_id=parent_object_id,
                              name=dataset_name
                              )
 

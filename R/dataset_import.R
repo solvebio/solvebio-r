@@ -109,11 +109,13 @@ DatasetImport.create <- function(
 
         url = Object.get_download_url(object$id)
         params$manifest = list(
-                               list(
-                                    url=url,
-                                    logical_object_id=object$id,
-                                    name=object$filename
-                                    )
+                               files=list(
+                                          list(
+                                               url=url,
+                                               logical_object_id=object$id,
+                                               name=object$filename
+                                               )
+                                          )
                                )
     }
 
