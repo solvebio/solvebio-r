@@ -175,6 +175,9 @@ Object.get_by_full_path <- function(full_path, ...) {
 #'
 #' @export
 Object.get_by_path <- function(path, ...) {
+    # Remove trailing backslash from vault_path
+    path = sub("/$", "", path)
+
     params = list(
                   path=path,
                   ...
@@ -224,7 +227,7 @@ Object.get_download_url <- function(id) {
 #' @param filename (optional) The filename for the uploaded file in the vault (default: the basename of the local_path)
 #'
 #' @examples \dontrun{
-#' Object.upload_file("my_file.json.gz", vault$id, "/path/to/my_file.json.gz")
+#' Object.upload_file("my_file.json.gz", vault$id, "/parent/directory/")
 #' }
 #'
 #' @references
