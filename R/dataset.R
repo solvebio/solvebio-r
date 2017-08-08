@@ -377,7 +377,8 @@ Dataset.get_or_create_by_full_path <- function(full_path, ...) {
     dataset = Dataset.create(
                              vault_id=vault$id,
                              vault_parent_object_id=parent_object_id,
-                             name=dataset_name
+                             name=dataset_name,
+                             ...
                              )
 
     return(dataset)
