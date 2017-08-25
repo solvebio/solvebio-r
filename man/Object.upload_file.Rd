@@ -20,7 +20,7 @@ Upload a local file to a vault on SolveBio. The vault path provided is the paren
 }
 \examples{
 \dontrun{
-Object.upload_file("my_file.json.gz", vault$id, "/path/to/my_file.json.gz")
+Object.upload_file("my_file.json.gz", vault$id, "/parent/directory/")
 }
 
 }

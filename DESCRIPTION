@@ -1,6 +1,6 @@
 Package: solvebio
 Type: Package
-Title: The Official SolveBio API Client for R
+Title: The Official SolveBio API Client
 Version: 2.0.2
 Date: 2017-07-28
 Author: David Caplan
