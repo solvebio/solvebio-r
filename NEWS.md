@@ -1,3 +1,8 @@
+# solvebio 2.0.1 / 2.0.2
+
+* Bug fixes 
+
+
 # solvebio 2.0.0
 
 * Add support for Vaults, Objects (Vault Objects)
