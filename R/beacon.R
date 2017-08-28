@@ -111,25 +111,25 @@ Beacon.create <- function(beacon_set_id, vault_object_id, title, ...) {
 #'
 #' Query an individual beacon.
 #'
-#' @param beacon_id The ID of the beacon.
+#' @param id The ID of the beacon.
 #' @param query The entity ID or query string.
 #' @param entity_type (optional) A valid SolveBio entity type.
 #' @param ... (optional) Additional query parameters.
 #'
 #' @examples \dontrun{
 #' Beacon.query(
-#'               beacon_id="1234",
-#'               query="BRCA2",
-#'               entity_type="gene"
-#'               )
+#'              id="1234",
+#'              query="BRCA2",
+#'              entity_type="gene"
+#'              )
 #' }
 #'
 #' @references
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Beacon.query <- function(beacon_id, query, entity_type, ...) {
-    if (missing(beacon_id)) {
+Beacon.query <- function(id, query, entity_type, ...) {
+    if (missing(id)) {
         stop("A beacon ID is required.")
     }
     if (missing(query)) {
@@ -145,7 +145,7 @@ Beacon.query <- function(beacon_id, query, entity_type, ...) {
                   ...
                   )
 
-    path <- paste("v2/beacons", paste(beacon_id), "query", sep="/")
+    path <- paste("v2/beacons", paste(id), "query", sep="/")
 
     .request('POST', path=path, query=NULL, body=params)
 }
