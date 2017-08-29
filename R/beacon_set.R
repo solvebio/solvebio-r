@@ -40,6 +40,36 @@ BeaconSet.retrieve <- function(id) {
 }
 
 
+#' BeaconSet.update
+#'
+#' Updates the attributes of an existing beacon set.
+#'
+#' @param id The ID of the beacon set to update.
+#' @param ... Beacon set attributes to change.
+#'
+#' @examples \dontrun{
+#' BeaconSet.update(
+#'                  id="1234",
+#'                  title="New Beacon Set Title"
+#'                 )
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+BeaconSet.update <- function(id, ...) {
+    if (missing(id)) {
+        stop("A beacon set ID is required.")
+    }
+
+    params = list(...)
+
+    path <- paste("v2/beacon_sets", paste(id), sep="/")
+    .request('PATCH', path=path, query=NULL, body=params)
+}
+
+
 #' BeaconSet.delete
 #'
 #' Delete a specific beacon set (including all its beacons) from SolveBio.

@@ -107,6 +107,36 @@ Beacon.create <- function(beacon_set_id, vault_object_id, title, ...) {
 }
 
 
+#' Beacon.update
+#'
+#' Updates the attributes of an existing beacon.
+#'
+#' @param id The ID of the beacon to update.
+#' @param ... Beacon attributes to change.
+#'
+#' @examples \dontrun{
+#' Beacon.update(
+#'               id="1234",
+#'               title="New Beacon Title"
+#'              )
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Beacon.update <- function(id, ...) {
+    if (missing(id)) {
+        stop("A beacon ID is required.")
+    }
+
+    params = list(...)
+
+    path <- paste("v2/beacons", paste(id), sep="/")
+    .request('PATCH', path=path, query=NULL, body=params)
+}
+
+
 #' Beacon.query
 #'
 #' Query an individual beacon.
