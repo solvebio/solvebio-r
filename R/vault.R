@@ -96,6 +96,36 @@ Vault.create <- function(name, ...) {
 }
 
 
+#' Vault.update
+#'
+#' Updates the attributes of an existing vault.
+#'
+#' @param id The ID of the vault to update.
+#' @param ... Vault attributes to change.
+#'
+#' @examples \dontrun{
+#' Vault.update(
+#'              id="1234",
+#'              name="New Vault Name",
+#'             )
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Vault.update <- function(id, ...) {
+    if (missing(id)) {
+        stop("A vault ID is required.")
+    }
+
+    params = list(...)
+
+    path <- paste("v2/vaults", paste(id), sep="/")
+    .request('PATCH', path=path, query=NULL, body=params)
+}
+
+
 #
 # Vault Helpers
 #
