@@ -270,6 +270,36 @@ Dataset.create <- function(vault_id, vault_parent_object_id, name, ...) {
 }
 
 
+#' Dataset.update
+#'
+#' Updates the attributes of an existing dataset.
+#'
+#' @param id The ID of the dataset to update.
+#' @param ... Dataset attributes to change.
+#'
+#' @examples \dontrun{
+#' Dataset.update(
+#'                id="1234",
+#'                name="New Dataset Name",
+#'               )
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Dataset.update <- function(id, ...) {
+    if (missing(id)) {
+        stop("A dataset ID is required.")
+    }
+
+    params = list(...)
+
+    path <- paste("v2/datasets", paste(id), sep="/")
+    .request('PATCH', path=path, query=NULL, body=params)
+}
+
+
 #' Dataset.get_by_full_path
 #'
 #' A helper function to get a dataset by its full path.

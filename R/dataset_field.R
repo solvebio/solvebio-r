@@ -16,6 +16,7 @@ DatasetField.all <- function(...) {
     .request('GET', "v2/dataset_fields", query=list(...))
 }
 
+
 #' DatasetField.retrieve
 #'
 #' Retrieves the metadata about a specific dataset field.
@@ -38,6 +39,7 @@ DatasetField.retrieve <- function(id) {
     path <- paste("v2/dataset_fields", paste(id), sep="/")
     .request('GET', path=path)
 }
+
 
 #' DatasetField.facets
 #'
@@ -102,4 +104,34 @@ DatasetField.create <- function(dataset_id, name, data_type='auto', ...) {
     dataset_field <- .request('POST', path='v2/dataset_fields', query=NULL, body=params)
 
     return(dataset_field)
+}
+
+
+#' DatasetField.update
+#'
+#' Updates the attributes of an existing dataset field. NOTE: The data_type of a field cannot be changed.
+#'
+#' @param id The ID of the dataset field to update.
+#' @param ... Dataset field attributes to change.
+#'
+#' @examples \dontrun{
+#' DatasetField.update(
+#'                     id="1234",
+#'                     title="New Field Title"
+#'                    )
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+DatasetField.update <- function(id, ...) {
+    if (missing(id)) {
+        stop("A dataset field ID is required.")
+    }
+
+    params = list(...)
+
+    path <- paste("v2/dataset_fields", paste(id), sep="/")
+    .request('PATCH', path=path, query=NULL, body=params)
 }

@@ -115,6 +115,36 @@ Object.create <- function(vault_id, parent_object_id, object_type, filename, ...
 }
 
 
+#' Object.update
+#'
+#' Updates the attributes of an existing vault object.
+#'
+#' @param id The ID of the vault to update.
+#' @param ... Object attributes to change.
+#'
+#' @examples \dontrun{
+#' Object.update(
+#'               id="1234",
+#'               filename="New Name",
+#'              )
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Object.update <- function(id, ...) {
+    if (missing(id)) {
+        stop("An object ID is required.")
+    }
+
+    params = list(...)
+
+    path <- paste("v2/objects", paste(id), sep="/")
+    .request('PATCH', path=path, query=NULL, body=params)
+}
+
+
 #' Object.get_by_full_path
 #'
 #' A helper function to get an object on SolveBio by its full path.
