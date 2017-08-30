@@ -27,8 +27,6 @@ submitters <- Dataset.facets(id = ClinVar$id, facets = 'submitter')[['submitter'
 ```{r}
 # iterate over the submitters
 for(submitter in submitters){
-    print(submitter)
-    
     # create a filter list for the next query
     submitter_filter <- list(list('submitter', paste(submitter)))
     
@@ -65,4 +63,11 @@ for(submitter in submitters){
 }
 
 print(variants)
+#                                              submitter  clinical_significance gene_symbol variants
+# TTN     Illumina Clinical Services Laboratory,Illumina Uncertain significance         TTN      712
+# TTN-AS1 Illumina Clinical Services Laboratory,Illumina Uncertain significance     TTN-AS1      466
+# SH3TC2  Illumina Clinical Services Laboratory,Illumina Uncertain significance      SH3TC2      313
+# NEB     Illumina Clinical Services Laboratory,Illumina Uncertain significance         NEB      206
+# HSPG2   Illumina Clinical Services Laboratory,Illumina Uncertain significance       HSPG2      198
+# SYNE1   Illumina Clinical Services Laboratory,Illumina Uncertain significance       SYNE1      197
 ```

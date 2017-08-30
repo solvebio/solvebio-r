@@ -69,8 +69,6 @@ for(year in per_year){
     month_facets <- list(month__histogram=list(interval=1))
     per_month <- Dataset.facets(id = flights$id, 
                              filters = year_filter, 
-                             paginate = TRUE, 
-                             # facets = 'month__histogram')[['month__histogram']][,1]
                              facets = month_facets)[['month__histogram']][,1]
     
     # iterate over months
@@ -83,8 +81,6 @@ for(year in per_year){
         days_facets <- list(day__histogram=list(interval=1))
         days_matrix <- Dataset.facets(id = flights$id, 
                                       filters = month_filter, 
-                                      paginate = TRUE, 
-                                      # facets = 'day__histogram')[['day__histogram']]
                                       facets = days_facets)[['day__histogram']]
         
         # convert the matrix to named numeric vector
