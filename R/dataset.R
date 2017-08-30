@@ -287,11 +287,6 @@ Dataset.create <- function(vault_id, vault_parent_object_id, name, ...) {
 Dataset.get_by_full_path <- function(full_path) {
     object = Object.get_by_full_path(full_path)
 
-    if (is.null(object)) {
-        stop(sprintf("Error: No object found with full path: %s\n", full_path))
-    }
-
-    # TODO: This raises an exception on 404, should we return NULL?
     dataset = do.call(Dataset.retrieve, list(id=object$dataset_id))
     return(dataset)
 }

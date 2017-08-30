@@ -149,8 +149,7 @@ Object.get_by_full_path <- function(full_path, ...) {
     response <- .request('GET', path='v2/objects', query=params)
 
     if (response$total == 0) {
-        # stop(sprintf("Error: No object found with full path: %s\n", full_path))
-        return(NULL)
+        stop(sprintf("Error: No object found with full path: %s\n", full_path))
     }
     if (response$total > 1) {
         cat(sprintf("Warning: Multiple object found with full path: %s\n", full_path))
