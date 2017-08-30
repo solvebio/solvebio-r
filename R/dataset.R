@@ -317,11 +317,6 @@ Dataset.update <- function(id, ...) {
 Dataset.get_by_full_path <- function(full_path) {
     object = Object.get_by_full_path(full_path)
 
-    if (is.null(object)) {
-        return(NULL)
-    }
-
-    # TODO: This raises an exception on 404, should we return NULL?
     dataset = do.call(Dataset.retrieve, list(id=object$dataset_id))
     return(dataset)
 }
