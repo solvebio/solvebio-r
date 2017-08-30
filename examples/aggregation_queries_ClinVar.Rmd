@@ -1,0 +1,73 @@
+---
+title: "Aggregation Queries - ClinVar"
+output: html_document
+---
+
+In this example we will calculate the number of variants per gene_symbol, clinical significance, and submitter in the ClinVar dataset. 
+
+```{r}
+library(solvebio)
+# log into SolveBio
+login(api_host = 'https://api.solvebio.com', api_key = 'your_key_here')
+
+# get the Clinvar dataset
+Clinvar_path <- "solveBio:public:/ClinVar/3.7.4-2017-01-30/Combined-GRCh37"
+ClinVar <- Dataset.get_by_full_path(Clinvar_path)
+
+# create an empty dataframe to hold the results
+variants <- data.frame(submitter = character(0), 
+                       clinical_significance = character(0), 
+                       gene_symbol = character(0), 
+                       variants = numeric(0) )
+
+# get the submitters in a character vector
+submitters <- Dataset.facets(id = ClinVar$id, facets = 'submitter')[['submitter']][,1]
+```
+
+```{r}
+# iterate over the submitters
+for(submitter in submitters){
+    # create a filter list for the next query
+    submitter_filter <- list(list('submitter', paste(submitter)))
+    
+    # get clinical significance values for the submitters
+    clinical_significances <- Dataset.facets(id = ClinVar$id, filters = submitter_filter, paginate=TRUE, facets = 'clinical_significance')[['clinical_significance']][,1]
+    
+    # iterate over the clincal significance levels
+    for(clinical_significance in clinical_significances){
+        
+        # create a new list of filters to use
+        clinical_significance_filter <- list(submitter_filter[[1]], list('clinical_significance', paste(clinical_significance)))
+        
+        # get the facet matrix for gene symbols
+        gene_symbols_matrix <- Dataset.facets(id = ClinVar$id, filters = clinical_significance_filter, paginate=TRUE, facets = 'gene_symbol')[['gene_symbol']]
+
+        # convert the matrix to named numeric vector
+        gene_symbols <- setNames(object = as.numeric(gene_symbols_matrix[,2]), nm = gene_symbols_matrix[,1])
+        
+        # iterate over the gene symbols
+        for(i in seq_along(gene_symbols)){
+            num <- gene_symbols[i]
+            symbol <- names(gene_symbols[i])
+            
+            # make a single entry df
+            df <- data.frame(submitter = submitter,
+                             clinical_significance = clinical_significance, 
+                             gene_symbol = symbol,
+                             variants = num)
+            
+            # add it to the original df
+            variants <- rbind(variants, df)
+        }
+    }
+}
+
+print(variants)
+#                                              submitter  clinical_significance gene_symbol variants
+# TTN     Illumina Clinical Services Laboratory,Illumina Uncertain significance         TTN      712
+# TTN-AS1 Illumina Clinical Services Laboratory,Illumina Uncertain significance     TTN-AS1      466
+# SH3TC2  Illumina Clinical Services Laboratory,Illumina Uncertain significance      SH3TC2      313
+# NEB     Illumina Clinical Services Laboratory,Illumina Uncertain significance         NEB      206
+# HSPG2   Illumina Clinical Services Laboratory,Illumina Uncertain significance       HSPG2      198
+# SYNE1   Illumina Clinical Services Laboratory,Illumina Uncertain significance       SYNE1      197
+```
