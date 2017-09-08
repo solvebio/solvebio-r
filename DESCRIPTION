@@ -30,7 +30,6 @@ Collate:
     dataset_import.R
     dataset_migration.R
     object.R
-    upload.R
     utils.R
     vault.R
     zzz.R

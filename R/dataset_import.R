@@ -112,7 +112,7 @@ DatasetImport.create <- function(
                                files=list(
                                           list(
                                                url=url,
-                                               logical_object_id=object$id,
+                                               object_id=object$id,
                                                name=object$filename
                                                )
                                           )
