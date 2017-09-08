@@ -301,3 +301,16 @@ dataset <- Dataset.get_or_create_by_full_path(dataset_full_path)
 DatasetImport.create(dataset_id = dataset$id, commit_mode = 'append', object_id = object$id)
 ```
 
+
+## Packaging and Releasing
+
+1. Bump the version using the `bumpversion` command (pip install bumpversion).
+2. Update the NEWS.md with changes.
+3. Update the DESCRIPTION file with the latest date.
+4. Regenerate roxygen2 and build/check the tarball:
+
+    make clean
+    make
+    make check
+
+5. Submit to CRAN.
