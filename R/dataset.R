@@ -362,7 +362,7 @@ Dataset.get_by_full_path <- function(full_path, env = solvebio:::.solveEnv) {
 Dataset.get_or_create_by_full_path <- function(full_path, env = solvebio:::.solveEnv, ...) {
     dataset = NULL
     tryCatch({
-        dataset = do.call(Dataset.get_by_full_path, c(full_path, env))
+        dataset <- Dataset.get_by_full_path(full_path=full_path, env=env)
         if (!is.null(dataset)) {
             return(dataset)
         }
