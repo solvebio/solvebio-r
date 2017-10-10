@@ -2,6 +2,7 @@
 #'
 #' Retrieves the metadata about all accessible vaults.
 #'
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
@@ -12,8 +13,8 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.all <- function(...) {
-    .request("GET", "v2/vaults", query=list(...))
+Vault.all <- function(..., env = solvebio:::.solveEnv) {
+    .request("GET", "v2/vaults", query=list(...), env=env)
 }
 
 
@@ -22,6 +23,7 @@ Vault.all <- function(...) {
 #' Retrieves the metadata about a specific SolveBio vault.
 #'
 #' @param id String The ID of a SolveBio vault
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' Vault.retrieve("1234567890")
@@ -31,13 +33,13 @@ Vault.all <- function(...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.retrieve <- function(id) {
+Vault.retrieve <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A vault ID is required.")
     }
 
     path <- paste("v2/vaults", paste(id), sep="/")
-    .request("GET", path=path)
+    .request("GET", path=path, env=env)
 }
 
 
@@ -46,6 +48,7 @@ Vault.retrieve <- function(id) {
 #' Delete a specific vault from SolveBio. This operation cannot be undone.
 #'
 #' @param id String The ID of a SolveBio vault.
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' Vault.delete("1")
@@ -55,13 +58,13 @@ Vault.retrieve <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.delete <- function(id) {
+Vault.delete <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A vault ID is required.")
     }
 
     path <- paste("v2/vaults", paste(id), sep="/")
-    .request("DELETE", path=path)
+    .request("DELETE", path=path, env=env)
 }
 
 
@@ -69,6 +72,7 @@ Vault.delete <- function(id) {
 #'
 #' Create a new SolveBio vault.
 #' @param name The unique name of the vault.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional vault attributes.
 #'
 #' @examples \dontrun{
@@ -79,7 +83,7 @@ Vault.delete <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.create <- function(name, ...) {
+Vault.create <- function(name, env = solvebio:::.solveEnv, ...) {
     # TODO
     if (missing(name)) {
         stop("A name is required.")
@@ -90,7 +94,7 @@ Vault.create <- function(name, ...) {
                   ...
                   )
 
-    vault <- .request("POST", path="v2/vaults", query=NULL, body=params)
+    vault <- .request("POST", path="v2/vaults", query=NULL, body=params, env=env)
 
     return(vault)
 }
@@ -101,6 +105,7 @@ Vault.create <- function(name, ...) {
 #' Updates the attributes of an existing vault.
 #'
 #' @param id The ID of the vault to update.
+#' @param env (optional) Custom client environment.
 #' @param ... Vault attributes to change.
 #'
 #' @examples \dontrun{
@@ -114,7 +119,7 @@ Vault.create <- function(name, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.update <- function(id, ...) {
+Vault.update <- function(id, env = solvebio:::.solveEnv, ...) {
     if (missing(id)) {
         stop("A vault ID is required.")
     }
@@ -122,7 +127,7 @@ Vault.update <- function(id, ...) {
     params = list(...)
 
     path <- paste("v2/vaults", paste(id), sep="/")
-    .request('PATCH', path=path, query=NULL, body=params)
+    .request('PATCH', path=path, query=NULL, body=params, env=env)
 }
 
 
@@ -137,6 +142,7 @@ Vault.update <- function(id, ...) {
 #'
 #' @param full_path The full path of a SolveBio vault.
 #' @param verbose Print warning/error messages (default: TRUE).
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' Vault.get_by_full_path("SolveBio:Public")
@@ -146,7 +152,7 @@ Vault.update <- function(id, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.get_by_full_path <- function(full_path, verbose=TRUE) {
+Vault.get_by_full_path <- function(full_path, verbose=TRUE, env = solvebio:::.solveEnv) {
     if (missing(full_path)) {
         stop("A vault full path is required.")
     }
@@ -155,7 +161,7 @@ Vault.get_by_full_path <- function(full_path, verbose=TRUE) {
 
     if (length(split_path) == 1) {
         # Get the user"s account for them
-        user = .request("GET", path="v1/user")
+        user = User.retrieve(env=env)
         account_domain = user$account$domain
         name = split_path[[1]]
     }
@@ -169,7 +175,7 @@ Vault.get_by_full_path <- function(full_path, verbose=TRUE) {
                   account_domain=account_domain,
                   name=name
                   )
-    response = .request("GET", path="v2/vaults", query=params)
+    response = .request("GET", path="v2/vaults", query=params, env=env)
 
     if (response$total == 1) {
         # Found exactly 1 vault
@@ -195,6 +201,7 @@ Vault.get_by_full_path <- function(full_path, verbose=TRUE) {
 #' Retrieves or creates a specific vault by its full path (domain:vault).
 #'
 #' @param full_path The full path of a SolveBio vault.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional parameters.
 #'
 #' @examples \dontrun{
@@ -205,8 +212,8 @@ Vault.get_by_full_path <- function(full_path, verbose=TRUE) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.get_or_create_by_full_path <- function(full_path, ...) {
-    vault = Vault.get_by_full_path(full_path, verbose=FALSE)
+Vault.get_or_create_by_full_path <- function(full_path, env = solvebio:::.solveEnv, ...) {
+    vault = Vault.get_by_full_path(full_path, verbose=FALSE, env=env)
     if (!is.null(vault)) {
         # Return if exists
         return(vault)
@@ -214,7 +221,7 @@ Vault.get_or_create_by_full_path <- function(full_path, ...) {
 
     split_path = strsplit(full_path, ":")[[1]]
     name = split_path[length(split_path)]
-    vault = Vault.create(name=name, ...)
+    vault = Vault.create(name=name, env=env, ...)
 
     return(vault)
 }
@@ -224,6 +231,8 @@ Vault.get_or_create_by_full_path <- function(full_path, ...) {
 #'
 #' Retrieves the current users"s personal, private vault.
 #'
+#' @param env (optional) Custom client environment.
+#'
 #' @examples \dontrun{
 #' Vault.get_personal_vault()
 #' }
@@ -232,14 +241,14 @@ Vault.get_or_create_by_full_path <- function(full_path, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.get_personal_vault <- function() {
-    user = .request("GET", path="v1/user")
+Vault.get_personal_vault <- function(env = solvebio:::.solveEnv) {
+    user = User.retrieve(env=env)
     params = list(
                   name=paste("user", user$id, sep="-"),
                   vault_type="user"
                   )
 
-    response = .request("GET", path="v2/vaults", query=params)
+    response = .request("GET", path="v2/vaults", query=params, env=env)
 
     return(response$data[1, ])
 }
@@ -249,9 +258,10 @@ Vault.get_personal_vault <- function() {
 #'
 #' Retrieves all files in a specific vault.
 #'
+#' @param id The ID of the vault.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
-#' @param id The ID of the vault.
 #' @examples \dontrun{
 #' vault = Vault.get_personal_vault()
 #' Vault.files(vault$id)
@@ -261,8 +271,8 @@ Vault.get_personal_vault <- function() {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.files <- function(id, ...) {
-    objects = .object_list_helper(id, object_type="file", ...)
+Vault.files <- function(id, env = solvebio:::.solveEnv, ...) {
+    objects = .object_list_helper(id, object_type="file", env=env, ...)
     return(objects)
 }
 
@@ -272,6 +282,7 @@ Vault.files <- function(id, ...) {
 #' Retrieves all folders in a specific vault.
 #'
 #' @param id The ID of the vault.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
@@ -283,8 +294,8 @@ Vault.files <- function(id, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.folders <- function(id, ...) {
-    objects = .object_list_helper(id, object_type="folder", ...)
+Vault.folders <- function(id, env = solvebio:::.solveEnv, ...) {
+    objects = .object_list_helper(id, object_type="folder", env=env, ...)
     return(objects)
 }
 
@@ -294,6 +305,7 @@ Vault.folders <- function(id, ...) {
 #' Retrieves all datasets in a specific vault.
 #'
 #' @param id The ID of the vault.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
@@ -305,8 +317,8 @@ Vault.folders <- function(id, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.datasets <- function(id, ...) {
-    objects = .object_list_helper(id, object_type="dataset", ...)
+Vault.datasets <- function(id, env = solvebio:::.solveEnv, ...) {
+    objects = .object_list_helper(id, object_type="dataset", env=env, ...)
     return(objects)
 }
 
@@ -316,6 +328,7 @@ Vault.datasets <- function(id, ...) {
 #' Retrieves all objects in a specific vault.
 #'
 #' @param id The ID of the vault.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
@@ -327,8 +340,8 @@ Vault.datasets <- function(id, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.objects <- function(id, ...) {
-    objects = .object_list_helper(id, ...)
+Vault.objects <- function(id, env = solvebio:::.solveEnv, ...) {
+    objects = .object_list_helper(id, env=env, ...)
     return(objects)
 }
 
@@ -339,6 +352,7 @@ Vault.objects <- function(id, ...) {
 #'
 #' @param id The ID of the vault.
 #' @param query The search query.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
@@ -350,8 +364,8 @@ Vault.objects <- function(id, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.search <- function(id, query, ...) {
-    objects = .object_list_helper(id, query=query, ...)
+Vault.search <- function(id, query, env = solvebio:::.solveEnv, ...) {
+    objects = .object_list_helper(id, query=query, env=env, ...)
     return(objects)
 }
 
@@ -363,6 +377,7 @@ Vault.search <- function(id, query, ...) {
 #' @param id The ID of the vault.
 #' @param path The path to the dataset, within the vault.
 #' @param name The name (filename) for the dataset.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional dataset creation parameters.
 #'
 #' @examples \dontrun{
@@ -374,22 +389,22 @@ Vault.search <- function(id, query, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.create_dataset <- function(id, path, name, ...) {
+Vault.create_dataset <- function(id, path, name, env = solvebio:::.solveEnv, ...) {
     if (missing(id)) {
         stop("A vault ID is required.")
     }
 
-    vault = Vault.retrieve(id)
+    vault = Vault.retrieve(id, env=env)
 
     if (missing(path) || path == "/" || is.null(path)) {
         vault_parent_object_id = NULL
     }
     else {
-        user = .request("GET", path="v1/user")
+        user = User.retrieve(env=env)
         account_domain = user$account$domain
         full_path = paste(account_domain, vault$name, path, sep=":")
         # Find the parent object (folder) at the provided path
-        parent_object = Object.get_by_full_path(full_path)
+        parent_object = Object.get_by_full_path(full_path, env=env)
         vault_parent_object_id = parent_object$id
     }
 
@@ -397,6 +412,7 @@ Vault.create_dataset <- function(id, path, name, ...) {
                    vault_id=vault$id,
                    vault_parent_object_id=vault_parent_object_id,
                    name=name,
+                   env=env,
                    ...)
 
     return(dataset)
@@ -410,6 +426,7 @@ Vault.create_dataset <- function(id, path, name, ...) {
 #' @param id The ID of the vault.
 #' @param path The path to the folder, within the vault.
 #' @param recursive Create all parent directories that do not yet exist (default: FALSE).
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional folder creation parameters.
 #'
 #' @examples \dontrun{
@@ -421,7 +438,7 @@ Vault.create_dataset <- function(id, path, name, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Vault.create_folder <- function(id, path, recursive=FALSE, ...) {
+Vault.create_folder <- function(id, path, recursive=FALSE, env = solvebio:::.solveEnv, ...) {
     if (missing(id) || is.null(id)) {
         stop("A vault ID is required.")
     }
@@ -429,7 +446,7 @@ Vault.create_folder <- function(id, path, recursive=FALSE, ...) {
         stop("A path is required.")
     }
 
-    vault = Vault.retrieve(id)
+    vault = Vault.retrieve(id, env=env)
 
     if (substring(path, 1, 1) != '/') {
         # Add missing / to path
@@ -454,14 +471,15 @@ Vault.create_folder <- function(id, path, recursive=FALSE, ...) {
             }
 
             current_dir = paste(current_dir, dir, sep='/')
-            obj = Object.get_by_path(path=current_dir, vault_id=vault$id)
+            obj = Object.get_by_path(path=current_dir, vault_id=vault$id, env=env)
 
             if (is.null(obj) || (is.data.frame(obj) && nrow(obj) == 0)) {
                 obj = Object.create(
                               vault_id=vault$id,
                               parent_object_id=parent_object_id,
                               object_type='folder',
-                              filename=dir
+                              filename=dir,
+                              env=env
                               )
             }
 
@@ -475,7 +493,7 @@ Vault.create_folder <- function(id, path, recursive=FALSE, ...) {
     else {
         # Find the parent object (folder) at the provided path
         parent_path = paste(parents, collapse="/")
-        parent_object = Object.get_by_path(parent_path, vault_id=vault$id)
+        parent_object = Object.get_by_path(parent_path, vault_id=vault$id, env=env)
         if (is.null(parent_object) || parent_object$object_type != 'folder') {
             stop(sprintf("Invalid path: existing object at '%s' is not a folder\n", parent_object))
         }
@@ -487,6 +505,7 @@ Vault.create_folder <- function(id, path, recursive=FALSE, ...) {
                    parent_object_id=parent_object_id,
                    object_type='folder',
                    filename=folder_name,
+                   env=env,
                    ...)
 
     return(object)
@@ -498,7 +517,7 @@ Vault.create_folder <- function(id, path, recursive=FALSE, ...) {
 #
 
 # Retrieves objects within a specific vault.
-.object_list_helper = function(id, ...) {
-    objects = Object.all(vault_id=id, ...)
+.object_list_helper = function(id, env = solvebio:::.solveEnv, ...) {
+    objects = Object.all(vault_id=id, env=env, ...)
     return(objects$data)
 }

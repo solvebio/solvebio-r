@@ -2,6 +2,7 @@
 #'
 #' Retrieves the metadata about all uploads on SolveBio.
 #'
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. page).
 #'
 #' @examples \dontrun{
@@ -12,8 +13,8 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Upload.all <- function(...) {
-    .request('GET', "v1/uploads", query=list(...))
+Upload.all <- function(env = solvebio:::.solveEnv, ...) {
+    .request('GET', "v1/uploads", query=list(...), env=env)
 }
 
 #' Upload.retrieve
@@ -21,6 +22,7 @@ Upload.all <- function(...) {
 #' Retrieves the metadata about a specific upload from SolveBio.
 #'
 #' @param id The ID a SolveBio upload
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' Upload.retrieve(123)
@@ -30,13 +32,13 @@ Upload.all <- function(...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Upload.retrieve <- function(id) {
+Upload.retrieve <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("An upload ID is required.")
     }
 
     path <- paste("v1/uploads", paste(id), sep="/")
-    .request('GET', path=path)
+    .request('GET', path=path, env=env)
 }
 
 #' Upload.create
@@ -44,6 +46,7 @@ Upload.retrieve <- function(id) {
 #' Upload a local file to SolveBio.
 #'
 #' @param path The path to the local file
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' Upload.create("my_file.json.gz")
@@ -53,7 +56,7 @@ Upload.retrieve <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Upload.create <- function(path) {
+Upload.create <- function(path, env = solvebio:::.solveEnv) {
     if (missing(path) || !file.exists(path)) {
         stop("A valid path to a local file is required.")
     }
@@ -65,7 +68,7 @@ Upload.create <- function(path) {
                    md5 = digest::digest(file=path)
                    )
 
-    upload <- .request('POST', path='v1/uploads', query=NULL, body=params)
+    upload <- .request('POST', path='v1/uploads', query=NULL, body=params, env=env)
 
     headers <- c(
                  'Content-MD5' = upload$base64_md5,

@@ -4,10 +4,12 @@
 \alias{Vault.all}
 \title{Vault.all}
 \usage{
-Vault.all(...)
+Vault.all(..., env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{...}{(optional) Additional query parameters (e.g. limit, offset).}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Retrieves the metadata about all accessible vaults.

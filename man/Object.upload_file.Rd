@@ -4,7 +4,8 @@
 \alias{Object.upload_file}
 \title{Object.upload_file}
 \usage{
-Object.upload_file(local_path, vault_id, vault_path, filename)
+Object.upload_file(local_path, vault_id, vault_path, filename,
+  env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{local_path}{The path to the local file}
@@ -14,6 +15,8 @@ Object.upload_file(local_path, vault_id, vault_path, filename)
 \item{vault_path}{The remote path in the vault}
 
 \item{filename}{(optional) The filename for the uploaded file in the vault (default: the basename of the local_path)}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Upload a local file to a vault on SolveBio. The vault path provided is the parent directory for uploaded file.

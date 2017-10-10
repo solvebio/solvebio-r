@@ -4,10 +4,12 @@
 \alias{Upload.retrieve}
 \title{Upload.retrieve}
 \usage{
-Upload.retrieve(id)
+Upload.retrieve(id, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{id}{The ID a SolveBio upload}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Retrieves the metadata about a specific upload from SolveBio.

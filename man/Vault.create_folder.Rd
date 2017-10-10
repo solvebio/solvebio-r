@@ -4,7 +4,8 @@
 \alias{Vault.create_folder}
 \title{Vault.create_folder}
 \usage{
-Vault.create_folder(id, path, recursive = FALSE, ...)
+Vault.create_folder(id, path, recursive = FALSE, env = solvebio:::.solveEnv,
+  ...)
 }
 \arguments{
 \item{id}{The ID of the vault.}
@@ -12,6 +13,8 @@ Vault.create_folder(id, path, recursive = FALSE, ...)
 \item{path}{The path to the folder, within the vault.}
 
 \item{recursive}{Create all parent directories that do not yet exist (default: FALSE).}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional folder creation parameters.}
 }

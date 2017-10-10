@@ -4,7 +4,8 @@
 \alias{Dataset.create}
 \title{Dataset.create}
 \usage{
-Dataset.create(vault_id, vault_parent_object_id, name, ...)
+Dataset.create(vault_id, vault_parent_object_id, name,
+  env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{vault_id}{The ID of the vault.}
@@ -12,6 +13,8 @@ Dataset.create(vault_id, vault_parent_object_id, name, ...)
 \item{vault_parent_object_id}{The parent object (folder) ID in the vault.}
 
 \item{name}{The name of the dataset in the parent folder.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional dataset attributes.}
 }

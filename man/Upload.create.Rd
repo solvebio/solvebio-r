@@ -4,10 +4,12 @@
 \alias{Upload.create}
 \title{Upload.create}
 \usage{
-Upload.create(path)
+Upload.create(path, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{path}{The path to the local file}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Upload a local file to SolveBio.

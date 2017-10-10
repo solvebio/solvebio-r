@@ -4,7 +4,7 @@
 \alias{Vault.create_dataset}
 \title{Vault.create_dataset}
 \usage{
-Vault.create_dataset(id, path, name, ...)
+Vault.create_dataset(id, path, name, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the vault.}
@@ -12,6 +12,8 @@ Vault.create_dataset(id, path, name, ...)
 \item{path}{The path to the dataset, within the vault.}
 
 \item{name}{The name (filename) for the dataset.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional dataset creation parameters.}
 }

@@ -4,10 +4,12 @@
 \alias{Vault.datasets}
 \title{Vault.datasets}
 \usage{
-Vault.datasets(id, ...)
+Vault.datasets(id, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the vault.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters (e.g. limit, offset).}
 }

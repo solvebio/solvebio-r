@@ -4,10 +4,12 @@
 \alias{Object.get_by_path}
 \title{Object.get_by_path}
 \usage{
-Object.get_by_path(path, ...)
+Object.get_by_path(path, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{path}{The path to the object, relative to a vault.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters.}
 }

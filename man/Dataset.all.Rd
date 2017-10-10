@@ -4,9 +4,11 @@
 \alias{Dataset.all}
 \title{Dataset.all}
 \usage{
-Dataset.all(...)
+Dataset.all(env = solvebio:::.solveEnv, ...)
 }
 \arguments{
+\item{env}{(optional) Custom client environment.}
+
 \item{...}{(optional) Additional query parameters (e.g. page).}
 }
 \description{

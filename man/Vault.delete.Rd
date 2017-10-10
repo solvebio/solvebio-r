@@ -4,10 +4,12 @@
 \alias{Vault.delete}
 \title{Vault.delete}
 \usage{
-Vault.delete(id)
+Vault.delete(id, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio vault.}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Delete a specific vault from SolveBio. This operation cannot be undone.

@@ -4,7 +4,8 @@
 \alias{Object.create}
 \title{Object.create}
 \usage{
-Object.create(vault_id, parent_object_id, object_type, filename, ...)
+Object.create(vault_id, parent_object_id, object_type, filename,
+  env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{vault_id}{The target vault ID.}
@@ -14,6 +15,8 @@ Object.create(vault_id, parent_object_id, object_type, filename, ...)
 \item{object_type}{The type of object (i.e. "folder").}
 
 \item{filename}{The filename (i.e. the name) of the object.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional object attributes.}
 }

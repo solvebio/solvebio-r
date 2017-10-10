@@ -4,7 +4,7 @@
 \alias{BeaconSet.query}
 \title{BeaconSet.query}
 \usage{
-BeaconSet.query(id, query, entity_type, ...)
+BeaconSet.query(id, query, entity_type, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the beacon set.}
@@ -12,6 +12,8 @@ BeaconSet.query(id, query, entity_type, ...)
 \item{query}{The entity ID or query string.}
 
 \item{entity_type}{(optional) A valid SolveBio entity type.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters.}
 }

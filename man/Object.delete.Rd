@@ -4,10 +4,12 @@
 \alias{Object.delete}
 \title{Object.delete}
 \usage{
-Object.delete(id)
+Object.delete(id, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{id}{The ID of the object.}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Delete a specific object from SolveBio.

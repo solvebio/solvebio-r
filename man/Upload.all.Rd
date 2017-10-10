@@ -4,9 +4,11 @@
 \alias{Upload.all}
 \title{Upload.all}
 \usage{
-Upload.all(...)
+Upload.all(env = solvebio:::.solveEnv, ...)
 }
 \arguments{
+\item{env}{(optional) Custom client environment.}
+
 \item{...}{(optional) Additional query parameters (e.g. page).}
 }
 \description{

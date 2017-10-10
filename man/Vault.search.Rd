@@ -4,12 +4,14 @@
 \alias{Vault.search}
 \title{Vault.search}
 \usage{
-Vault.search(id, query, ...)
+Vault.search(id, query, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the vault.}
 
 \item{query}{The search query.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters (e.g. limit, offset).}
 }

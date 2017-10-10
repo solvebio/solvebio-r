@@ -4,9 +4,11 @@
 \alias{Beacon.all}
 \title{Beacon.all}
 \usage{
-Beacon.all(...)
+Beacon.all(env = solvebio:::.solveEnv, ...)
 }
 \arguments{
+\item{env}{(optional) Custom client environment.}
+
 \item{...}{(optional) Additional query parameters.}
 }
 \description{

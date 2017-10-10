@@ -4,7 +4,8 @@
 \alias{BeaconSet.create}
 \title{BeaconSet.create}
 \usage{
-BeaconSet.create(title, description, is_shared = FALSE, ...)
+BeaconSet.create(title, description, is_shared = FALSE,
+  env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{title}{The title displayed for the beacon set.}
@@ -12,6 +13,8 @@ BeaconSet.create(title, description, is_shared = FALSE, ...)
 \item{description}{(optional) An optional description for the new beacon set.}
 
 \item{is_shared}{If TRUE, everyone else in your account will be able to see and query the beacon set, but will not be able to edit it. (Default: FALSE)}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional beacon set attributes.}
 }

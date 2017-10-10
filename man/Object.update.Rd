@@ -4,10 +4,12 @@
 \alias{Object.update}
 \title{Object.update}
 \usage{
-Object.update(id, ...)
+Object.update(id, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the vault to update.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{Object attributes to change.}
 }

@@ -4,10 +4,12 @@
 \alias{Object.get_download_url}
 \title{Object.get_download_url}
 \usage{
-Object.get_download_url(id)
+Object.get_download_url(id, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{id}{The ID of the object.}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Helper method to get the download URL for a file object.

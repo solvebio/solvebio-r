@@ -4,10 +4,12 @@
 \alias{BeaconSet.delete}
 \title{BeaconSet.delete}
 \usage{
-BeaconSet.delete(id)
+BeaconSet.delete(id, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{id}{The ID of the beacon set.}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Delete a specific beacon set (including all its beacons) from SolveBio.

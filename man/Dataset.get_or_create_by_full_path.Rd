@@ -4,10 +4,12 @@
 \alias{Dataset.get_or_create_by_full_path}
 \title{Dataset.get_or_create_by_full_path}
 \usage{
-Dataset.get_or_create_by_full_path(full_path, ...)
+Dataset.get_or_create_by_full_path(full_path, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{full_path}{A valid full path to a dataset.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{Additional dataset creation parameters.}
 }

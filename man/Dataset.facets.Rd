@@ -4,12 +4,14 @@
 \alias{Dataset.facets}
 \title{Dataset.facets}
 \usage{
-Dataset.facets(id, facets, ...)
+Dataset.facets(id, facets, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of a SolveBio dataset, or a Dataset object.}
 
 \item{facets}{A list of one or more field facets.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters (e.g. filters, limit, offset).}
 }
