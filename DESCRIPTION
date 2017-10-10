@@ -36,3 +36,4 @@ Collate:
     vault.R
     zzz.R
 RoxygenNote: 6.0.1
+Suggests: testthat
