@@ -2,6 +2,7 @@
 #'
 #' Retrieves the metadata about all dataset commits on SolveBio.
 #'
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. page).
 #'
 #' @examples \dontrun{
@@ -12,8 +13,8 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetCommit.all <- function(...) {
-    .request('GET', "v2/dataset_commits", query=list(...))
+DatasetCommit.all <- function(env = solvebio:::.solveEnv, ...) {
+    .request('GET', "v2/dataset_commits", query=list(...), env=env)
 }
 
 
@@ -22,6 +23,7 @@ DatasetCommit.all <- function(...) {
 #' Retrieves the metadata about a specific dataset commit on SolveBio.
 #'
 #' @param id String The ID of a SolveBio dataset commit.
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' DatasetCommit.retrieve(<ID>)
@@ -31,13 +33,13 @@ DatasetCommit.all <- function(...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetCommit.retrieve <- function(id) {
+DatasetCommit.retrieve <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A dataset commit ID is required.")
     }
 
     path <- paste("v2/dataset_commits", paste(id), sep="/")
-    .request('GET', path=path)
+    .request('GET', path=path, env=env)
 }
 
 
@@ -46,6 +48,7 @@ DatasetCommit.retrieve <- function(id) {
 #' Deletes a specific dataset commit on SolveBio.
 #'
 #' @param id String The ID or full name of a SolveBio dataset commit.
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' DatasetCommit.delete(<ID>)
@@ -55,11 +58,11 @@ DatasetCommit.retrieve <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetCommit.delete <- function(id) {
+DatasetCommit.delete <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A dataset commit ID is required.")
     }
 
     path <- paste("v2/dataset_commits", paste(id), sep="/")
-    .request('DELETE', path=path)
+    .request('DELETE', path=path, env=env)
 }

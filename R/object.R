@@ -171,8 +171,8 @@ Object.get_by_full_path <- function(full_path, env = solvebio:::.solveEnv, ...) 
     split_path = strsplit(full_path, ":", fixed=TRUE)[[1]]
 
     if (length(split_path) == 2) {
-        # Get the user"s account for them
-        user = .request("GET", path="v1/user")
+        # Get the user's account for them
+        user = User.retrieve(env=env)
         account_domain = user$account$domain
         name = split_path[[1]]
         full_path = paste(account_domain, name, split_path[[2]], sep=":")

@@ -2,6 +2,7 @@
 #'
 #' Retrieves the metadata about all dataset imports on SolveBio.
 #'
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. page).
 #'
 #' @examples \dontrun{
@@ -12,8 +13,8 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetImport.all <- function(...) {
-    .request('GET', "v2/dataset_imports", query=list(...))
+DatasetImport.all <- function(env = solvebio:::.solveEnv, ...) {
+    .request('GET', "v2/dataset_imports", query=list(...), env=env)
 }
 
 
@@ -22,6 +23,7 @@ DatasetImport.all <- function(...) {
 #' Retrieves the metadata about a specific dataset import on SolveBio.
 #'
 #' @param id String The ID of a SolveBio dataset import.
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' DatasetImport.retrieve(<ID>)
@@ -31,13 +33,13 @@ DatasetImport.all <- function(...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetImport.retrieve <- function(id) {
+DatasetImport.retrieve <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A dataset import ID is required.")
     }
 
     path <- paste("v2/dataset_imports", paste(id), sep="/")
-    .request('GET', path=path)
+    .request('GET', path=path, env=env)
 }
 
 
@@ -46,6 +48,7 @@ DatasetImport.retrieve <- function(id) {
 #' Deletes a specific dataset import on SolveBio.
 #'
 #' @param id String The ID of a SolveBio dataset import.
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' DatasetImport.delete(<ID>)
@@ -55,13 +58,13 @@ DatasetImport.retrieve <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetImport.delete <- function(id) {
+DatasetImport.delete <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A dataset import ID is required.")
     }
 
     path <- paste("v2/dataset_imports", paste(id), sep="/")
-    .request('DELETE', path=path)
+    .request('DELETE', path=path, env=env)
 }
 
 
@@ -71,6 +74,7 @@ DatasetImport.delete <- function(id) {
 #'
 #' @param dataset_id The target dataset ID.
 #' @param commit_mode (optional) The commit mode (default: append).
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional dataset import attributes.
 #'
 #' @examples \dontrun{
@@ -83,7 +87,8 @@ DatasetImport.delete <- function(id) {
 #' @export
 DatasetImport.create <- function(
                                  dataset_id,
-                                 commit_mode='append',
+                                 commit_mode = 'append',
+                                 env = solvebio:::.solveEnv,
                                  ...) {
     if (missing(dataset_id)) {
         stop("A dataset ID is required.")
@@ -102,12 +107,12 @@ DatasetImport.create <- function(
 
     if (!is.null(args$object_id)) {
         # Create a manifest from the object
-        object = Object.retrieve(args$object_id)
+        object = Object.retrieve(args$object_id, env=env)
         if (is.null(object) || object$object_type != 'file') {
             stop("Invalid object: input object must be a file")
         }
 
-        url = Object.get_download_url(object$id)
+        url = Object.get_download_url(object$id, env=env)
         params$manifest = list(
                                files=list(
                                           list(
@@ -119,7 +124,7 @@ DatasetImport.create <- function(
                                )
     }
 
-    dataset_import <- .request('POST', path='v2/dataset_imports', query=NULL, body=params)
+    dataset_import <- .request('POST', path='v2/dataset_imports', query=NULL, body=params, env=env)
 
     return(dataset_import)
 }

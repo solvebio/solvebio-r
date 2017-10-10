@@ -2,6 +2,7 @@
 #'
 #' Retrieves the metadata about all dataset exports on SolveBio.
 #'
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. page).
 #'
 #' @examples \dontrun{
@@ -12,8 +13,8 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetExport.all <- function(...) {
-    .request('GET', "v2/dataset_exports", query=list(...))
+DatasetExport.all <- function(env = solvebio:::.solveEnv, ...) {
+    .request('GET', "v2/dataset_exports", query=list(...), env=env)
 }
 
 #' DatasetExport.retrieve
@@ -21,6 +22,7 @@ DatasetExport.all <- function(...) {
 #' Retrieves the metadata about a specific dataset export on SolveBio.
 #'
 #' @param id String The ID of a SolveBio dataset export.
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' DatasetExport.retrieve(<ID>)
@@ -30,13 +32,13 @@ DatasetExport.all <- function(...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetExport.retrieve <- function(id) {
+DatasetExport.retrieve <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A dataset export ID is required.")
     }
 
     path <- paste("v2/dataset_exports", paste(id), sep="/")
-    .request('GET', path=path)
+    .request('GET', path=path, env=env)
 }
 
 
@@ -45,6 +47,7 @@ DatasetExport.retrieve <- function(id) {
 #' Deletes a specific dataset export on SolveBio.
 #'
 #' @param id String The ID of a SolveBio dataset export.
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' DatasetExport.delete(<ID>)
@@ -54,13 +57,13 @@ DatasetExport.retrieve <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetExport.delete <- function(id) {
+DatasetExport.delete <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A dataset export ID is required.")
     }
 
     path <- paste("v2/dataset_exports", paste(id), sep="/")
-    .request('DELETE', path=path)
+    .request('DELETE', path=path, env=env)
 }
 
 
@@ -71,6 +74,7 @@ DatasetExport.delete <- function(id) {
 #' @param dataset_id The target dataset ID.
 #' @param format (optional) The export format (default: json).
 #' @param params (optional) Query parameters for the export.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional dataset export parameters.
 #'
 #' @examples \dontrun{
@@ -83,8 +87,9 @@ DatasetExport.delete <- function(id) {
 #' @export
 DatasetExport.create <- function(
                                  dataset_id,
-                                 format='json',
-                                 params=list(),
+                                 format = 'json',
+                                 params = list(),
+                                 env = solvebio:::.solveEnv,
                                  ...) {
     if (missing(dataset_id)) {
         stop("A dataset ID is required.")
@@ -97,7 +102,7 @@ DatasetExport.create <- function(
                   ...
                   )
 
-    dataset_export <- .request('POST', path='v2/dataset_exports', query=NULL, body=params)
+    dataset_export <- .request('POST', path='v2/dataset_exports', query=NULL, body=params, env=env)
 
     return(dataset_export)
 }

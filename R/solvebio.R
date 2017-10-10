@@ -41,9 +41,9 @@ login <- function(api_key, api_host, env = solvebio:::.solveEnv) {
 
     # Test the login
     tryCatch({
-        res <- .request('GET', 'v1/user')
-        cat(sprintf("Logged-in to %s as %s.\n", env$host, res$email))
-        return(invisible(res))
+        user <- User.retrieve(env=env)
+        cat(sprintf("Logged-in to %s as %s.\n", env$host, user$email))
+        return(invisible(user))
     }, error = function(e) {
         cat(sprintf("Login failed: %s\n", e$message))
     })
