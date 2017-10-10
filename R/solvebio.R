@@ -86,10 +86,10 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
                  "Accept-Encoding" = "gzip,deflate"
                  )
 
-    if (!is.null(env$token) & env$token != "") {
+    if (!is.null(env$token) && nchar(env$token) != 0) {
         headers <- c(
                      headers, 
-                     Authorization = paste(env$token_type, env$token)
+                     Authorization = paste(env$token_type, env$token, sep=" ")
                      )
     }
 

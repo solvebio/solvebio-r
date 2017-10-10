@@ -85,30 +85,28 @@ Dataset.delete <- function(id, env = solvebio:::.solveEnv) {
 #'
 #' @export
 Dataset.data <- function(id, filters, env = solvebio:::.solveEnv, ...) {
-    cat("DATA\n")
-    cat(id)
-    cat(filters)
-    cat(env)
-    print(...)
-    cat("END\n")
-
-    if (missing(id) | !(class(id) %in% c("Dataset", "numeric", "integer", "character"))) {
+    if (missing(id) || !(class(id) %in% c("Dataset", "numeric", "integer", "character"))) {
         stop("A dataset ID (or object) is required.")
     }
-    if (class(id) == "Dataset") {
+    if (class(id) == "Dataset" || class(id) == "Object") {
         id <- id$id
     }
 
     body = list(...)
 
     # Filters can be passed as a JSON string
-    if (!missing(filters) && !is.null(filters) && filters != "") {
+    if (!missing(filters) && !is.null(filters) && length(filters) > 0) {
         if (class(filters) == "character") {
             # Convert JSON string to an R structure
             filters <- jsonlite::fromJSON(filters)
         }
         # Add filters to request body
         body = modifyList(body, list(filters=filters))
+    }
+
+    if (length(body) == 0) {
+        # Sending an empty list() as a body breaks querying.
+        body <- NULL
     }
 
     path <- paste("v2/datasets", paste(id), "data", sep="/")
@@ -144,16 +142,18 @@ Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
     # Max allowed records (total) when paginating
     max_records = 500000
     params <- list(...)
+    params$id <- id
+    params$env <- env
 
     # Retrieve the first page of results
-    response <- do.call(Dataset.data, c(id=id, env=env, params))
+    response <- do.call(Dataset.data, params)
     df <- response$result
     offset <- response$offset
 
     # continue to make requests for data if pagination is enabled and there are more records
     while (isTRUE(paginate) && !is.null(offset)) {
-        params['offset'] <- offset
-        response <- do.call(Dataset.data, c(id=id, env=env, params))
+        params$offset <- offset
+        response <- do.call(Dataset.data, params)
         df_page <- response$results
         df <- dplyr::bind_rows(df, df_page)
         offset <- response$offset
@@ -206,10 +206,12 @@ Dataset.facets <- function(id, facets, env = solvebio:::.solveEnv, ...) {
 
     params <- list(...)
     # Facet queries should not return results
-    params$limit = 0
+    params$limit <- 0
+    params$id <- id
+    params$env <- env
     params <- modifyList(params, list(facets=facets))
 
-    response <- do.call(Dataset.data, c(id=id, env=env, params))
+    response <- do.call(Dataset.data, params)
 
     return(response$facets)
 }
@@ -235,9 +237,11 @@ Dataset.facets <- function(id, facets, env = solvebio:::.solveEnv, ...) {
 Dataset.count <- function(id, env = solvebio:::.solveEnv, ...) {
     params <- list(...)
     # Count queries should not return results
-    params$limit = 0
+    params$limit <- 0
+    params$id <- id
+    params$env <- env
 
-    response <- do.call(Dataset.data, c(id=id, env=env, params))
+    response <- do.call(Dataset.data, params)
 
     return(response$total)
 }
@@ -334,7 +338,7 @@ Dataset.update <- function(id, env = solvebio:::.solveEnv, ...) {
 Dataset.get_by_full_path <- function(full_path, env = solvebio:::.solveEnv) {
     object = Object.get_by_full_path(full_path, env=env)
 
-    dataset = do.call(Dataset.retrieve, list(id=object$dataset_id, env=env))
+    dataset = do.call(Dataset.retrieve, c(object$dataset_id, env))
     return(dataset)
 }
 
@@ -358,7 +362,7 @@ Dataset.get_by_full_path <- function(full_path, env = solvebio:::.solveEnv) {
 Dataset.get_or_create_by_full_path <- function(full_path, env = solvebio:::.solveEnv, ...) {
     dataset = NULL
     tryCatch({
-        dataset = do.call(Dataset.get_by_full_path, list(full_path, env))
+        dataset = do.call(Dataset.get_by_full_path, c(full_path, env))
         if (!is.null(dataset)) {
             return(dataset)
         }
