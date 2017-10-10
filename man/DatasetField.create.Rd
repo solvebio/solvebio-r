@@ -4,7 +4,8 @@
 \alias{DatasetField.create}
 \title{DatasetField.create}
 \usage{
-DatasetField.create(dataset_id, name, data_type = "auto", ...)
+DatasetField.create(dataset_id, name, data_type = "auto",
+  env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{dataset_id}{The dataset ID.}
@@ -12,6 +13,8 @@ DatasetField.create(dataset_id, name, data_type = "auto", ...)
 \item{name}{The name of the dataset field.}
 
 \item{data_type}{(optional) The data type for the field (default: auto).}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional dataset import attributes.}
 }

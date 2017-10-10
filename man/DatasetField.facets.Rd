@@ -4,10 +4,12 @@
 \alias{DatasetField.facets}
 \title{DatasetField.facets}
 \usage{
-DatasetField.facets(id, ...)
+DatasetField.facets(id, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{String The ID of a dataset field.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters.}
 }

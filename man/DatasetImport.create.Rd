@@ -4,12 +4,15 @@
 \alias{DatasetImport.create}
 \title{DatasetImport.create}
 \usage{
-DatasetImport.create(dataset_id, commit_mode = "append", ...)
+DatasetImport.create(dataset_id, commit_mode = "append",
+  env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{dataset_id}{The target dataset ID.}
 
 \item{commit_mode}{(optional) The commit mode (default: append).}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional dataset import attributes.}
 }

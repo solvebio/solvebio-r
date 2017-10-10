@@ -5,7 +5,7 @@
 \title{Expression.evaluate}
 \usage{
 Expression.evaluate(expression, data_type = "string", is_list = FALSE,
-  data = NULL, raw = FALSE)
+  data = NULL, raw = FALSE, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{expression}{The SolveBio expression string.}
@@ -17,6 +17,8 @@ Expression.evaluate(expression, data_type = "string", is_list = FALSE,
 \item{data}{Variables used in the expression (default: NULL).}
 
 \item{raw}{Set to TRUE to return the raw response (default: FALSE).}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Evaluate a SolveBio expression.
