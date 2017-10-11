@@ -18,7 +18,7 @@ test_that("createEnv properly sets defaults", {
 test_that("A default env is created", {
               assert_api_key()
 
-              env <- solvebio::.solveEnv
+              env <- solvebio:::.solveEnv
               expect_equal(env$token, Sys.getenv('SOLVEBIO_API_KEY'))
 })
 
