@@ -4,6 +4,8 @@
 * Adds a few "update" methods for PATCH requests (editing objects)
 * Adds a few new examples for aggregations
 * Raises "stop" errors when Objects cannot be found by full path (previously returned NULL)
+* Adds support for custom client environments (solvebio::createEnv)
+* Removes deprecated Upload methods
 
 
 # solvebio 2.0.1 / 2.0.2
