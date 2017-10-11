@@ -15,8 +15,7 @@ Imports:
     httr,
     jsonlite,
     dplyr (>= 0.5.0),
-    mime,
-    digest
+    mime
 License: MIT + file LICENSE
 Collate:
     solvebio.R
@@ -30,7 +29,6 @@ Collate:
     dataset_import.R
     dataset_migration.R
     object.R
-    upload.R
     user.R
     utils.R
     vault.R
