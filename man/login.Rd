@@ -4,14 +4,14 @@
 \alias{login}
 \title{login}
 \usage{
-login(api_key, api_host, envir = solvebio:::.solveEnv$current)
+login(api_key, api_host, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{api_key}{Your SolveBio API key}
 
 \item{api_host}{SolveBio API host (default: https://api.solvebio.com)}
 
-\item{envir}{(optional) The R environment used to store API credentials.}
+\item{env}{(optional) The R environment used to store API credentials.}
 }
 \description{
 Store and verify your SolveBio credentials.

@@ -22,6 +22,9 @@ install: $(PKG_NAME)_$(PKG_VERSION).tar.gz
  
 NAMESPACE: $(R_FILES)
 	Rscript -e "library(roxygen2);roxygenize('.')"
+
+test:
+	Rscript -e "devtools::test()"
  
 clean:
 	-rm -f $(PKG_NAME)_*.tar.gz

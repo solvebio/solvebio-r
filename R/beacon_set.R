@@ -2,6 +2,7 @@
 #'
 #' Retrieves the metadata about all beacon sets on SolveBio accessible to the current user.
 #'
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters.
 #'
 #' @examples \dontrun{
@@ -12,8 +13,8 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-BeaconSet.all <- function(...) {
-    .request('GET', "v2/beacon_sets", query=list(...))
+BeaconSet.all <- function(env = solvebio:::.solveEnv, ...) {
+    .request('GET', "v2/beacon_sets", query=list(...), env=env)
 }
 
 #' BeaconSet.retrieve
@@ -21,6 +22,7 @@ BeaconSet.all <- function(...) {
 #' Retrieves the metadata about a specific beacon set on SolveBio.
 #'
 #' @param id The ID of the beacon set.
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' BeaconSet.retrieve("1234")
@@ -30,13 +32,13 @@ BeaconSet.all <- function(...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-BeaconSet.retrieve <- function(id) {
+BeaconSet.retrieve <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A beacon set ID is required.")
     }
 
     path <- paste("v2/beacon_sets", paste(id), sep="/")
-    .request('GET', path=path)
+    .request('GET', path=path, env=env)
 }
 
 
@@ -45,6 +47,7 @@ BeaconSet.retrieve <- function(id) {
 #' Updates the attributes of an existing beacon set.
 #'
 #' @param id The ID of the beacon set to update.
+#' @param env (optional) Custom client environment.
 #' @param ... Beacon set attributes to change.
 #'
 #' @examples \dontrun{
@@ -58,7 +61,7 @@ BeaconSet.retrieve <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-BeaconSet.update <- function(id, ...) {
+BeaconSet.update <- function(id, env = solvebio:::.solveEnv, ...) {
     if (missing(id)) {
         stop("A beacon set ID is required.")
     }
@@ -66,7 +69,7 @@ BeaconSet.update <- function(id, ...) {
     params = list(...)
 
     path <- paste("v2/beacon_sets", paste(id), sep="/")
-    .request('PATCH', path=path, query=NULL, body=params)
+    .request('PATCH', path=path, query=NULL, body=params, env=env)
 }
 
 
@@ -75,6 +78,7 @@ BeaconSet.update <- function(id, ...) {
 #' Delete a specific beacon set (including all its beacons) from SolveBio.
 #'
 #' @param id The ID of the beacon set.
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' BeaconSet.delete("1234")
@@ -84,13 +88,13 @@ BeaconSet.update <- function(id, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-BeaconSet.delete <- function(id) {
+BeaconSet.delete <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A beacon set ID is required.")
     }
 
     path <- paste("v2/beacon_sets", paste(id), sep="/")
-    .request('DELETE', path=path)
+    .request('DELETE', path=path, env=env)
 }
 
 
@@ -101,6 +105,7 @@ BeaconSet.delete <- function(id) {
 #' @param title The title displayed for the beacon set.
 #' @param description (optional) An optional description for the new beacon set.
 #' @param is_shared If TRUE, everyone else in your account will be able to see and query the beacon set, but will not be able to edit it. (Default: FALSE)
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional beacon set attributes.
 #'
 #' @examples \dontrun{
@@ -113,7 +118,7 @@ BeaconSet.delete <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-BeaconSet.create <- function(title, description, is_shared=FALSE, ...) {
+BeaconSet.create <- function(title, description, is_shared=FALSE, env = solvebio:::.solveEnv, ...) {
     if (missing(title)) {
         stop("A title is required.")
     }
@@ -128,7 +133,7 @@ BeaconSet.create <- function(title, description, is_shared=FALSE, ...) {
                   ...
                   )
 
-    .request('POST', path='v2/beacon_sets', query=NULL, body=params)
+    .request('POST', path='v2/beacon_sets', query=NULL, body=params, env=env)
 }
 
 
@@ -139,6 +144,7 @@ BeaconSet.create <- function(title, description, is_shared=FALSE, ...) {
 #' @param id The ID of the beacon set.
 #' @param query The entity ID or query string.
 #' @param entity_type (optional) A valid SolveBio entity type.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters.
 #'
 #' @examples \dontrun{
@@ -153,7 +159,7 @@ BeaconSet.create <- function(title, description, is_shared=FALSE, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-BeaconSet.query <- function(id, query, entity_type, ...) {
+BeaconSet.query <- function(id, query, entity_type, env = solvebio:::.solveEnv, ...) {
     if (missing(id)) {
         stop("A beacon set ID is required.")
     }
@@ -172,5 +178,5 @@ BeaconSet.query <- function(id, query, entity_type, ...) {
 
     path <- paste("v2/beacon_sets", paste(id), "query", sep="/")
 
-    .request('POST', path=path, query=NULL, body=params)
+    .request('POST', path=path, query=NULL, body=params, env=env)
 }

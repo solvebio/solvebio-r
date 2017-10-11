@@ -4,10 +4,12 @@
 \alias{Dataset.update}
 \title{Dataset.update}
 \usage{
-Dataset.update(id, ...)
+Dataset.update(id, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the dataset to update.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{Dataset attributes to change.}
 }

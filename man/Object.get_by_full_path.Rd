@@ -4,10 +4,12 @@
 \alias{Object.get_by_full_path}
 \title{Object.get_by_full_path}
 \usage{
-Object.get_by_full_path(full_path, ...)
+Object.get_by_full_path(full_path, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{full_path}{The full path to the object.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters.}
 }

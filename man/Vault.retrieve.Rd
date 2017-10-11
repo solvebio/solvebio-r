@@ -4,10 +4,12 @@
 \alias{Vault.retrieve}
 \title{Vault.retrieve}
 \usage{
-Vault.retrieve(id)
+Vault.retrieve(id, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio vault}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Retrieves the metadata about a specific SolveBio vault.

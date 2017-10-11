@@ -4,10 +4,12 @@
 \alias{Beacon.update}
 \title{Beacon.update}
 \usage{
-Beacon.update(id, ...)
+Beacon.update(id, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the beacon to update.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{Beacon attributes to change.}
 }

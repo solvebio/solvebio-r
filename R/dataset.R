@@ -2,6 +2,7 @@
 #'
 #' Retrieves the metadata about datasets on SolveBio.
 #'
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. page).
 #'
 #' @examples \dontrun{
@@ -12,8 +13,8 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.all <- function(...) {
-    .request('GET', "v2/datasets", query=list(...))
+Dataset.all <- function(env = solvebio:::.solveEnv, ...) {
+    .request('GET', "v2/datasets", query=list(...), env=env)
 }
 
 
@@ -22,6 +23,7 @@ Dataset.all <- function(...) {
 #' Retrieves the metadata about a specific dataset from SolveBio.
 #'
 #' @param id String The ID of a SolveBio dataset
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' Dataset.retrieve("1234567890")
@@ -31,13 +33,13 @@ Dataset.all <- function(...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.retrieve <- function(id) {
+Dataset.retrieve <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A dataset ID is required.")
     }
 
     path <- paste("v2/datasets", paste(id), sep="/")
-    .request('GET', path=path)
+    .request('GET', path=path, env=env)
 }
 
 
@@ -46,6 +48,7 @@ Dataset.retrieve <- function(id) {
 #' Delete a specific dataset from SolveBio.
 #'
 #' @param id String The ID of a SolveBio dataset
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' Dataset.delete("1234567890")
@@ -55,13 +58,13 @@ Dataset.retrieve <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.delete <- function(id) {
+Dataset.delete <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A dataset ID is required.")
     }
 
     path <- paste("v2/datasets", paste(id), sep="/")
-    .request('DELETE', path=path)
+    .request('DELETE', path=path, env=env)
 }
 
 
@@ -70,6 +73,7 @@ Dataset.delete <- function(id) {
 #' Returns one page of documents from a SolveBio dataset and processes the response.
 #' @param id The ID of a SolveBio dataset, or a Dataset object.
 #' @param filters (optional) Query filters.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
@@ -80,18 +84,18 @@ Dataset.delete <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.data <- function(id, filters, ...) {
-    if (missing(id) | !(class(id) %in% c("Dataset", "numeric", "integer", "character"))) {
+Dataset.data <- function(id, filters, env = solvebio:::.solveEnv, ...) {
+    if (missing(id) || !(class(id) %in% c("Dataset", "numeric", "integer", "character"))) {
         stop("A dataset ID (or object) is required.")
     }
-    if (class(id) == "Dataset") {
+    if (class(id) == "Dataset" || class(id) == "Object") {
         id <- id$id
     }
 
     body = list(...)
 
     # Filters can be passed as a JSON string
-    if (!missing(filters) && !is.null(filters) && filters != "") {
+    if (!missing(filters) && !is.null(filters) && length(filters) > 0) {
         if (class(filters) == "character") {
             # Convert JSON string to an R structure
             filters <- jsonlite::fromJSON(filters)
@@ -100,10 +104,15 @@ Dataset.data <- function(id, filters, ...) {
         body = modifyList(body, list(filters=filters))
     }
 
+    if (length(body) == 0) {
+        # Sending an empty list() as a body breaks querying.
+        body <- NULL
+    }
+
     path <- paste("v2/datasets", paste(id), "data", sep="/")
 
     tryCatch({
-        res <- .request('POST', path=path, body=body)
+        res <- .request('POST', path=path, body=body, env=env)
         return(formatSolveBioQueryResponse(res))
     }, error = function(e) {
         cat(sprintf("Query failed: %s\n", e$message))
@@ -118,6 +127,7 @@ Dataset.data <- function(id, filters, ...) {
 #'
 #' @param id The ID of a SolveBio dataset, or a Dataset object.
 #' @param paginate When set to TRUE, retrieves up to 500,000 records.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
 #'
 #' @examples \dontrun{
@@ -128,20 +138,22 @@ Dataset.data <- function(id, filters, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.query <- function(id, paginate=FALSE, ...) {
+Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
     # Max allowed records (total) when paginating
     max_records = 500000
     params <- list(...)
+    params$id <- id
+    params$env <- env
 
     # Retrieve the first page of results
-    response <- do.call(Dataset.data, c(id, params))
+    response <- do.call(Dataset.data, params)
     df <- response$result
     offset <- response$offset
 
     # continue to make requests for data if pagination is enabled and there are more records
     while (isTRUE(paginate) && !is.null(offset)) {
-        params['offset'] <- offset
-        response <- do.call(Dataset.data, c(id, params))
+        params$offset <- offset
+        response <- do.call(Dataset.data, params)
         df_page <- response$results
         df <- dplyr::bind_rows(df, df_page)
         offset <- response$offset
@@ -169,6 +181,7 @@ Dataset.query <- function(id, paginate=FALSE, ...) {
 #'
 #' @param id The ID of a SolveBio dataset, or a Dataset object.
 #' @param facets A list of one or more field facets.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
 #'
 #' @examples \dontrun{
@@ -179,7 +192,7 @@ Dataset.query <- function(id, paginate=FALSE, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.facets <- function(id, facets, ...) {
+Dataset.facets <- function(id, facets, env = solvebio:::.solveEnv, ...) {
     if (missing(facets) || is.null(facets) || facets == "") {
         stop("A list of one or more facets is required.")
     }
@@ -193,10 +206,12 @@ Dataset.facets <- function(id, facets, ...) {
 
     params <- list(...)
     # Facet queries should not return results
-    params$limit = 0
+    params$limit <- 0
+    params$id <- id
+    params$env <- env
     params <- modifyList(params, list(facets=facets))
 
-    response <- do.call(Dataset.data, c(id=id, params))
+    response <- do.call(Dataset.data, params)
 
     return(response$facets)
 }
@@ -206,6 +221,7 @@ Dataset.facets <- function(id, facets, ...) {
 #'
 #' Returns the total number of records for a given SolveBio dataset.
 #' @param id The ID of a SolveBio dataset, or a Dataset object.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
 #'
 #' @examples \dontrun{
@@ -218,12 +234,14 @@ Dataset.facets <- function(id, facets, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.count <- function(id, ...) {
+Dataset.count <- function(id, env = solvebio:::.solveEnv, ...) {
     params <- list(...)
     # Count queries should not return results
-    params$limit = 0
+    params$limit <- 0
+    params$id <- id
+    params$env <- env
 
-    response <- do.call(Dataset.data, c(id=id, params))
+    response <- do.call(Dataset.data, params)
 
     return(response$total)
 }
@@ -235,6 +253,7 @@ Dataset.count <- function(id, ...) {
 #' @param vault_id The ID of the vault.
 #' @param vault_parent_object_id The parent object (folder) ID in the vault.
 #' @param name The name of the dataset in the parent folder.
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional dataset attributes.
 #'
 #' @examples \dontrun{
@@ -245,7 +264,7 @@ Dataset.count <- function(id, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.create <- function(vault_id, vault_parent_object_id, name, ...) {
+Dataset.create <- function(vault_id, vault_parent_object_id, name, env = solvebio:::.solveEnv, ...) {
     if (missing(vault_id)) {
         stop("A vault ID is required.")
     }
@@ -264,7 +283,7 @@ Dataset.create <- function(vault_id, vault_parent_object_id, name, ...) {
                   ...
                   )
 
-    dataset <- .request('POST', path='v2/datasets', query=NULL, body=params)
+    dataset <- .request('POST', path='v2/datasets', query=NULL, body=params, env=env)
 
     return(dataset)
 }
@@ -275,6 +294,7 @@ Dataset.create <- function(vault_id, vault_parent_object_id, name, ...) {
 #' Updates the attributes of an existing dataset.
 #'
 #' @param id The ID of the dataset to update.
+#' @param env (optional) Custom client environment.
 #' @param ... Dataset attributes to change.
 #'
 #' @examples \dontrun{
@@ -288,7 +308,7 @@ Dataset.create <- function(vault_id, vault_parent_object_id, name, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.update <- function(id, ...) {
+Dataset.update <- function(id, env = solvebio:::.solveEnv, ...) {
     if (missing(id)) {
         stop("A dataset ID is required.")
     }
@@ -296,7 +316,7 @@ Dataset.update <- function(id, ...) {
     params = list(...)
 
     path <- paste("v2/datasets", paste(id), sep="/")
-    .request('PATCH', path=path, query=NULL, body=params)
+    .request('PATCH', path=path, query=NULL, body=params, env=env)
 }
 
 
@@ -305,6 +325,7 @@ Dataset.update <- function(id, ...) {
 #' A helper function to get a dataset by its full path.
 #'
 #' @param full_path A valid full path to a dataset.
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' Dataset.get_by_full_path("solvebio:public:/ClinVar/3.7.4-2017-01-30/Variants-GRCh37")
@@ -314,10 +335,10 @@ Dataset.update <- function(id, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.get_by_full_path <- function(full_path) {
-    object = Object.get_by_full_path(full_path)
+Dataset.get_by_full_path <- function(full_path, env = solvebio:::.solveEnv) {
+    object = Object.get_by_full_path(full_path, env=env)
 
-    dataset = do.call(Dataset.retrieve, list(id=object$dataset_id))
+    dataset = do.call(Dataset.retrieve, list(id=object$dataset_id, env=env))
     return(dataset)
 }
 
@@ -327,6 +348,7 @@ Dataset.get_by_full_path <- function(full_path) {
 #' A helper function to get or create a dataset by its full path.
 #'
 #' @param full_path A valid full path to a dataset.
+#' @param env (optional) Custom client environment.
 #' @param ... Additional dataset creation parameters.
 #'
 #' @examples \dontrun{
@@ -337,10 +359,10 @@ Dataset.get_by_full_path <- function(full_path) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.get_or_create_by_full_path <- function(full_path, ...) {
+Dataset.get_or_create_by_full_path <- function(full_path, env = solvebio:::.solveEnv, ...) {
     dataset = NULL
     tryCatch({
-        dataset = do.call(Dataset.get_by_full_path, list(full_path))
+        dataset <- Dataset.get_by_full_path(full_path=full_path, env=env)
         if (!is.null(dataset)) {
             return(dataset)
         }
@@ -354,12 +376,12 @@ Dataset.get_or_create_by_full_path <- function(full_path, ...) {
         account_domain = parts[[1]]
         vault_name = parts[[2]]
         object_path = parts[[3]]
-        vault = Vault.get_by_full_path(paste(account_domain, vault_name, sep=":"))
+        vault = Vault.get_by_full_path(paste(account_domain, vault_name, sep=":"), env=env)
     }
     else if (length(parts) == 2) {
         vault_name = parts[[1]]
         object_path = parts[[2]]
-        vault = Vault.get_by_full_path(vault_name)
+        vault = Vault.get_by_full_path(vault_name, env=env)
     }
     else if (length(parts) == 1) {
         # TODO: Get or create by (relative) path?
@@ -387,12 +409,13 @@ Dataset.get_or_create_by_full_path <- function(full_path, ...) {
     }
     else {
         # Get or create the parent folder
-        parent_object = Object.get_by_path(path=parent_path, vault_id=vault$id)
+        parent_object = Object.get_by_path(path=parent_path, vault_id=vault$id, env=env)
         if (is.null(parent_object) || (is.data.frame(parent_object) && nrow(parent_object) == 0)) {
             parent_object = Vault.create_folder(
                                                 id=vault$id,
                                                 path=parent_path,
-                                                recursive=TRUE
+                                                recursive=TRUE,
+                                                env=env
                                                 )
         }
         parent_object_id = parent_object$id
@@ -403,6 +426,7 @@ Dataset.get_or_create_by_full_path <- function(full_path, ...) {
                              vault_id=vault$id,
                              vault_parent_object_id=parent_object_id,
                              name=dataset_name,
+                             env=env,
                              ...
                              )
 

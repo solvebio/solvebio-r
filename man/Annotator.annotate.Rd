@@ -4,7 +4,8 @@
 \alias{Annotator.annotate}
 \title{Annotator.annotate}
 \usage{
-Annotator.annotate(records, fields, include_errors = FALSE, raw = FALSE)
+Annotator.annotate(records, fields, include_errors = FALSE, raw = FALSE,
+  env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{records}{The data table or data frame to annotate.}
@@ -14,6 +15,8 @@ Annotator.annotate(records, fields, include_errors = FALSE, raw = FALSE)
 \item{include_errors}{Set to TRUE to include errors in the output (default: FALSE).}
 
 \item{raw}{Set to TRUE to return the raw response (default: FALSE).}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Annotate a data table/frame with additional fields.

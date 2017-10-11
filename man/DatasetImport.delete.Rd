@@ -4,10 +4,12 @@
 \alias{DatasetImport.delete}
 \title{DatasetImport.delete}
 \usage{
-DatasetImport.delete(id)
+DatasetImport.delete(id, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio dataset import.}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Deletes a specific dataset import on SolveBio.

@@ -4,10 +4,12 @@
 \alias{DatasetCommit.retrieve}
 \title{DatasetCommit.retrieve}
 \usage{
-DatasetCommit.retrieve(id)
+DatasetCommit.retrieve(id, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio dataset commit.}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Retrieves the metadata about a specific dataset commit on SolveBio.

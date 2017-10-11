@@ -4,12 +4,14 @@
 \alias{Dataset.query}
 \title{Dataset.query}
 \usage{
-Dataset.query(id, paginate = FALSE, ...)
+Dataset.query(id, paginate = FALSE, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of a SolveBio dataset, or a Dataset object.}
 
 \item{paginate}{When set to TRUE, retrieves up to 500,000 records.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters (e.g. filters, limit, offset).}
 }

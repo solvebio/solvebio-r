@@ -73,6 +73,12 @@ devtools::install_github("solvebio/solvebio-r")
 library(solvebio)
 ```
 
+To run the test suite:
+
+```bash
+make test
+```
+
 
 ## Migrating to Version 2
 

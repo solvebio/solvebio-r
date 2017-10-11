@@ -4,7 +4,8 @@
 \alias{Beacon.create}
 \title{Beacon.create}
 \usage{
-Beacon.create(beacon_set_id, vault_object_id, title, ...)
+Beacon.create(beacon_set_id, vault_object_id, title,
+  env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{beacon_set_id}{The ID of the parent beacon set.}
@@ -12,6 +13,8 @@ Beacon.create(beacon_set_id, vault_object_id, title, ...)
 \item{vault_object_id}{The ID of the vault object (i.e. dataset) queried by the beacon.}
 
 \item{title}{The title displayed for the beacon.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional beacon attributes (such as description and params).}
 }

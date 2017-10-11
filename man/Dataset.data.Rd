@@ -4,12 +4,14 @@
 \alias{Dataset.data}
 \title{Dataset.data}
 \usage{
-Dataset.data(id, filters, ...)
+Dataset.data(id, filters, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of a SolveBio dataset, or a Dataset object.}
 
 \item{filters}{(optional) Query filters.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters (e.g. limit, offset).}
 }

@@ -4,10 +4,12 @@
 \alias{DatasetField.update}
 \title{DatasetField.update}
 \usage{
-DatasetField.update(id, ...)
+DatasetField.update(id, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the dataset field to update.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{Dataset field attributes to change.}
 }

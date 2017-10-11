@@ -4,10 +4,12 @@
 \alias{Object.retrieve}
 \title{Object.retrieve}
 \usage{
-Object.retrieve(id)
+Object.retrieve(id, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{id}{The ID of the object.}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Retrieves the metadata about a specific object on SolveBio.

@@ -4,10 +4,12 @@
 \alias{Dataset.retrieve}
 \title{Dataset.retrieve}
 \usage{
-Dataset.retrieve(id)
+Dataset.retrieve(id, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio dataset}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Retrieves the metadata about a specific dataset from SolveBio.

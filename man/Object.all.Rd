@@ -4,9 +4,11 @@
 \alias{Object.all}
 \title{Object.all}
 \usage{
-Object.all(...)
+Object.all(env = solvebio:::.solveEnv, ...)
 }
 \arguments{
+\item{env}{(optional) Custom client environment.}
+
 \item{...}{(optional) Additional query parameters.}
 }
 \description{

@@ -4,10 +4,12 @@
 \alias{DatasetField.retrieve}
 \title{DatasetField.retrieve}
 \usage{
-DatasetField.retrieve(id)
+DatasetField.retrieve(id, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a dataset field.}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Retrieves the metadata about a specific dataset field.

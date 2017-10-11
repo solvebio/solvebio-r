@@ -4,10 +4,12 @@
 \alias{DatasetExport.retrieve}
 \title{DatasetExport.retrieve}
 \usage{
-DatasetExport.retrieve(id)
+DatasetExport.retrieve(id, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio dataset export.}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Retrieves the metadata about a specific dataset export on SolveBio.

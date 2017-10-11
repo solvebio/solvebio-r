@@ -4,10 +4,12 @@
 \alias{Dataset.count}
 \title{Dataset.count}
 \usage{
-Dataset.count(id, ...)
+Dataset.count(id, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of a SolveBio dataset, or a Dataset object.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters (e.g. filters, limit, offset).}
 }

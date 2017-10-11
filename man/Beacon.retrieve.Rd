@@ -4,10 +4,12 @@
 \alias{Beacon.retrieve}
 \title{Beacon.retrieve}
 \usage{
-Beacon.retrieve(id)
+Beacon.retrieve(id, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{id}{The ID of the beacon.}
+
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Retrieves the metadata about a specific beacon on SolveBio.

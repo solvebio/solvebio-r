@@ -4,7 +4,10 @@
 \alias{Vault.get_personal_vault}
 \title{Vault.get_personal_vault}
 \usage{
-Vault.get_personal_vault()
+Vault.get_personal_vault(env = solvebio:::.solveEnv)
+}
+\arguments{
+\item{env}{(optional) Custom client environment.}
 }
 \description{
 Retrieves the current users"s personal, private vault.

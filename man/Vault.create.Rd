@@ -4,10 +4,12 @@
 \alias{Vault.create}
 \title{Vault.create}
 \usage{
-Vault.create(name, ...)
+Vault.create(name, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{name}{The unique name of the vault.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional vault attributes.}
 }

@@ -4,9 +4,11 @@
 \alias{DatasetExport.all}
 \title{DatasetExport.all}
 \usage{
-DatasetExport.all(...)
+DatasetExport.all(env = solvebio:::.solveEnv, ...)
 }
 \arguments{
+\item{env}{(optional) Custom client environment.}
+
 \item{...}{(optional) Additional query parameters (e.g. page).}
 }
 \description{

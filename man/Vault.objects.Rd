@@ -4,10 +4,12 @@
 \alias{Vault.objects}
 \title{Vault.objects}
 \usage{
-Vault.objects(id, ...)
+Vault.objects(id, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the vault.}
+
+\item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters (e.g. limit, offset).}
 }

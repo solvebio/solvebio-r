@@ -2,6 +2,7 @@
 #'
 #' Retrieves the metadata about all dataset migrations on SolveBio.
 #'
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. page).
 #'
 #' @examples \dontrun{
@@ -12,8 +13,8 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetMigration.all <- function(...) {
-    .request('GET', "v2/dataset_migrations", query=list(...))
+DatasetMigration.all <- function(env = solvebio:::.solveEnv, ...) {
+    .request('GET', "v2/dataset_migrations", query=list(...), env=env)
 }
 
 
@@ -22,6 +23,7 @@ DatasetMigration.all <- function(...) {
 #' Retrieves the metadata about a specific dataset migration on SolveBio.
 #'
 #' @param id String The ID of a SolveBio dataset migration.
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' DatasetMigration.retrieve(<ID>)
@@ -31,13 +33,13 @@ DatasetMigration.all <- function(...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetMigration.retrieve <- function(id) {
+DatasetMigration.retrieve <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A dataset migration ID is required.")
     }
 
     path <- paste("v2/dataset_migrations", paste(id), sep="/")
-    .request('GET', path=path)
+    .request('GET', path=path, env=env)
 }
 
 
@@ -46,6 +48,7 @@ DatasetMigration.retrieve <- function(id) {
 #' Deletes specific dataset migration on SolveBio.
 #'
 #' @param id String The ID of a SolveBio dataset migration.
+#' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' DatasetMigration.delete(<ID>)
@@ -55,13 +58,13 @@ DatasetMigration.retrieve <- function(id) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetMigration.delete <- function(id) {
+DatasetMigration.delete <- function(id, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A dataset migration ID is required.")
     }
 
     path <- paste("v2/dataset_migrations", paste(id), sep="/")
-    .request('DELETE', path=path)
+    .request('DELETE', path=path, env=env)
 }
 
 
@@ -75,6 +78,7 @@ DatasetMigration.delete <- function(id) {
 #' @param source_params (optional) The query parameters used on the source dataset.
 #' @param target_fields (optional) A list of valid dataset fields to add or override in the target dataset.
 #' @param include_errors (optional) If TRUE, a new field (_errors) will be added to each record containing expression evaluation errors (default: FALSE).
+#' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional dataset migration attributes.
 #'
 #' @examples \dontrun{
@@ -92,6 +96,7 @@ DatasetMigration.create <- function(
                                     source_params=NULL,
                                     target_fields=NULL,
                                     include_errors=FALSE,
+                                    env = solvebio:::.solveEnv,
                                     ...) {
     if (missing(source_id)) {
         stop("A source dataset ID is required.")
@@ -111,7 +116,7 @@ DatasetMigration.create <- function(
                   ...
                   )
 
-    dataset_migration <- .request('POST', path='v2/dataset_migrations', query=NULL, body=params)
+    dataset_migration <- .request('POST', path='v2/dataset_migrations', query=NULL, body=params, env=env)
 
     return(dataset_migration)
 }

@@ -29,7 +29,9 @@ Collate:
     dataset_import.R
     dataset_migration.R
     object.R
+    user.R
     utils.R
     vault.R
     zzz.R
 RoxygenNote: 6.0.1
+Suggests: testthat

@@ -4,9 +4,11 @@
 \alias{DatasetImport.all}
 \title{DatasetImport.all}
 \usage{
-DatasetImport.all(...)
+DatasetImport.all(env = solvebio:::.solveEnv, ...)
 }
 \arguments{
+\item{env}{(optional) Custom client environment.}
+
 \item{...}{(optional) Additional query parameters (e.g. page).}
 }
 \description{
