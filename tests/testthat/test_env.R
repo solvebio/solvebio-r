@@ -65,6 +65,18 @@ test_that("Functions with env arguments can be called out of order", {
               expect_equal(nrow(res$data), 1)
               res <- Object.all(env=good_env, limit=1)
               expect_equal(nrow(res$data), 1)
+
+              obj <- res$data
+              new_obj <- Object.get_by_path(obj$path, good_env, vault_id=obj$vault_id)
+              expect_equal(obj, new_obj)
+              new_obj <- Object.get_by_path(obj$path, env=good_env, vault_id=obj$vault_id)
+              expect_equal(obj, new_obj)
+              new_obj <- Object.get_by_path(env=good_env, vault_id=obj$vault_id, path=obj$path)
+              expect_equal(obj, new_obj)
+
+              expect_error(Object.get_by_path(obj$path, bad_env, vault_id=obj$vault_id), ".*401.*")
+              expect_error(Object.get_by_path(obj$path, env=bad_env, vault_id=obj$vault_id), ".*401.*")
+              expect_error(Object.get_by_path(env=bad_env, vault_id=obj$vault_id, path=obj$path), ".*401.*")
 })
 
 test_that("do.call works with env argument", {
