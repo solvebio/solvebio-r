@@ -338,7 +338,7 @@ Dataset.update <- function(id, env = solvebio:::.solveEnv, ...) {
 Dataset.get_by_full_path <- function(full_path, env = solvebio:::.solveEnv) {
     object = Object.get_by_full_path(full_path, env=env)
 
-    dataset = do.call(Dataset.retrieve, c(object$dataset_id, env))
+    dataset = do.call(Dataset.retrieve, list(id=object$dataset_id, env=env))
     return(dataset)
 }
 
