@@ -20,6 +20,7 @@ License: MIT + file LICENSE
 Collate:
     solvebio.R
     annotation.R
+    application.R
     beacon.R
     beacon_set.R
     dataset.R
