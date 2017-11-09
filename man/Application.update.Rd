@@ -19,9 +19,9 @@ Updates the attributes of an existing application.
 \examples{
 \dontrun{
 Application.update(
-                 "abcd1234",
-                 name="New app name"
-                )
+                   "abcd1234",
+                   name="New app name"
+                   )
 }
 
 }

@@ -53,9 +53,9 @@ Application.retrieve <- function(client_id, env = solvebio:::.solveEnv) {
 #'
 #' @examples \dontrun{
 #' Application.update(
-#'                  "abcd1234",
-#'                  name="New app name"
-#'                 )
+#'                    "abcd1234",
+#'                    name="New app name"
+#'                    )
 #' }
 #'
 #' @references
@@ -110,8 +110,8 @@ Application.delete <- function(client_id, env = solvebio:::.solveEnv) {
 #'
 #' @examples \dontrun{
 #' Application.create(
-#'                  title="My new application",
-#'                  )
+#'                    name="My new application",
+#'                    )
 #' }
 #'
 #' @references
@@ -127,7 +127,7 @@ Application.create <- function(name, description, env = solvebio:::.solveEnv, ..
     }
 
     params = list(
-                  title=title,
+                  name=name,
                   description=description,
                   ...
                   )
@@ -185,20 +185,20 @@ Application.shinyServer <- function(client_id, server, base_url) {
 
         .shinyLoginModal <- function(authorization_url) {
             onclick <- sprintf("window.location = '%s'", authorization_url)
-            modalDialog(
-                        span('Please log in with SolveBio before proceeding.'),
-                        footer = tagList(
-                                         shiny::actionButton(inputId='login-button',
-                                                             label="Log in with SolveBio",
-                                                             onclick=onclick)
-                                         ),
-                        easyClose = FALSE
-                        )
+            shiny::modalDialog(
+                               shiny::tags$span('Please log in with SolveBio before proceeding.'),
+                               footer = shiny::tagList(
+                                                       shiny::actionButton(inputId='login-button',
+                                                                           label="Log in with SolveBio",
+                                                                           onclick=onclick)
+                                                       ),
+                               easyClose = FALSE
+                               )
         }
 
-        observeEvent(session$clientData$url_search, {
+        shiny::observeEvent(session$clientData$url_search, {
                          params <- gsub(pattern = "?", replacement = "", x = session$clientData$url_search)
-                         parsed_params <- parseQueryString(params)
+                         parsed_params <- shiny::parseQueryString(params)
                          # Remove the code from the query params after parsing
                          shiny::updateQueryString("?", mode="replace", session)
                          redirect_uri <- .makeAppURL(session)
@@ -206,7 +206,7 @@ Application.shinyServer <- function(client_id, server, base_url) {
                          if (is.null(parsed_params$code)) {
                              authorization_url <- .makeAuthorizationURL(client_id, redirect_uri, base_url)
                              session$userData$access_token <- NULL
-                             showModal(.shinyLoginModal(authorization_url))
+                             shiny::showModal(.shinyLoginModal(authorization_url))
                          }
                          else {
                              # Retrieve an access_token from the code

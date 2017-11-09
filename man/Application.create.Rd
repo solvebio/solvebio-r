@@ -21,8 +21,8 @@ Create a new SolveBio application.
 \examples{
 \dontrun{
 Application.create(
-                 title="My new application",
-                 )
+                   name="My new application",
+                   )
 }
 
 }
