@@ -30,6 +30,7 @@ Collate:
     dataset_import.R
     dataset_migration.R
     object.R
+    shiny.R
     user.R
     utils.R
     vault.R
