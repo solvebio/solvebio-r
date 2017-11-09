@@ -20,6 +20,7 @@ License: MIT + file LICENSE
 Collate:
     solvebio.R
     annotation.R
+    application.R
     beacon.R
     beacon_set.R
     dataset.R
@@ -29,9 +30,12 @@ Collate:
     dataset_import.R
     dataset_migration.R
     object.R
+    shiny.R
     user.R
     utils.R
     vault.R
     zzz.R
 RoxygenNote: 6.0.1
-Suggests: testthat
+Suggests:
+    testthat,
+    shiny

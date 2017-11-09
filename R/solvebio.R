@@ -77,13 +77,13 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
 
 
 # Private API request method.
-.request = function(method, path, query, body, env = solvebio:::.solveEnv, ...) {
+.request = function(method, path, query, body, env = solvebio:::.solveEnv, content_type="application/json", ...) {
     'Perform an HTTP request to the server.'
     # Set defaults
     headers <- c(
-                 Accept = "application/json",
-                 "Content-Type" = "application/json",
-                 "Accept-Encoding" = "gzip,deflate"
+                 "Accept" = "application/json",
+                 "Accept-Encoding" = "gzip,deflate",
+                 "Content-Type" = content_type
                  )
 
     if (!is.null(env$token) && nchar(env$token) != 0) {
@@ -105,10 +105,16 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
                          R.version$platform)
     config <- httr::config(useragent = useragent)
 
-    if (!missing(body)) {
-        body <- jsonlite::toJSON(body, auto_unbox=TRUE)
-    } else {
-        body = NULL
+    if (content_type == "application/json") {
+        if (!missing(body)) {
+            body <- jsonlite::toJSON(body, auto_unbox=TRUE)
+        } else {
+            body = NULL
+        }
+        encode = "json"
+    }
+    else {
+        encode = "form"
     }
 
     if (missing(query)) {
@@ -132,7 +138,7 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
                                  config = config,
                                  body = body,
                                  query = query,
-                                 encode = "json",
+                                 encode = encode,
                                  ...
                                  )
            },
@@ -143,7 +149,7 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
                                  config = config,
                                  body = body,
                                  query = query,
-                                 encode = "json",
+                                 encode = encode,
                                  ...
                                  )
            },
@@ -154,7 +160,7 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
                                  config = config,
                                  body = body,
                                  query = query,
-                                 encode = "json",
+                                 encode = encode,
                                  ...
                                  )
            },
