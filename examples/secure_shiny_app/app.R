@@ -6,7 +6,7 @@ require(solvebio)
 
 client_id <- "your SolveBio app client ID"
 
-base_server <- function(input, output, session) {
+server <- function(input, output, session) {
     makeSolveBioLink <- function(dataset_id) {
         # Create a link on SolveBio for a dataset.
         url <- tags$a("Open on SolveBio", href=paste0('https://my.solvebio.com/data/', dataset_id))
@@ -85,6 +85,6 @@ ui <- dashboardPage(
 
 
 # Wrap your base server and return a new secure server function
-server <- solvebio::Application.shinyServer(client_id, base_server)
+server <- solvebio::Application.shinyServer(client_id, server)
 
 shinyApp(ui = ui, server = server)

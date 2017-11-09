@@ -174,7 +174,7 @@ Application.shinyServer <- function(client_id, server, base_url) {
                     )
         }
 
-        .makeAppURL <- function(session) {
+        .makeRedirectURL <- function(session) {
             port <- session$clientData$url_port
             url <- paste0(session$clientData$url_protocol,
                           "//",
@@ -201,7 +201,7 @@ Application.shinyServer <- function(client_id, server, base_url) {
                          parsed_params <- shiny::parseQueryString(params)
                          # Remove the code from the query params after parsing
                          shiny::updateQueryString("?", mode="replace", session)
-                         redirect_uri <- .makeAppURL(session)
+                         redirect_uri <- .makeRedirectURL(session)
 
                          if (is.null(parsed_params$code)) {
                              authorization_url <- .makeAuthorizationURL(client_id, redirect_uri, base_url)
