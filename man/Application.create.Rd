@@ -4,12 +4,12 @@
 \alias{Application.create}
 \title{Application.create}
 \usage{
-Application.create(name, description, env = solvebio:::.solveEnv, ...)
+Application.create(name, redirect_uris, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{name}{The name of the application.}
 
-\item{description}{(optional) An optional description for the application.}
+\item{redirect_uris}{A list of space-separated OAuth2 redirect URIs.}
 
 \item{env}{(optional) Custom client environment.}
 
@@ -22,6 +22,7 @@ Create a new SolveBio application.
 \dontrun{
 Application.create(
                    name="My new application",
+                   redirect_uris="http://localhost:3838/"
                    )
 }
 

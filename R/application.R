@@ -104,13 +104,14 @@ Application.delete <- function(client_id, env = solvebio:::.solveEnv) {
 #' Create a new SolveBio application.
 #'
 #' @param name The name of the application.
-#' @param description (optional) An optional description for the application.
+#' @param redirect_uris A list of space-separated OAuth2 redirect URIs.
 #' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional application attributes.
 #'
 #' @examples \dontrun{
 #' Application.create(
 #'                    name="My new application",
+#'                    redirect_uris="http://localhost:3838/"
 #'                    )
 #' }
 #'
@@ -118,17 +119,17 @@ Application.delete <- function(client_id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Application.create <- function(name, description, env = solvebio:::.solveEnv, ...) {
+Application.create <- function(name, redirect_uris, env = solvebio:::.solveEnv, ...) {
     if (missing(name)) {
         stop("A name is required.")
     }
-    if (missing(description)) {
-        description = ""
+    if (missing(redirect_uris)) {
+        stop("A redirect URI is required.")
     }
 
     params = list(
                   name=name,
-                  description=description,
+                  redirect_uris=redirect_uris,
                   ...
                   )
 
