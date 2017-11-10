@@ -68,6 +68,31 @@ Dataset.delete <- function(id, env = solvebio:::.solveEnv) {
 }
 
 
+#' Dataset.template
+#'
+#' Retrieves the template for a dataset.
+#'
+#' @param id String The ID of a SolveBio dataset
+#' @param env (optional) Custom client environment.
+#'
+#' @examples \dontrun{
+#' Dataset.template("1234567890")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Dataset.template <- function(id, env = solvebio:::.solveEnv) {
+    if (missing(id)) {
+        stop("A dataset ID is required.")
+    }
+
+    path <- paste("v2/datasets", paste(id), "template", sep="/")
+    .request('GET', path=path, env=env)
+}
+
+
 #' Dataset.data
 #'
 #' Returns one page of documents from a SolveBio dataset and processes the response.
