@@ -1,3 +1,11 @@
+# solvebio 2.2.0
+
+* Adds Application resource support (OAuth2 apps)
+* [beta] Adds Shiny server wrapper (protected server)
+* Fixes issues with env pass-through
+* Removes deprecated Upload resource
+
+
 # solvebio 2.1.0
 
 * Adds Beacon and BeaconSet methods
