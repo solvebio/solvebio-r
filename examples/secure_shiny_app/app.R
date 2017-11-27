@@ -1,8 +1,8 @@
-require(shiny)
-require(shinydashboard)
-require(DT)
+library(shiny)
+library(shinydashboard)
+library(DT)
 library(tidyverse)
-require(solvebio)
+library(solvebio)
 
 CLIENT_ID <- Sys.getenv('CLIENT_ID', unset='your SolveBio app client ID')
 
