@@ -8,19 +8,14 @@ CLIENT_ID <- Sys.getenv('CLIENT_ID', unset='your SolveBio app client ID')
 # Client secret is optional
 CLIENT_SECRET <- Sys.getenv('CLIENT_SECRET')
 
-server <- function(input, output, session) {
-    makeSolveBioLink <- function(dataset_id) {
-        # Create a link on SolveBio for a dataset.
-        url <- tags$a("Open on SolveBio", href=paste0('https://my.solvebio.com/data/', dataset_id))
-        return(as.character(url))
-    }
 
+server <- function(input, output, session) {
     retrieveDatasets <- reactive({
         # Get a list of datasets in the current user's personal vault.
         env = session$userData$solvebio_env
 
         vault = Vault.get_personal_vault(env=env)
-        datasets <- Vault.datasets(vault$id, env=env)
+        datasets <- Vault.datasets(vault$id, limit=1000, env=env)
         shiny::validate(need(nrow(datasets)>0, "No datasets found."))
         return(datasets)
     })
@@ -29,9 +24,9 @@ server <- function(input, output, session) {
         data <- retrieveDatasets()
         # Only show a few columns in the table.
         data <- data[,c(1, 11, 3, 13, 7, 5)]
-        data <- data%>%
-            mutate(solvebio_url=makeSolveBioLink(dataset_id))%>%
-            select(id, path, filename, description, solvebio_url, dataset_documents_count)
+        data <- data %>%
+            mutate(url = paste0('<a href="https://my.solvebio.com/data/', id, '" target="_blank">Open on SolveBio</a>')) %>%
+            select(id, path, filename, description, url, dataset_documents_count)
 
         DT::datatable(data,
                       selection='single',
@@ -76,7 +71,7 @@ ui <- dashboardPage(
                                                          )
                                                      ),
                                             fluidRow(
-                                                     box(width = 12,title = "Preview of selected dataset ",
+                                                     box(width = 12,title = "Preview of selected dataset (first 100 records) ",
                                                          DT::dataTableOutput('dataset_preview')
                                                          )
                                                      )
