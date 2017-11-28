@@ -61,8 +61,6 @@ protectedServer <- function(server, client_id, base_url) {
         shiny::observeEvent(session$clientData$url_search, {
                          params <- gsub(pattern = "?", replacement = "", x = session$clientData$url_search)
                          parsed_params <- shiny::parseQueryString(params)
-                         # Remove the code from the query params after parsing
-                         shiny::updateQueryString("/", mode="replace")
                          redirect_uri <- .makeRedirectURL(session)
 
                          if (is.null(parsed_params$code)) {
@@ -71,6 +69,8 @@ protectedServer <- function(server, client_id, base_url) {
                              shiny::showModal(.shinyLoginModal(authorization_url))
                          }
                          else {
+                             # Remove the code from the query params after parsing
+                             shiny::updateQueryString(redirect_uri, mode="replace")
                              # Retrieve an access_token from the code
                              oauth_params <- list(
                                                   client_id=client_id,
