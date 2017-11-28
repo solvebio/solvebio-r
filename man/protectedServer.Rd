@@ -4,12 +4,15 @@
 \alias{protectedServer}
 \title{protectedServer}
 \usage{
-protectedServer(server, client_id, base_url)
+protectedServer(server, client_id, client_secret,
+  base_url = "https://my.solvebio.com")
 }
 \arguments{
 \item{server}{Your original Shiny server function.}
 
 \item{client_id}{Your application's client ID.}
+
+\item{client_secret}{(optional) Your application's client secret.}
 
 \item{base_url}{(optional) Override the default login host (default: https://my.solvebio.com).}
 }

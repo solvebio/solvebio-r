@@ -5,6 +5,8 @@ library(tidyverse)
 library(solvebio)
 
 CLIENT_ID <- Sys.getenv('CLIENT_ID', unset='your SolveBio app client ID')
+# Client secret is optional
+CLIENT_SECRET <- Sys.getenv('CLIENT_SECRET')
 
 server <- function(input, output, session) {
     makeSolveBioLink <- function(dataset_id) {
@@ -85,6 +87,6 @@ ui <- dashboardPage(
 
 
 # Wrap your base server and return a new protected server function
-protected_server <- solvebio::protectedServer(server, client_id=CLIENT_ID)
+protected_server <- solvebio::protectedServer(server, client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 
 shinyApp(ui = ui, server = protected_server)
