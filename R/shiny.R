@@ -72,6 +72,9 @@ protectedServer <- function(server, client_id, base_url) {
                          }
                          else {
                              # Retrieve an access_token from the code
+                             cat("REDIRECT URI")
+                             cat(redirect_uri)
+                             cat("\n")
                              oauth_params <- list(
                                                   client_id=client_id,
                                                   grant_type="authorization_code",
