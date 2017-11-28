@@ -85,6 +85,6 @@ ui <- dashboardPage(
 
 
 # Wrap your base server and return a new protected server function
-server <- solvebio::protectedServer(server, client_id=CLIENT_ID)
+protected_server <- solvebio::protectedServer(server, client_id=CLIENT_ID)
 
-shinyApp(ui = ui, server = server)
+shinyApp(ui = ui, server = protected_server)

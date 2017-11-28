@@ -62,19 +62,16 @@ protectedServer <- function(server, client_id, base_url) {
                          params <- gsub(pattern = "?", replacement = "", x = session$clientData$url_search)
                          parsed_params <- shiny::parseQueryString(params)
                          # Remove the code from the query params after parsing
-                         # shiny::updateQueryString("", mode="replace")
+                         shiny::updateQueryString("/", mode="replace")
                          redirect_uri <- .makeRedirectURL(session)
 
                          if (is.null(parsed_params$code)) {
                              authorization_url <- .makeAuthorizationURL(client_id, redirect_uri, base_url)
-                             session$userData$access_token <- NULL
+                             session$userData$solvebio_env <- NULL
                              shiny::showModal(.shinyLoginModal(authorization_url))
                          }
                          else {
                              # Retrieve an access_token from the code
-                             cat("REDIRECT URI")
-                             cat(redirect_uri)
-                             cat("\n")
                              oauth_params <- list(
                                                   client_id=client_id,
                                                   grant_type="authorization_code",
