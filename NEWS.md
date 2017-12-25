@@ -1,3 +1,10 @@
+# solvebio 2.3.0
+
+* Fix issue with deploying to Shiny Server Pro
+* Fix issue with oauth redirect URI
+* Add client_secret support
+
+
 # solvebio 2.2.0
 
 * Adds Application resource support (OAuth2 apps)
