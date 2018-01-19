@@ -493,11 +493,16 @@ Vault.create_folder <- function(id, path, recursive=FALSE, env = solvebio:::.sol
     else {
         # Find the parent object (folder) at the provided path
         parent_path = paste(parents, collapse="/")
-        parent_object = Object.get_by_path(parent_path, vault_id=vault$id, env=env)
-        if (is.null(parent_object) || parent_object$object_type != 'folder') {
-            stop(sprintf("Invalid path: existing object at '%s' is not a folder\n", parent_object))
+        if (parent_path == "") {
+            parent_object_id = NULL
         }
-        parent_object_id = parent_object$id
+        else {
+            parent_object = Object.get_by_path(parent_path, vault_id=vault$id, env=env)
+            if (is.null(parent_object) || parent_object$object_type != 'folder') {
+                stop(sprintf("Invalid path: existing object at '%s' is not a folder\n", parent_object))
+            }
+            parent_object_id = parent_object$id
+        }
     }
 
     object = Object.create(
