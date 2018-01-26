@@ -8,7 +8,7 @@ formatSolveBioResponse <- function (res, raw = FALSE) {
   } else {
     res = jsonlite::fromJSON(body,
                              simplifyVector = FALSE,
-                             simplifyDataFrame = TRUE,
+                             simplifyDataFrame = FALSE,
                              simplifyMatrix = FALSE)
     res$'_url' = url
     return(res)
