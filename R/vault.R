@@ -157,23 +157,8 @@ Vault.get_by_full_path <- function(full_path, verbose=TRUE, env = solvebio:::.so
         stop("A vault full path is required.")
     }
 
-    split_path = strsplit(full_path, ":", fixed=TRUE)[[1]]
-
-    if (length(split_path) == 1) {
-        # Get the user"s account for them
-        user = User.retrieve(env=env)
-        account_domain = user$account$domain
-        name = split_path[[1]]
-    }
-    if (length(split_path) == 2) {
-        # Full path is provided
-        account_domain = split_path[[1]]
-        name = split_path[[2]]
-    }
-
     params = list(
-                  account_domain=account_domain,
-                  name=name
+                  full_path=full_path
                   )
     response = .request("GET", path="v2/vaults", query=params, env=env)
 
@@ -219,6 +204,8 @@ Vault.get_or_create_by_full_path <- function(full_path, env = solvebio:::.solveE
         return(vault)
     }
 
+    # Remove any object path and trailing colon if it exists
+    full_path <- sub(":?/.*", "", full_path)
     split_path = strsplit(full_path, ":")[[1]]
     name = split_path[length(split_path)]
     vault = Vault.create(name=name, env=env, ...)
