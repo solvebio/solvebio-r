@@ -380,6 +380,9 @@ Vault.create_dataset <- function(id, path, name, env = solvebio:::.solveEnv, ...
     if (missing(id)) {
         stop("A vault ID is required.")
     }
+    if (missing(name)) {
+        stop("A dataset name is required.")
+    }
 
     vault = Vault.retrieve(id, env=env)
 
