@@ -393,40 +393,27 @@ Dataset.get_or_create_by_full_path <- function(full_path, env = solvebio:::.solv
         }
     }, error = function(e) {})
 
-    # Create the dataset step-by-step
-    # FIXME: This may break if the path in the vault contains a colon
-    parts <- strsplit(full_path, split=':', fixed=TRUE)[[1]]
-
-    if (length(parts) == 3) {
-        account_domain = parts[[1]]
-        vault_name = parts[[2]]
-        object_path = parts[[3]]
-        vault = Vault.get_by_full_path(paste(account_domain, vault_name, sep=":"), env=env)
-    }
-    else if (length(parts) == 2) {
-        vault_name = parts[[1]]
-        object_path = parts[[2]]
-        vault = Vault.get_by_full_path(vault_name, env=env)
-    }
-    else if (length(parts) == 1) {
-        # TODO: Get or create by (relative) path?
-        stop(sprintf("Invalid full path: %s\n", full_path))
-    }
-
+    vault <- Vault.get_by_full_path(full_path, env=env)
     if (is.null(vault)) {
         stop(sprintf("Invalid vault in full path: %s\n", full_path))
     }
 
-    if (substring(object_path, 1, 1) != '/') {
-        # Add missing / to object path
-        object_path = paste('/', object_path, sep='')
+    # Replace double slashes
+    full_path <- sub('//+', '/', full_path)
+
+    # Extract the object path (everything after the first forward slash)
+    object_path <- sub(".*?/", "/", full_path)
+    if (object_path == full_path) {
+        stop(sprintf("Invalid full path: must contain at least one forward slash"))
     }
 
+    # Remove the filename from the path to get the parent directory
     parts <- strsplit(object_path, split='/', fixed=TRUE)[[1]]
     dataset_name = parts[[length(parts)]]
-    # Remove the filename from the path
+    if (is.null(dataset_name) || dataset_name == "") {
+        stop(sprintf("Dataset name cannot be blank"))
+    }
     dirs = utils::head(parts, -1)
-
     parent_path = paste(dirs, collapse="/")
 
     if (parent_path == "") {

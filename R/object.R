@@ -167,17 +167,6 @@ Object.update <- function(id, env = solvebio:::.solveEnv, ...) {
 #'
 #' @export
 Object.get_by_full_path <- function(full_path, env = solvebio:::.solveEnv, ...) {
-    # FIXME: This may break if the path in the vault contains a colon
-    split_path = strsplit(full_path, ":", fixed=TRUE)[[1]]
-
-    if (length(split_path) == 2) {
-        # Get the user's account for them
-        user = User.retrieve(env=env)
-        account_domain = user$account$domain
-        name = split_path[[1]]
-        full_path = paste(account_domain, name, split_path[[2]], sep=":")
-    }
-
     params = list(
                   full_path=full_path,
                   ...
