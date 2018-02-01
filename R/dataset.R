@@ -398,14 +398,21 @@ Dataset.get_or_create_by_full_path <- function(full_path, env = solvebio:::.solv
         stop(sprintf("Invalid vault in full path: %s\n", full_path))
     }
 
+    # Replace double slashes
+    full_path <- sub('//+', '/', full_path)
+
     # Extract the object path (everything after the first forward slash)
     object_path <- sub(".*?/", "/", full_path)
-    # Replace double slashes
-    object_path <- sub('//+', '/', object_path)
+    if (object_path == full_path) {
+        stop(sprintf("Invalid full path: must contain at least one forward slash"))
+    }
 
     # Remove the filename from the path to get the parent directory
     parts <- strsplit(object_path, split='/', fixed=TRUE)[[1]]
     dataset_name = parts[[length(parts)]]
+    if (is.null(dataset_name) || dataset_name == "") {
+        stop(sprintf("Dataset name cannot be blank"))
+    }
     dirs = utils::head(parts, -1)
     parent_path = paste(dirs, collapse="/")
 
