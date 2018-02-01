@@ -1,3 +1,9 @@
+# solvebio 2.4.0
+
+* Fix issue where jsonlite would cast tuples as vectors
+* Add support for server-side validated vault paths
+
+
 # solvebio 2.3.0
 
 * Fix issue with deploying to Shiny Server Pro
