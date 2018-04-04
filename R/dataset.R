@@ -200,6 +200,39 @@ Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
 }
 
 
+#' Dataset.fields
+#'
+#' Retrieves the list of fields and field metadata for a dataset.
+#'
+#' @param id The ID of a SolveBio dataset, or a Dataset object.
+#' @param env (optional) Custom client environment.
+#' @param ... (optional) Additional query parameters (e.g. limit, offset).
+#'
+#' @examples \dontrun{
+#' Dataset.fields("1234567890")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Dataset.fields <- function(id, env = solvebio:::.solveEnv, ...) {
+    if (class(id) == "numeric") {
+        warning("Please use string IDs instead of numeric IDs.")
+    }
+
+    if (missing(id)) {
+        stop("A dataset ID is required.")
+    }
+    if (class(id) == "Dataset" || class(id) == "Object") {
+        id <- id$id
+    }
+
+    path <- paste("v2/datasets", paste(id), "fields", sep="/")
+    .request('GET', path=path, query=list(...), env=env)
+}
+
+
 #' Dataset.facets
 #'
 #' Retrieves aggregated statistics or term counts for one or more fields in a SolveBio dataset. Returns a list of data frames, one for each requested facet.
