@@ -194,12 +194,16 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
         if (res$status == 400) {
             content = formatSolveBioResponse(res, raw = FALSE)
             if (!is.null(content$detail)) {
-                stop(sprintf("API error: %s\n", content$detail)) 
+                stop(sprintf("API error: %s\n", content$detail))
             } else {
-                stop(sprintf("API error: %s\n", content)) 
+                stop(sprintf("API error: %s\n", content))
             }
         }
-        stop(sprintf("API error: %s\n", res$status)) 
+        if (res$status == 401) {
+            stop(sprintf("Invalid API key or access token (error %s)\n", res$status))
+        }
+
+        stop(sprintf("API error: %s\n", res$status))
     }
 
     if (res$status == 204 | res$status == 301 | res$status == 302) {
