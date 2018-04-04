@@ -2,7 +2,7 @@ Package: solvebio
 Type: Package
 Title: The Official SolveBio API Client
 Version: 2.4.0
-Date: 2018-02-01
+Date: 2018-04-04
 Author: David Caplan
 Maintainer: David Caplan <dcaplan@solvebio.com>
 Description: R language bindings for SolveBio's API.

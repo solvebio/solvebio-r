@@ -1,5 +1,11 @@
 # solvebio 2.4.0
 
+* Add support for using SOLVEBIO_ACCESS_TOKEN on load
+* Add Dataset.fields() method
+
+
+# solvebio 2.3.1
+
 * Fix issue where jsonlite would cast tuples as vectors
 * Add support for server-side validated vault paths
 
