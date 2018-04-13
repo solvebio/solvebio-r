@@ -328,3 +328,38 @@ Object.upload_file <- function(local_path, vault_id, vault_path, filename, env =
 
     return(obj)
 }
+
+
+#' Object.get_or_upload_file
+#'
+#' Upload a local file to a vault on SolveBio only if it does not yet exist (by name, at the provided path). The vault path provided is the parent directory for uploaded file. Accepts the same arguments as `Object.upload_file`.
+#'
+#' @param local_path The path to the local file
+#' @param vault_id The SolveBio vault ID
+#' @param vault_path The remote path in the vault
+#' @param filename (optional) The filename for the uploaded file in the vault (default: the basename of the local_path)
+#' @param env (optional) Custom client environment.
+#'
+#' @examples \dontrun{
+#' Object.get_or_upload_file("my_file.json.gz", vault$id, "/parent/directory/")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Object.get_or_upload_file <- function(local_path, vault_id, vault_path, filename, env = solvebio:::.solveEnv) {
+    object_full_path = paste(vault$full_path, path, filename, sep="/")
+    object <- NULL
+
+    tryCatch({
+        object <- Object.get_by_full_path(object_full_path, env=env)
+        return(object)
+    }, error = function(e) {
+        Object.upload_file(filename, vault$id, path, env=env)
+    })
+
+    # Try again after upload
+    object <- Object.get_by_full_path(object_full_path, env=env)
+    return(object)
+}
