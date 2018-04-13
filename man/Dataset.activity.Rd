@@ -9,6 +9,8 @@ Dataset.activity(id, follow = TRUE, env = solvebio:::.solveEnv)
 \arguments{
 \item{id}{String The ID of a SolveBio dataset}
 
+\item{follow}{Follow active tasks until they complete.}
+
 \item{env}{(optional) Custom client environment.}
 }
 \description{

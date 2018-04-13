@@ -484,6 +484,7 @@ Dataset.get_or_create_by_full_path <- function(full_path, env = solvebio:::.solv
 #' A helper function to get or follow the current activity on a dataset.
 #'
 #' @param id String The ID of a SolveBio dataset
+#' @param follow Follow active tasks until they complete.
 #' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
