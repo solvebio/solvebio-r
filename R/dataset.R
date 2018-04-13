@@ -477,3 +477,40 @@ Dataset.get_or_create_by_full_path <- function(full_path, env = solvebio:::.solv
 
     return(dataset)
 }
+
+
+#' Dataset.activity
+#'
+#' A helper function to get or follow the current activity on a dataset.
+#'
+#' @param id String The ID of a SolveBio dataset
+#' @param env (optional) Custom client environment.
+#'
+#' @examples \dontrun{
+#' Dataset.activity("1234567890")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Dataset.activity <- function(id, follow=TRUE, env = solvebio:::.solveEnv) {
+    status <- paste('running', 'queued', 'pending', sep=',')
+    tasks <- Task.all(target_object_id=id, status=status, env=env)$data
+
+    if (!follow) {
+        return(tasks)
+    }
+
+    while (!is.null(nrow(tasks)) && nrow(tasks) > 0) {
+        cat(paste("Following", nrow(tasks), "task(s)...\n", sep=" "))
+        for(i in 1:length(tasks$id)){
+            Task.follow(tasks$id[i])
+        }
+
+        Sys.sleep(4)
+        tasks <- Task.all(target_object_id=id, status=status, env=env)$data
+    }
+
+    cat("No more active tasks found.\n")
+}
