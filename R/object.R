@@ -349,17 +349,27 @@ Object.upload_file <- function(local_path, vault_id, vault_path, filename, env =
 #'
 #' @export
 Object.get_or_upload_file <- function(local_path, vault_id, vault_path, filename, env = solvebio:::.solveEnv) {
-    object_full_path = paste(vault$full_path, path, filename, sep="/")
-    object <- NULL
+    if (missing(local_path) || !file.exists(local_path)) {
+        stop("A valid path to a local file is required.")
+    }
+    if (missing(vault_id)) {
+        stop("A vault ID is required.")
+    }
+    if (missing(vault_path)) {
+        stop("A vault path is required.")
+    }
+    if (missing(filename) || is.null(filename)) {
+        filename <- basename(local_path)
+    }
 
-    tryCatch({
-        object <- Object.get_by_full_path(object_full_path, env=env)
-        return(object)
-    }, error = function(e) {
-        Object.upload_file(filename, vault$id, path, env=env)
-    })
+    # Avoid double slashes
+    vault_path = sub("/$", "", vault_path)
+    object_path <- paste(vault_path, filename, sep="/")
+    object <- Object.get_by_path(path=object_path, vault_id=vault_id, env=env)
 
-    # Try again after upload
-    object <- Object.get_by_full_path(object_full_path, env=env)
+    if (is.null(object)) {
+        object <- Object.upload_file(local_path, vault_id, vault_path, filename, env=env)
+    }
+
     return(object)
 }
