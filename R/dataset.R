@@ -513,5 +513,5 @@ Dataset.activity <- function(id, follow=TRUE, env = solvebio:::.solveEnv) {
         tasks <- Task.all(target_object_id=id, status=status, env=env)$data
     }
 
-    cat("No more active tasks found.\n")
+    cat("No active tasks found.\n")
 }
