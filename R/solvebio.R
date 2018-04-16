@@ -115,7 +115,7 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
 
     if (content_type == "application/json") {
         if (!missing(body)) {
-            body <- jsonlite::toJSON(body, auto_unbox=TRUE)
+            body <- jsonlite::toJSON(body, auto_unbox=TRUE, null="null")
         } else {
             body = NULL
         }
