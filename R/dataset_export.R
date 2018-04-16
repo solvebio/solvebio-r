@@ -106,3 +106,30 @@ DatasetExport.create <- function(
 
     return(dataset_export)
 }
+
+
+#' DatasetExport.get_download_url
+#'
+#' Helper method to get the download URL for a dataset export.
+#'
+#' @param id The ID of the dataset export.
+#' @param env (optional) Custom client environment.
+#'
+#' @examples \dontrun{
+#' DatasetExport.get_download_url("1234567890")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+DatasetExport.get_download_url <- function(id, env = solvebio:::.solveEnv) {
+    if (missing(id)) {
+        stop("A dataset export ID is required.")
+    }
+
+    path <- paste("v2/dataset_exports", paste(id), "download", sep="/")
+    response <- .request('GET', path=path, query=list(redirect=""), env=env)
+
+    return(response$url)
+}
