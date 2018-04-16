@@ -69,7 +69,7 @@ To install the development version of this package from GitHub, you will need th
 ```R
 install.packages(c("devtools", "httr", "jsonlite"))
 library(devtools)
-devtools::install_github("solvebio/solvebio-r")
+devtools::install_github("solvebio/solvebio-r", ref="master")
 library(solvebio)
 ```
 
