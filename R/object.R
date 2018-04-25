@@ -274,7 +274,7 @@ Object.upload_file <- function(local_path, vault_id, vault_path, filename, env =
         filename = basename(local_path)
     }
 
-    if (missing(vault_path) || is.null(vault_path) || vault_path == '/') {
+    if (missing(vault_path) || is.null(vault_path) || vault_path == '/' || vault_path == '') {
         parent_object_id = NULL
     }
     else {
@@ -362,9 +362,9 @@ Object.get_or_upload_file <- function(local_path, vault_id, vault_path, filename
         filename <- basename(local_path)
     }
 
-    # Avoid double slashes
-    vault_path = sub("/$", "", vault_path)
     object_path <- paste(vault_path, filename, sep="/")
+    # Remove double slashes
+    object_path <- sub("//", "/", object_path)
     object <- Object.get_by_path(path=object_path, vault_id=vault_id, env=env)
 
     if (is.null(object)) {
