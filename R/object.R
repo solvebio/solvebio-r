@@ -274,7 +274,7 @@ Object.upload_file <- function(local_path, vault_id, vault_path, filename, env =
         filename = basename(local_path)
     }
 
-    if (missing(vault_path) || is.null(vault_path) || vault_path == '/') {
+    if (missing(vault_path) || is.null(vault_path) || vault_path == '/' || vault_path == '') {
         parent_object_id = NULL
     }
     else {
@@ -327,4 +327,49 @@ Object.upload_file <- function(local_path, vault_id, vault_path, filename, env =
     }
 
     return(obj)
+}
+
+
+#' Object.get_or_upload_file
+#'
+#' Upload a local file to a vault on SolveBio only if it does not yet exist (by name, at the provided path). The vault path provided is the parent directory for uploaded file. Accepts the same arguments as `Object.upload_file`.
+#'
+#' @param local_path The path to the local file
+#' @param vault_id The SolveBio vault ID
+#' @param vault_path The remote path in the vault
+#' @param filename (optional) The filename for the uploaded file in the vault (default: the basename of the local_path)
+#' @param env (optional) Custom client environment.
+#'
+#' @examples \dontrun{
+#' Object.get_or_upload_file("my_file.json.gz", vault$id, "/parent/directory/")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Object.get_or_upload_file <- function(local_path, vault_id, vault_path, filename, env = solvebio:::.solveEnv) {
+    if (missing(local_path) || !file.exists(local_path)) {
+        stop("A valid path to a local file is required.")
+    }
+    if (missing(vault_id)) {
+        stop("A vault ID is required.")
+    }
+    if (missing(vault_path)) {
+        stop("A vault path is required.")
+    }
+    if (missing(filename) || is.null(filename)) {
+        filename <- basename(local_path)
+    }
+
+    object_path <- paste(vault_path, filename, sep="/")
+    # Remove double slashes
+    object_path <- sub("//", "/", object_path)
+    object <- Object.get_by_path(path=object_path, vault_id=vault_id, env=env)
+
+    if (is.null(object)) {
+        object <- Object.upload_file(local_path, vault_id, vault_path, filename, env=env)
+    }
+
+    return(object)
 }
