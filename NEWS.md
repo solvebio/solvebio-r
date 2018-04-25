@@ -1,3 +1,13 @@
+# solvebio 2.5.0
+
+* Add Dataset.activity() (#27)
+* Add Object.get_or_upload_file() (#79)
+* Add DatasetExport.get_download_url() (#58)
+* Add DatasetTemplate resource (#88)
+* Fix issue with nulls in JSON body (#83)
+* Ensure facets and filter requests use correct fromJSON params
+
+
 # solvebio 2.4.0
 
 * Add support for using SOLVEBIO_ACCESS_TOKEN on load
