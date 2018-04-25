@@ -123,7 +123,10 @@ Dataset.data <- function(id, filters, env = solvebio:::.solveEnv, ...) {
     if (!missing(filters) && !is.null(filters) && length(filters) > 0) {
         if (class(filters) == "character") {
             # Convert JSON string to an R structure
-            filters <- jsonlite::fromJSON(filters)
+            filters <- jsonlite::fromJSON(filters,
+                                          simplifyVector = FALSE,
+                                          simplifyDataFrame = TRUE,
+                                          simplifyMatrix = FALSE)
         }
         # Add filters to request body
         body = modifyList(body, list(filters=filters))
@@ -258,7 +261,10 @@ Dataset.facets <- function(id, facets, env = solvebio:::.solveEnv, ...) {
     if (class(facets) == "character") {
         if (grepl("[[{]", facets)) {
             # If it looks like JSON, try to convert to an R structure
-            facets <- jsonlite::fromJSON(facets)
+            facets <- jsonlite::fromJSON(facets,
+                                         simplifyVector = FALSE,
+                                         simplifyDataFrame = TRUE,
+                                         simplifyMatrix = FALSE)
         }
     }
 
