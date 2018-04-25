@@ -29,6 +29,7 @@ Collate:
     dataset_field.R
     dataset_import.R
     dataset_migration.R
+    dataset_template.R
     object.R
     shiny.R
     task.R
