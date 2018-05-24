@@ -74,6 +74,7 @@ DatasetExport.delete <- function(id, env = solvebio:::.solveEnv) {
 #' @param dataset_id The target dataset ID.
 #' @param format (optional) The export format (default: json).
 #' @param params (optional) Query parameters for the export.
+#' @param follow (default: FALSE) Follow the export task until it completes.
 #' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional dataset export parameters.
 #'
@@ -89,6 +90,7 @@ DatasetExport.create <- function(
                                  dataset_id,
                                  format = 'json',
                                  params = list(),
+                                 follow = FALSE,
                                  env = solvebio:::.solveEnv,
                                  ...) {
     if (missing(dataset_id)) {
@@ -103,6 +105,10 @@ DatasetExport.create <- function(
                   )
 
     dataset_export <- .request('POST', path='v2/dataset_exports', query=NULL, body=params, env=env)
+
+    if (follow) {
+        Task.follow(dataset_export$task_id)
+    }
 
     return(dataset_export)
 }
