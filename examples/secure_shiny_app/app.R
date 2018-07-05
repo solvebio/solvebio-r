@@ -47,7 +47,7 @@ server <- function(input, output, session) {
                              "Select a dataset")
                         )
         dataset_id <- data[s,c("id")]
-        Dataset.query(dataset_id, env=env)
+        Dataset.query(dataset_id, limit=100, env=env)
     })
 
     output$dataset_preview = DT::renderDataTable({
