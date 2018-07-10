@@ -112,17 +112,13 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
                          R.version$version.string,
                          R.version$platform)
     config <- httr::config(useragent = useragent)
+    encode = "form"
 
     if (content_type == "application/json") {
-        if (!missing(body)) {
+        if (!missing(body) && !is.null(body) && length(body) > 0) {
             body <- jsonlite::toJSON(body, auto_unbox=TRUE, null="null")
-        } else {
-            body = NULL
+            encode = "json"
         }
-        encode = "json"
-    }
-    else {
-        encode = "form"
     }
 
     if (missing(query)) {
@@ -136,6 +132,7 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
                                 httr::add_headers(headers),
                                 config = config,
                                 query = query,
+                                # httr::verbose(),
                                 ...
                                 )
            },
@@ -147,6 +144,7 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
                                  body = body,
                                  query = query,
                                  encode = encode,
+                                 # httr::verbose(),
                                  ...
                                  )
            },
@@ -158,6 +156,7 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
                                  body = body,
                                  query = query,
                                  encode = encode,
+                                 # httr::verbose(),
                                  ...
                                  )
            },
@@ -169,6 +168,7 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
                                  body = body,
                                  query = query,
                                  encode = encode,
+                                 # httr::verbose(),
                                  ...
                                  )
            },
@@ -178,6 +178,7 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
                                  httr::add_headers(headers),
                                  config = config,
                                  query = query,
+                                 # httr::verbose(),
                                  ...
                                  )
            },
@@ -208,7 +209,8 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
             stop(sprintf("Invalid API key or access token (error %s)\n", res$status))
         }
 
-        stop(sprintf("API error: %s\n", res$status))
+        content = httr::content(res, as="text", encoding="UTF-8")
+        stop(sprintf("API error %s %s\n", res$status, content))
     }
 
     if (res$status == 204 | res$status == 301 | res$status == 302) {

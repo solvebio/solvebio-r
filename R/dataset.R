@@ -132,11 +132,6 @@ Dataset.data <- function(id, filters, env = solvebio:::.solveEnv, ...) {
         body = modifyList(body, list(filters=filters))
     }
 
-    if (length(body) == 0) {
-        # Sending an empty list() as a body breaks querying.
-        body <- NULL
-    }
-
     path <- paste("v2/datasets", paste(id), "data", sep="/")
 
     tryCatch({
