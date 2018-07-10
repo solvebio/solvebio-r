@@ -5,7 +5,7 @@
 \title{DatasetExport.create}
 \usage{
 DatasetExport.create(dataset_id, format = "json", params = list(),
-  env = solvebio:::.solveEnv, ...)
+  follow = FALSE, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{dataset_id}{The target dataset ID.}
@@ -13,6 +13,8 @@ DatasetExport.create(dataset_id, format = "json", params = list(),
 \item{format}{(optional) The export format (default: json).}
 
 \item{params}{(optional) Query parameters for the export.}
+
+\item{follow}{(default: FALSE) Follow the export task until it completes.}
 
 \item{env}{(optional) Custom client environment.}
 
