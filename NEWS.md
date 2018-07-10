@@ -1,3 +1,9 @@
+# solvebio 2.5.1
+
+* Fix issue where empty dataset queries failed with OAuth2 tokens
+* Ability to follow export tasks
+
+
 # solvebio 2.5.0
 
 * Add Dataset.activity() (#27)
