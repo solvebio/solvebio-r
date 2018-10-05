@@ -11,9 +11,10 @@ Returns ShinyJS-compatible JS code to support cookie-based token storage.
 }
 \examples{
 \dontrun{
+jscookie_src <- "https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.js"
 ui <- fluidPage(
     shiny::tags$head(
-        shiny::tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.js")
+        shiny::tags$script(src = jscookie_src)
     ),
     useShinyjs(),
     extendShinyjs(text = solvebio::protectedServerJS())

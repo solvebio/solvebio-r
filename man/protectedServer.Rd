@@ -4,7 +4,7 @@
 \alias{protectedServer}
 \title{protectedServer}
 \usage{
-protectedServer(server, client_id, client_secret,
+protectedServer(server, client_id, client_secret = NULL,
   base_url = "https://my.solvebio.com")
 }
 \arguments{

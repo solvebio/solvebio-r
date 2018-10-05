@@ -19,7 +19,7 @@
 #'
 #' @export
 protectedServer <- function(server, client_id, client_secret=NULL, base_url="https://my.solvebio.com") {
-    if(! "shiny" %in% (.packages())){
+    if (!requireNamespace("shiny", quietly = TRUE)) {
         stop("Shiny is required to use solvebio::protectedServer()")
     }
 
@@ -88,9 +88,9 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
     function(input, output, session, ...) {
 
         enable_cookie_auth <- tryCatch({
-            if ("shinyjs" %in% .packages()) {
+            if (requireNamespace("shinyjs", quietly = TRUE)) {
                 # This will fail if getCookie is not declared in JS
-                js$enableCookieAuth()
+                shinyjs::js$enableCookieAuth()
                 TRUE
             }
             else {
@@ -105,8 +105,8 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
         if (enable_cookie_auth) {
             # Setup token encryption using the secret key
             if (!is.null(client_secret) && client_secret != "") {
-                require(digest)
-                require(PKI)
+                requireNamespace("digest")
+                requireNamespace("PKI")
 
                 aes_key <- substr(digest::sha1(client_secret), 0, 32)
                 # Use ECB mode to support restarts of the Shiny server
@@ -135,7 +135,7 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
             }
 
             shiny::observe({
-                try(js$getCookie(), silent = FALSE)
+                try(shinyjs::js$getCookie(), silent = FALSE)
 
                 # Only proceed if the token cookie is set
                 shiny::req(input$tokenCookie)
@@ -151,14 +151,14 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
                 }, error = function(e) {
                     # Cookie has an invalid/expired token.
                     # Clear the cookie and show the auth modal.
-                    try(js$rmCookie())
+                    try(shinyjs::js$rmCookie())
                     session$reload()
                 })
             })
 
             shiny::observeEvent(input$logout,
                                 {
-                                    try(js$rmCookie())
+                                    try(shinyjs::js$rmCookie())
                                     session$reload()
                                 })
         }
@@ -198,7 +198,7 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
                                     # Set an auth cookie using a JS cookie library
                                     if (enable_cookie_auth) {
                                         # Setting the cookie will run the server above
-                                        js$setCookie(.encryptToken(oauth_data$access_token))
+                                        shinyjs::js$setCookie(.encryptToken(oauth_data$access_token))
                                     }
                                     else {
                                         # Set the token and retrieve the user
@@ -222,9 +222,10 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
 #' Returns ShinyJS-compatible JS code to support cookie-based token storage.
 #'
 #' @examples \dontrun{
+#' jscookie_src <- "https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.js"
 #' ui <- fluidPage(
 #'     shiny::tags$head(
-#'         shiny::tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.js")
+#'         shiny::tags$script(src = jscookie_src)
 #'     ),
 #'     useShinyjs(),
 #'     extendShinyjs(text = solvebio::protectedServerJS())
@@ -236,7 +237,7 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
 #'
 #' @export
 protectedServerJS <- function() {
-    if(! "shinyjs" %in% (.packages())){
+    if (!requireNamespace("shinyjs", quietly = TRUE)) {
         stop("ShinyJS is required to use solvebio::protectedServerJS()")
     }
 
