@@ -18,7 +18,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-protectedServer <- function(server, client_id, client_secret, base_url="https://my.solvebio.com") {
+protectedServer <- function(server, client_id, client_secret=NULL, base_url="https://my.solvebio.com") {
     if(! "shiny" %in% (.packages())){
         stop("Shiny is required to use solvebio::protectedServer()")
     }
@@ -74,11 +74,19 @@ protectedServer <- function(server, client_id, client_secret, base_url="https://
         shiny::showModal(modal)
     }
 
+    # By default cookie auth is disabled, set up dummy functions.
+    # They will be overwritten below if encryption is enabled.
+    .encryptToken <- function(token) {
+        token
+    }
+
+    .decryptToken <- function(token) {
+        token
+    }
 
     # Return a wrapped Shiny server function
     function(input, output, session, ...) {
 
-        # Check if we should enable ShinyJS/cookie-based token storage
         enable_cookie_auth <- tryCatch({
             if ("shinyjs" %in% .packages()) {
                 # This will fail if getCookie is not declared in JS
@@ -90,11 +98,42 @@ protectedServer <- function(server, client_id, client_secret, base_url="https://
             }
         }, error = function(e) {
             # Cookie JS is not enabled, disable cookies 
-            print("WARNING: ShinyJS is available but is not configured for SolveBio authentication.")
+            warning("WARNING: ShinyJS is available but is not configured for SolveBio authentication.")
             return(FALSE)
         })
 
         if (enable_cookie_auth) {
+            # Setup token encryption using the secret key
+            if (!is.null(client_secret) && client_secret != "") {
+                require(digest)
+                require(PKI)
+
+                aes_key <- substr(digest::sha1(client_secret), 0, 32)
+                # Use ECB mode to support restarts of the Shiny server
+                # without deactivating existing encrypted keys. 
+                aes <- digest::AES(charToRaw(aes_key), mode="ECB")
+
+                .encryptToken <- function(token) {
+                    # Pad the token and convert to hex string
+                    raw <- charToRaw(token)
+                    raw <- c(raw, as.raw(rep(0, 16 - length(raw) %% 16)))
+                    encrypted_raw <- aes$encrypt(raw)
+                    paste(PKI::raw2hex(encrypted_raw), collapse = '')
+                }
+
+                .decryptToken <- function(encrypted_token) {
+                    # Convert hex string to raw for decryption
+                    hex <- strsplit(encrypted_token, character(0))[[1]]
+                    hex <- paste(hex[c(TRUE, FALSE)], hex[c(FALSE, TRUE)], sep = "")
+                    encrypted_raw <- as.raw(as.hexmode(hex))
+                    raw <- aes$decrypt(encrypted_raw, raw=TRUE)
+                    rawToChar(raw[raw>0])
+                }
+            }
+            else {
+                warning("WARNING: SolveBio OAuth2 tokens will not be encrypted in cookies. Set client_secret to encrypt tokens.")
+            }
+
             shiny::observe({
                 try(js$getCookie(), silent = FALSE)
 
@@ -104,7 +143,7 @@ protectedServer <- function(server, client_id, client_secret, base_url="https://
                 # Handle the case where an auth cookie is found
                 tryCatch({
                     # Setup and test the auth token
-                    .initializeSession(session, token=input$tokenCookie)
+                    .initializeSession(session, token=.decryptToken(input$tokenCookie))
                     # Close the auth modal which will be opened by the code below
                     shiny::removeModal()
                     # Run the wrapped server
@@ -122,6 +161,9 @@ protectedServer <- function(server, client_id, client_secret, base_url="https://
                                     try(js$rmCookie())
                                     session$reload()
                                 })
+        }
+        else {
+            warning("WARNING: SolveBio cookie-based token storage is disabled.")
         }
 
         shiny::observeEvent(session$clientData$url_search, {
@@ -143,16 +185,20 @@ protectedServer <- function(server, client_id, client_secret, base_url="https://
                                                          redirect_uri=redirect_uri,
                                                          code=parsed_params$code
                                                          )
-                                    oauth_data <- .request("POST",
-                                                           path="v1/oauth2/token",
-                                                           query=NULL,
-                                                           body=oauth_params,
-                                                           content_type="application/x-www-form-urlencoded")
+                                    oauth_data <- tryCatch({
+                                        .request("POST",
+                                                 path="v1/oauth2/token",
+                                                 query=NULL,
+                                                 body=oauth_params,
+                                                 content_type="application/x-www-form-urlencoded")
+                                    }, error = function(e) {
+                                        stop("ERROR: Unable to retrieve SolveBio OAuth2 token. Check your client_id and client_secret (if used).")
+                                    })
 
                                     # Set an auth cookie using a JS cookie library
                                     if (enable_cookie_auth) {
                                         # Setting the cookie will run the server above
-                                        js$setCookie(oauth_data$access_token)
+                                        js$setCookie(.encryptToken(oauth_data$access_token))
                                     }
                                     else {
                                         # Set the token and retrieve the user
