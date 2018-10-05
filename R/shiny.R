@@ -236,6 +236,10 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
 #'
 #' @export
 protectedServerJS <- function() {
+    if(! "shinyjs" %in% (.packages())){
+        stop("ShinyJS is required to use solvebio::protectedServerJS()")
+    }
+
     return ('
     shinyjs.enableCookieAuth = function(params) {
         return true;
