@@ -23,91 +23,117 @@ protectedServer <- function(server, client_id, client_secret, base_url="https://
         stop("Shiny is required to use solvebio::protectedServer()")
     }
 
-    # Enable ShinyJS cookie support for storing auth tokens in a cookie
-    enable_cookies = ("shinyjs" %in% .packages())
+    # Initialize the server session using a SolveBio token.
+    # Sets up the SolveBio env and current user.
+    .initializeSession <- function(session, token) {
+        if (is.null(token)) {
+            env <- NULL
+            user <- NULL
+        }
+        else {
+            env <- solvebio::createEnv(token=token, token_type="Bearer")
+            user <- User.retrieve(env=env)
+        }
+
+        session$userData$solvebio_env <- env
+        session$userData$solvebio_user <- user
+
+        session
+    }
+
+    # OAuth2 helper functions
+    .makeRedirectURI <- function(session) {
+        port <- session$clientData$url_port
+        url <- paste0(session$clientData$url_protocol,
+                      "//",
+                      session$clientData$url_hostname,
+                      if(port != "") paste0(":", port),
+                      session$clientData$url_pathname)
+    }
+
+    .makeAuthorizationURL <- function(session) {
+        url <- "%s/authorize?client_id=%s&redirect_uri=%s&response_type=code"
+        sprintf(url,
+                base_url,
+                utils::URLencode(client_id, reserved = TRUE, repeated = TRUE),
+                utils::URLencode(.makeRedirectURI(session), reserved = TRUE, repeated = TRUE)
+                )
+    }
+
+    .showLoginModal <- function(session) {
+        onclick <- sprintf("window.location = '%s'", .makeAuthorizationURL(session))
+        modal <- shiny::modalDialog(
+                                    shiny::tags$span('Please log in with SolveBio before proceeding.'),
+                                    footer = shiny::tagList(
+                                                            shiny::actionButton(inputId='login-button',
+                                                                                label="Log in with SolveBio",
+                                                                                onclick=onclick)
+                                                            ),
+                                    easyClose = FALSE
+                                    )
+        shiny::showModal(modal)
+    }
+
 
     # Return a wrapped Shiny server function
     function(input, output, session, ...) {
 
-        # OAuth2 helper functions
-        .makeAuthorizationURL <- function(client_id, redirect_uri, base_url) {
-            url <- "%s/authorize?client_id=%s&redirect_uri=%s&response_type=code"
-            sprintf(url,
-                    base_url,
-                    utils::URLencode(client_id, reserved = TRUE, repeated = TRUE),
-                    utils::URLencode(redirect_uri, reserved = TRUE, repeated = TRUE)
-                    )
-        }
+        # Check if we should enable ShinyJS/cookie-based token storage
+        enable_cookie_auth <- tryCatch({
+            if ("shinyjs" %in% .packages()) {
+                # This will fail if getCookie is not declared in JS
+                js$enableCookieAuth()
+                TRUE
+            }
+            else {
+                FALSE
+            }
+        }, error = function(e) {
+            # Cookie JS is not enabled, disable cookies 
+            print("WARNING: ShinyJS is available but is not configured for SolveBio authentication.")
+            return(FALSE)
+        })
 
-        .makeRedirectURL <- function(session) {
-            port <- session$clientData$url_port
-            url <- paste0(session$clientData$url_protocol,
-                          "//",
-                          session$clientData$url_hostname,
-                          if(port != "") paste0(":", port),
-                          session$clientData$url_pathname)
-        }
+        if (enable_cookie_auth) {
+            shiny::observe({
+                try(js$getCookie(), silent = FALSE)
 
-        .shinyLoginModal <- function(authorization_url) {
-            onclick <- sprintf("window.location = '%s'", authorization_url)
-            shiny::modalDialog(
-                               shiny::tags$span('Please log in with SolveBio before proceeding.'),
-                               footer = shiny::tagList(
-                                                       shiny::actionButton(inputId='login-button',
-                                                                           label="Log in with SolveBio",
-                                                                           onclick=onclick)
-                                                       ),
-                               easyClose = FALSE
-                               )
-        }
+                # Only proceed if the token cookie is set
+                shiny::req(input$tokenCookie)
 
-        if (enable_cookies) {
-            shiny::observeEvent(input$tokenCookie, {
                 # Handle the case where an auth cookie is found
                 tryCatch({
-                    if (!is.null(input$tokenCookie) && input$tokenCookie != "") {
-                        # Test the auth token
-                        session$userData$solvebio_env <- solvebio::createEnv(token=input$tokenCookie,
-                                                                             token_type="Bearer")
-                        session$userData$solvebio_user <- User.retrieve(env=session$userData$solvebio_env)
-
-                        # Run the wrapped server
-                        server(input, output, session, ...)
-                        # Close the auth modal
-                        shiny::removeModal()
-                    }
+                    # Setup and test the auth token
+                    .initializeSession(session, token=input$tokenCookie)
+                    # Close the auth modal which will be opened by the code below
+                    shiny::removeModal()
+                    # Run the wrapped server
+                    server(input, output, session, ...)
                 }, error = function(e) {
-                    # Clear the cookie
-                    js$rmCookie()
+                    # Cookie has an invalid/expired token.
+                    # Clear the cookie and show the auth modal.
+                    try(js$rmCookie())
                     session$reload()
                 })
-            }, once = TRUE)
-
-            shiny::observeEvent(input$logout, {
-                                    js$rmCookie()
-                                    session$reload()
             })
 
-            # Look for any stored cookie
-            try(js$getCookie(), silent = TRUE)
+            shiny::observeEvent(input$logout,
+                                {
+                                    try(js$rmCookie())
+                                    session$reload()
+                                })
         }
 
         shiny::observeEvent(session$clientData$url_search, {
                                 params <- gsub(pattern = "?", replacement = "", x = session$clientData$url_search)
                                 parsed_params <- shiny::parseQueryString(params)
-                                redirect_uri <- .makeRedirectURL(session)
 
-                                if (is.null(parsed_params$code)) {
-                                    authorization_url <- .makeAuthorizationURL(client_id, redirect_uri, base_url)
-                                    session$userData$solvebio_env <- NULL
-                                    session$userData$solvebio_user <- NULL
-                                    shiny::showModal(.shinyLoginModal(authorization_url))
-                                }
-                                else {
+                                if (!is.null(parsed_params$code)) {
                                     # Remove the code from the query params after parsing
                                     # NOTE: Setting updateQueryString to an empty string or relative path
                                     #       causes browsers to prepend the "base href" string
                                     #       which contains a session identifier on Shiny Server Pro.
+                                    redirect_uri <- .makeRedirectURI(session)
                                     shiny::updateQueryString(redirect_uri, mode="replace")
                                     # Retrieve an access_token from the code
                                     oauth_params <- list(
@@ -117,22 +143,28 @@ protectedServer <- function(server, client_id, client_secret, base_url="https://
                                                          redirect_uri=redirect_uri,
                                                          code=parsed_params$code
                                                          )
-                                    oauth_data <- .request("POST", path="v1/oauth2/token", query=NULL, body=oauth_params, content_type="application/x-www-form-urlencoded")
+                                    oauth_data <- .request("POST",
+                                                           path="v1/oauth2/token",
+                                                           query=NULL,
+                                                           body=oauth_params,
+                                                           content_type="application/x-www-form-urlencoded")
 
-                                    if (enable_cookies) {
-                                        # Set an auth cookie using a JS cookie library
-                                        tryCatch({
-                                            js$setCookie(oauth_data$access_token)
-                                        }, error = function(e) {
-                                            print("WARNING: Could not set the SolveBio token cookie. Please make sure your Shiny UI contains ShinyJS and SolveBio's extra JS code for token cookie support.")
-                                        })
+                                    # Set an auth cookie using a JS cookie library
+                                    if (enable_cookie_auth) {
+                                        # Setting the cookie will run the server above
+                                        js$setCookie(oauth_data$access_token)
                                     }
-
-                                    session$userData$solvebio_env <- solvebio::createEnv(token=oauth_data$access_token,
-                                                                                         token_type="Bearer")
-                                    session$userData$solvebio_user <- User.retrieve(env=session$userData$solvebio_env)
-                                    # Run the wrapped server
-                                    server(input, output, session, ...)
+                                    else {
+                                        # Set the token and retrieve the user
+                                        .initializeSession(session, token=oauth_data$access_token)
+                                        # Run the wrapped server
+                                        server(input, output, session, ...)
+                                    }
+                                }
+                                else {
+                                    # Clear the session and show the modal
+                                    .initializeSession(session, token=NULL)
+                                    .showLoginModal(session)
                                 }
             }, once = TRUE)
     }
@@ -159,17 +191,20 @@ protectedServer <- function(server, client_id, client_secret, base_url="https://
 #' @export
 protectedServerJS <- function() {
     return ('
+    shinyjs.enableCookieAuth = function(params) {
+        return true;
+    }
+
     shinyjs.getCookie = function(params) {
-        Shiny.onInputChange("tokenCookie", Cookies.get("token") || "");
+        Shiny.onInputChange("tokenCookie", Cookies.get("sb_auth") || "");
     }
 
     shinyjs.setCookie = function(params) {
-        Cookies.set("token", escape(params), { expires: 0.5 });
-        Shiny.onInputChange("tokenCookie", params);
+        Cookies.set("sb_auth", escape(params), { expires: 0.5 });
     }
 
     shinyjs.rmCookie = function(params) {
-        Cookies.remove("token");
+        Cookies.remove("sb_auth");
     }
     ')
 }
