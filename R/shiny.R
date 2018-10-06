@@ -228,7 +228,8 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
 #'         shiny::tags$script(src = jscookie_src)
 #'     ),
 #'     useShinyjs(),
-#'     extendShinyjs(text = solvebio::protectedServerJS())
+#'     extendShinyjs(text = solvebio::protectedServerJS(),
+#'                   functions = c("enableCookieAuth", "getCookie", "setCookie", "rmCookie"))
 #' )
 #' }
 #'
