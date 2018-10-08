@@ -17,7 +17,8 @@ ui <- fluidPage(
         shiny::tags$script(src = jscookie_src)
     ),
     useShinyjs(),
-    extendShinyjs(text = solvebio::protectedServerJS())
+    extendShinyjs(text = solvebio::protectedServerJS(),
+                  functions = c("enableCookieAuth", "getCookie", "setCookie", "rmCookie"))
 )
 }
 
