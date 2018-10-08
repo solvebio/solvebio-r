@@ -1,3 +1,8 @@
+# solvebio 2.6.0
+
+* Adds encrypted cookie storage support for OAuth2 tokens in Shiny apps
+
+
 # solvebio 2.5.1
 
 * Fix issue where empty dataset queries failed with OAuth2 tokens

@@ -62,6 +62,15 @@ results
 ```
 
 
+## Shiny
+
+To use SolveBio in your Shiny app, refer to the docs on [Developing Applications with R Shiny and SolveBio](https://docs.solvebio.com/applications/developing/#r-shiny-and-solvebio).
+
+This package provides a Shiny server wrapper called `solvebio::protectedServer()` which requires users to authenticate with SolveBio and authorize the app before proceeding. In addition, you may enable token cookie storage by installing [ShinyJS](https://deanattali.com/shinyjs/) and adding JS code (`solvebio::protectedServerJS()`) to your Shiny UI.
+
+An example app is available in the [solvebio-shiny-example](https://github.com/solvebio/solvebio-shiny-example) GitHub repository.
+
+
 ## Developers
 
 To install the development version of this package from GitHub, you will need the `devtools` package.
