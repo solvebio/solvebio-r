@@ -94,11 +94,12 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
                 TRUE
             }
             else {
+                warning("WARNING: This app requires shinyjs to use cookies for token storage.")
                 FALSE
             }
         }, error = function(e) {
             # Cookie JS is not enabled, disable cookies 
-            warning("WARNING: ShinyJS is available but is not configured for SolveBio authentication.")
+            warning("WARNING: This app has not been configured to use cookies for token storage.")
             return(FALSE)
         })
 
@@ -146,14 +147,15 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
                     .initializeSession(session, token=.decryptToken(input$tokenCookie))
                     # Close the auth modal which will be opened by the code below
                     shiny::removeModal()
-                    # Run the wrapped server
-                    server(input, output, session, ...)
                 }, error = function(e) {
                     # Cookie has an invalid/expired token.
                     # Clear the cookie and show the auth modal.
                     try(shinyjs::js$rmCookie())
                     session$reload()
                 })
+
+                # Run the wrapped server
+                server(input, output, session, ...)
             })
 
             shiny::observeEvent(input$logout,
