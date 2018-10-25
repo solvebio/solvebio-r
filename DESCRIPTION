@@ -37,7 +37,7 @@ Collate:
     utils.R
     vault.R
     zzz.R
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Suggests:
     testthat,
     shiny,

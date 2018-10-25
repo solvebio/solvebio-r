@@ -4,8 +4,8 @@
 \alias{Annotator.annotate}
 \title{Annotator.annotate}
 \usage{
-Annotator.annotate(records, fields, include_errors = FALSE, raw = FALSE,
-  env = solvebio:::.solveEnv)
+Annotator.annotate(records, fields, include_errors = FALSE,
+  raw = FALSE, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{records}{The data table or data frame to annotate.}

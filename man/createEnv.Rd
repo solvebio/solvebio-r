@@ -4,7 +4,8 @@
 \alias{createEnv}
 \title{createEnv}
 \usage{
-createEnv(token, token_type = "Token", host = "https://api.solvebio.com")
+createEnv(token, token_type = "Token",
+  host = "https://api.solvebio.com")
 }
 \arguments{
 \item{token}{A SolveBio API key or OAuth2 token}
