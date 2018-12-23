@@ -42,5 +42,4 @@ Suggests:
     testthat,
     shiny,
     shinyjs,
-    PKI,
-    digest
+    openssl

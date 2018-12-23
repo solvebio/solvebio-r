@@ -106,29 +106,21 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
         if (enable_cookie_auth) {
             # Setup token encryption using the secret key
             if (!is.null(client_secret) && client_secret != "") {
-                requireNamespace("digest")
-                requireNamespace("PKI")
+                requireNamespace("openssl")
 
-                aes_key <- substr(digest::sha1(client_secret), 0, 32)
-                # Use ECB mode to support restarts of the Shiny server
-                # without deactivating existing encrypted keys. 
-                aes <- digest::AES(charToRaw(aes_key), mode="ECB")
+                # MD5 maps client-secret to unique 32bit raw key
+                aes_key <- openssl::md5(charToRaw(client_secret))
 
                 .encryptToken <- function(token) {
-                    # Pad the token and convert to hex string
-                    raw <- charToRaw(token)
-                    raw <- c(raw, as.raw(rep(0, 16 - length(raw) %% 16)))
-                    encrypted_raw <- aes$encrypt(raw)
-                    paste(PKI::raw2hex(encrypted_raw), collapse = '')
+                    # Use iv = NULL to support restarts of the Shiny server
+                    # without deactivating existing encrypted keys.
+                    encrypted_raw <- openssl::aes_cbc_encrypt(charToRaw(token), key = aes_key, iv = NULL)
+                    openssl::base64_encode(encrypted_raw)
                 }
 
                 .decryptToken <- function(encrypted_token) {
-                    # Convert hex string to raw for decryption
-                    hex <- strsplit(encrypted_token, character(0))[[1]]
-                    hex <- paste(hex[c(TRUE, FALSE)], hex[c(FALSE, TRUE)], sep = "")
-                    encrypted_raw <- as.raw(as.hexmode(hex))
-                    raw <- aes$decrypt(encrypted_raw, raw=TRUE)
-                    rawToChar(raw[raw>0])
+                    raw <- openssl::base64_decode(encrypted_token)
+                    rawToChar(openssl::aes_cbc_decrypt(raw, key = aes_key))
                 }
             }
             else {
