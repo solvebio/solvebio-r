@@ -1,3 +1,9 @@
+# solvebio 2.7.0
+
+* Fixed issue where API errors would not be displayed
+* Updated OAuth2 token encryption to use openssl
+
+
 # solvebio 2.6.1
 
 * Fix issue where exceptions were ignored in Shiny apps
