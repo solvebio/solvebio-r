@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyjs)
 library(shinydashboard)
 library(DT)
 library(tidyverse)
@@ -65,6 +66,13 @@ ui <- dashboardPage(
                     dashboardHeader(title="SolveBio"),
                     dashboardSidebar(disable=TRUE),
                     dashboardBody(
+                                  # Optional code for token cookie support
+                                  shiny::tags$head(
+                                                   shiny::tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.js")
+                                                   ),
+                                  useShinyjs(),
+                                  extendShinyjs(text = solvebio::protectedServerJS(),
+                                                functions = c("enableCookieAuth", "getCookie", "setCookie", "rmCookie")),
                                   fluidPage(
                                             fluidRow(
                                                      box(width = 12, title = "Datasets in your personal vault ",

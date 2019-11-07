@@ -2,6 +2,7 @@ packages = c(
              "shiny",
              "shinydashboard",
              "shinyjs",
+             "openssl",
              "tidyverse",
              "DT",
              "rio",

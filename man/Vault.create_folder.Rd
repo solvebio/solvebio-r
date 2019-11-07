@@ -4,8 +4,8 @@
 \alias{Vault.create_folder}
 \title{Vault.create_folder}
 \usage{
-Vault.create_folder(id, path, recursive = FALSE,
-  env = solvebio:::.solveEnv, ...)
+Vault.create_folder(id, path, recursive = FALSE, env = solvebio:::.solveEnv,
+  ...)
 }
 \arguments{
 \item{id}{The ID of the vault.}

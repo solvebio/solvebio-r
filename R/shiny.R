@@ -246,7 +246,10 @@ protectedServerJS <- function() {
     }
 
     shinyjs.setCookie = function(params) {
-        Cookies.set("sb_auth", escape(params), { expires: 0.5 });
+        if (Array.isArray(params)) {
+            params = params[0];
+        }
+        Cookies.set("sb_auth", params, { expires: 0.5 });
     }
 
     shinyjs.rmCookie = function(params) {
