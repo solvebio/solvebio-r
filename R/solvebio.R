@@ -206,7 +206,7 @@ createEnv <- function(token, token_type="Token", host="https://api.solvebio.com"
             })
         }
         if (res$status == 401) {
-            stop(sprintf("Invalid API key or access token (error %s)\n", res$status))
+            stop(sprintf("Unauthorized: %s (error %s)\n", httr::content(res, as="parsed")$detail, res$status))
         }
 
         content = httr::content(res, as="text", encoding="UTF-8")
