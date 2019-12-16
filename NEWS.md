@@ -1,3 +1,8 @@
+# solvebio 2.7.1
+
+* Allow Shiny apps to use global API host (if set)
+
+
 # solvebio 2.7.0
 
 * Fixed issue where API errors would not be displayed
