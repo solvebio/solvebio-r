@@ -184,6 +184,7 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
                                                  path="v1/oauth2/token",
                                                  query=NULL,
                                                  body=oauth_params,
+                                                 env=solvebio::createEnv(),
                                                  content_type="application/x-www-form-urlencoded")
                                     }, error = function(e) {
                                         stop("ERROR: Unable to retrieve SolveBio OAuth2 token. Check your client_id and client_secret (if used).")

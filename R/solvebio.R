@@ -75,7 +75,7 @@ login <- function(api_key, api_host, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-createEnv <- function(token, token_type="Token", host="https://api.solvebio.com") {
+createEnv <- function(token, token_type="Token", host=.solveEnv$host) {
     newEnv <- new.env()
     newEnv$token <- token
     newEnv$token_type <- token_type
