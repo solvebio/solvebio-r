@@ -1,3 +1,8 @@
+# solvebio 2.7.2
+
+* Fix bug causing Shiny apps to crash on login
+
+
 # solvebio 2.7.1
 
 * Allow Shiny apps to use global API host (if set)
