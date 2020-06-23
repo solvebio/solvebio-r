@@ -4,8 +4,14 @@
 \alias{DatasetExport.create}
 \title{DatasetExport.create}
 \usage{
-DatasetExport.create(dataset_id, format = "json", params = list(),
-  follow = FALSE, env = solvebio:::.solveEnv, ...)
+DatasetExport.create(
+  dataset_id,
+  format = "json",
+  params = list(),
+  follow = FALSE,
+  env = solvebio:::.solveEnv,
+  ...
+)
 }
 \arguments{
 \item{dataset_id}{The target dataset ID.}

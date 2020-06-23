@@ -4,8 +4,13 @@
 \alias{Dataset.create}
 \title{Dataset.create}
 \usage{
-Dataset.create(vault_id, vault_parent_object_id, name,
-  env = solvebio:::.solveEnv, ...)
+Dataset.create(
+  vault_id,
+  vault_parent_object_id,
+  name,
+  env = solvebio:::.solveEnv,
+  ...
+)
 }
 \arguments{
 \item{vault_id}{The ID of the vault.}

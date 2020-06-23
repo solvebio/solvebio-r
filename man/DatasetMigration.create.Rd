@@ -4,9 +4,16 @@
 \alias{DatasetMigration.create}
 \title{DatasetMigration.create}
 \usage{
-DatasetMigration.create(source_id, target_id, commit_mode = "append",
-  source_params = NULL, target_fields = NULL, include_errors = FALSE,
-  env = solvebio:::.solveEnv, ...)
+DatasetMigration.create(
+  source_id,
+  target_id,
+  commit_mode = "append",
+  source_params = NULL,
+  target_fields = NULL,
+  include_errors = FALSE,
+  env = solvebio:::.solveEnv,
+  ...
+)
 }
 \arguments{
 \item{source_id}{The source dataset ID.}

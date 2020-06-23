@@ -31,13 +31,14 @@ Collate:
     dataset_migration.R
     dataset_template.R
     object.R
+    saved_query.R
     shiny.R
     task.R
     user.R
     utils.R
     vault.R
     zzz.R
-RoxygenNote: 6.1.0
+RoxygenNote: 7.0.2
 Suggests:
     testthat,
     shiny,

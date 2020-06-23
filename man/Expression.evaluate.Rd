@@ -4,8 +4,14 @@
 \alias{Expression.evaluate}
 \title{Expression.evaluate}
 \usage{
-Expression.evaluate(expression, data_type = "string", is_list = FALSE,
-  data = NULL, raw = FALSE, env = solvebio:::.solveEnv)
+Expression.evaluate(
+  expression,
+  data_type = "string",
+  is_list = FALSE,
+  data = NULL,
+  raw = FALSE,
+  env = solvebio:::.solveEnv
+)
 }
 \arguments{
 \item{expression}{The SolveBio expression string.}
