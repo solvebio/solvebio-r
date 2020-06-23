@@ -49,7 +49,7 @@ test_that("Functions with ellipsis work with global and local envs", {
 
               # Local good env
               res <- Object.all(env=good_env)
-              expect_equal(nrow(res$data), 10)
+              expect_gt(nrow(res$data), 1)
 
 })
 
@@ -102,5 +102,5 @@ test_that("do.call works with env argument", {
               res <- do.call(Object.all, list(env=good_env, limit=1))
               expect_equal(nrow(res$data), 1)
               res <- do.call(Object.all, list(env=good_env))
-              expect_equal(nrow(res$data), 10)
+              expect_gt(nrow(res$data), 1)
 })
