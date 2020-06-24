@@ -1,3 +1,8 @@
+# solvebio 2.8.0
+
+* Added SavedQuery resource
+
+
 # solvebio 2.7.2
 
 * Fix bug causing Shiny apps to crash on login
