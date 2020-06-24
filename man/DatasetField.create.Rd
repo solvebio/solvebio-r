@@ -4,8 +4,13 @@
 \alias{DatasetField.create}
 \title{DatasetField.create}
 \usage{
-DatasetField.create(dataset_id, name, data_type = "auto",
-  env = solvebio:::.solveEnv, ...)
+DatasetField.create(
+  dataset_id,
+  name,
+  data_type = "auto",
+  env = solvebio:::.solveEnv,
+  ...
+)
 }
 \arguments{
 \item{dataset_id}{The dataset ID.}

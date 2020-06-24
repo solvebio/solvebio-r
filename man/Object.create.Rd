@@ -4,8 +4,14 @@
 \alias{Object.create}
 \title{Object.create}
 \usage{
-Object.create(vault_id, parent_object_id, object_type, filename,
-  env = solvebio:::.solveEnv, ...)
+Object.create(
+  vault_id,
+  parent_object_id,
+  object_type,
+  filename,
+  env = solvebio:::.solveEnv,
+  ...
+)
 }
 \arguments{
 \item{vault_id}{The target vault ID.}

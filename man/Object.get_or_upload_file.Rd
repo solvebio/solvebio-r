@@ -4,8 +4,13 @@
 \alias{Object.get_or_upload_file}
 \title{Object.get_or_upload_file}
 \usage{
-Object.get_or_upload_file(local_path, vault_id, vault_path, filename,
-  env = solvebio:::.solveEnv)
+Object.get_or_upload_file(
+  local_path,
+  vault_id,
+  vault_path,
+  filename,
+  env = solvebio:::.solveEnv
+)
 }
 \arguments{
 \item{local_path}{The path to the local file}
