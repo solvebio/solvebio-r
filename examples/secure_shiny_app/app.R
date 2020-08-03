@@ -9,7 +9,6 @@ CLIENT_ID <- Sys.getenv('CLIENT_ID', unset='your SolveBio app client ID')
 # Client secret is optional
 CLIENT_SECRET <- Sys.getenv('CLIENT_SECRET')
 
-
 server <- function(input, output, session) {
     retrieveDatasets <- reactive({
         # Get a list of datasets in the current user's personal vault.
@@ -63,7 +62,7 @@ server <- function(input, output, session) {
 }
 
 ui <- dashboardPage(
-                    dashboardHeader(title="SolveBio"),
+                    dashboardHeader(title="SolveBio Shiny App Example"),
                     dashboardSidebar(disable=TRUE),
                     dashboardBody(
                                   # Optional code for token cookie support
@@ -93,4 +92,5 @@ ui <- dashboardPage(
 # Wrap your base server and return a new protected server function
 protected_server <- solvebio::protectedServer(server, client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
 
+options(shiny.port = 3838)
 shinyApp(ui = ui, server = protected_server)
