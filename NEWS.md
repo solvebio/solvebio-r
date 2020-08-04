@@ -1,3 +1,9 @@
+# solvebio 2.9.0
+
+* Remove query limit of 500k records when paginating through Dataset.query()
+* Use global credentials if found to bypass login modal in the Shiny protectedServer
+
+
 # solvebio 2.8.0
 
 * Added SavedQuery resource
