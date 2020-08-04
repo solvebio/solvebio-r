@@ -25,13 +25,13 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
 
     # Initialize the server session using a SolveBio token.
     # Sets up the SolveBio env and current user.
-    .initializeSession <- function(session, token) {
+    .initializeSession <- function(session, token, token_type="Bearer") {
         if (is.null(token)) {
             env <- NULL
             user <- NULL
         }
         else {
-            env <- solvebio::createEnv(token=token, token_type="Bearer")
+            env <- solvebio::createEnv(token=token, token_type=token_type)
             user <- User.retrieve(env=env)
         }
 
@@ -203,9 +203,22 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
                                     }
                                 }
                                 else {
-                                    # Clear the session and show the modal
-                                    .initializeSession(session, token=NULL)
-                                    .showLoginModal(session)
+                                    # If the global env is set (via environment variables), use that.
+                                    # This can be used for local development or automated tests to bypass
+                                    # the login modal.
+                                    if (solvebio:::.solveEnv$token != '') {
+                                        warning("WARNING: Found credentials in global environment, will not show login modal.")
+                                        .initializeSession(session,
+                                                           token=solvebio:::.solveEnv$token,
+                                                           token_type=solvebio:::.solveEnv$token_type)
+                                        # Run the wrapped server
+                                        server(input, output, session, ...)
+                                    }
+                                    else {
+                                        # Clear the session and show the modal
+                                        .initializeSession(session, token=NULL)
+                                        .showLoginModal(session)
+                                    }
                                 }
             }, once = TRUE)
     }
