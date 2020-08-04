@@ -145,11 +145,11 @@ Dataset.data <- function(id, filters, env = solvebio:::.solveEnv, ...) {
 
 #' Dataset.query
 #'
-#' Queries a SolveBio dataset and returns an R data frame containing all records (up to 500,000).
+#' Queries a SolveBio dataset and returns an R data frame containing all records.
 #' Returns a single page of results otherwise (default).
 #'
 #' @param id The ID of a SolveBio dataset, or a Dataset object.
-#' @param paginate When set to TRUE, retrieves up to 500,000 records.
+#' @param paginate When set to TRUE, retrieves all records (memory permitting).
 #' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
 #'
@@ -162,8 +162,6 @@ Dataset.data <- function(id, filters, env = solvebio:::.solveEnv, ...) {
 #'
 #' @export
 Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
-    # Max allowed records (total) when paginating
-    max_records = 500000
     params <- list(...)
     params$id <- id
     params$env <- env
@@ -173,20 +171,17 @@ Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
     df <- response$result
     offset <- response$offset
 
-    # continue to make requests for data if pagination is enabled and there are more records
+    if (response$total > 100000 && isTRUE(paginate)) {
+        warning(paste("This query will retrieve ", response$total, " records, which may take some time..."), call. = FALSE)
+    }
+
+    # Continue to make requests for data if pagination is enabled and there are more records
     while (isTRUE(paginate) && !is.null(offset)) {
         params$offset <- offset
         response <- do.call(Dataset.data, params)
         df_page <- response$results
         df <- dplyr::bind_rows(df, df_page)
         offset <- response$offset
-
-        # only fetch max_records
-        if (nrow(df) >= max_records && !is.null(offset)) {
-            warning(paste("This call returns more than 500,000 records, which is larger than Dataset.query() allows.",
-                          "Please contact SolveBio Support for help with retrieving more data."), call. = FALSE)
-            break
-        }
     }
 
     if (!isTRUE(paginate) && !is.null(offset)) {

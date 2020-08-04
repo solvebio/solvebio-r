@@ -9,14 +9,14 @@ Dataset.query(id, paginate = FALSE, env = solvebio:::.solveEnv, ...)
 \arguments{
 \item{id}{The ID of a SolveBio dataset, or a Dataset object.}
 
-\item{paginate}{When set to TRUE, retrieves up to 500,000 records.}
+\item{paginate}{When set to TRUE, retrieves all records (memory permitting).}
 
 \item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters (e.g. filters, limit, offset).}
 }
 \description{
-Queries a SolveBio dataset and returns an R data frame containing all records (up to 500,000).
+Queries a SolveBio dataset and returns an R data frame containing all records.
 Returns a single page of results otherwise (default).
 }
 \examples{
