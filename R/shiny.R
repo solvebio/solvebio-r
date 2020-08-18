@@ -206,11 +206,11 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
                                     # If the global env is set (via environment variables), use that.
                                     # This can be used for local development or automated tests to bypass
                                     # the login modal.
-                                    if (solvebio:::.solveEnv$token != '') {
+                                    if (.solveEnv$token != '') {
                                         warning("WARNING: Found credentials in global environment, will not show login modal.")
                                         .initializeSession(session,
-                                                           token=solvebio:::.solveEnv$token,
-                                                           token_type=solvebio:::.solveEnv$token_type)
+                                                           token=.solveEnv$token,
+                                                           token_type=.solveEnv$token_type)
                                         # Run the wrapped server
                                         server(input, output, session, ...)
                                     }

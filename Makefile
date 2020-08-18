@@ -13,6 +13,7 @@ $(PKG_NAME)_$(PKG_VERSION).tar.gz: $(PKG_FILES)
  
 check: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R CMD check $(PKG_NAME)_$(PKG_VERSION).tar.gz
+	Rscript -e "devtools::check()"
  
 build: $(PKG_NAME)_$(PKG_VERSION).tar.gz
 	R CMD INSTALL --build $(PKG_NAME)_$(PKG_VERSION).tar.gz
