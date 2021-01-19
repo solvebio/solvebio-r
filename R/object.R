@@ -380,6 +380,7 @@ Object.get_or_upload_file <- function(local_path, vault_id, vault_path, filename
 #' Returns one page of documents from a SolveBio file (object) and processes the response.
 #' @param id The ID of a SolveBio file (vault object).
 #' @param filters (optional) Query filters.
+#' @param row.names (optional) Force data frame row name ordering.
 #' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'

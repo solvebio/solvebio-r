@@ -11,6 +11,8 @@ Object.data(id, filters, row.names = NULL, env = solvebio:::.solveEnv, ...)
 
 \item{filters}{(optional) Query filters.}
 
+\item{row.names}{(optional) Force data frame row name ordering.}
+
 \item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters (e.g. limit, offset).}

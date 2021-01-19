@@ -98,6 +98,7 @@ Dataset.template <- function(id, env = solvebio:::.solveEnv) {
 #' Returns one page of documents from a SolveBio dataset and processes the response.
 #' @param id The ID of a SolveBio dataset, or a Dataset object.
 #' @param filters (optional) Query filters.
+#' @param row.names (optional) Force data frame row name ordering.
 #' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
