@@ -19,13 +19,18 @@ formatSolveBioResponse <- function (res, raw = FALSE) {
     }
 }
 
-formatSolveBioQueryResponse <- function (res, raw = FALSE) {
+formatSolveBioQueryResponse <- function (res, raw = FALSE, row.names = NULL) {
     # res will be the output of formatSolveBioResponse
     if (!raw & is.data.frame(res$results)) {
         # Flatten the data frame
         res$results <- jsonlite::flatten(res$results)
     } else {
-        res$results <- as.data.frame(res$results)
+        if (!is.null(row.names)) {
+            res$results <- as.data.frame(res$results, row.names = row.names)
+        }
+        else {
+            res$results <- as.data.frame(res$results)
+        }
     }
     return(res)
 }
