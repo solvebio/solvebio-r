@@ -507,8 +507,6 @@ Object.fields <- function(id, env = solvebio:::.solveEnv, ...) {
 
     if (class(id) == "Object") {
         id <- id$id
-    } else {
-        warning("A given object is not a file.")
     }
 
     path <- paste("v2/objects", paste(id), "fields", sep="/")
