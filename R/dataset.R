@@ -227,7 +227,7 @@ Dataset.fields <- function(id, env = solvebio:::.solveEnv, ...) {
     }
 
     path <- paste("v2/datasets", paste(id), "fields", sep="/")
-    .request('GET', path=path, query=list(...), env=env)$fields
+    .request('GET', path=path, query=list(...), env=env)
 }
 
 
