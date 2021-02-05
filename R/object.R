@@ -504,10 +504,13 @@ Object.fields <- function(id, env = solvebio:::.solveEnv, ...) {
     if (missing(id)) {
         stop("A dataset ID is required.")
     }
+
     if (class(id) == "Object") {
         id <- id$id
+    } else {
+        warning("A given object is not a file.")
     }
 
     path <- paste("v2/objects", paste(id), "fields", sep="/")
-    .request('GET', path=path, query=list(...), env=env)
+    .request('GET', path=path, query=list(...), env=env)$fields
 }

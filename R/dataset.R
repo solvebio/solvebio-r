@@ -221,12 +221,15 @@ Dataset.fields <- function(id, env = solvebio:::.solveEnv, ...) {
     if (missing(id)) {
         stop("A dataset ID is required.")
     }
-    if (class(id) == "Dataset" || class(id) == "Object") {
+
+    if (class(id) == "Dataset") {
         id <- id$id
+    } else {
+        warning("A given object is not a dataset.")
     }
 
     path <- paste("v2/datasets", paste(id), "fields", sep="/")
-    .request('GET', path=path, query=list(...), env=env)
+    .request('GET', path=path, query=list(...), env=env)$fields
 }
 
 
