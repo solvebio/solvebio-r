@@ -373,3 +373,142 @@ Object.get_or_upload_file <- function(local_path, vault_id, vault_path, filename
 
     return(object)
 }
+
+
+#' Object.data
+#'
+#' Returns one page of documents from a SolveBio file (object) and processes the response.
+#' @param id The ID of a SolveBio file (vault object).
+#' @param filters (optional) Query filters.
+#' @param row.names (optional) Force data frame row name ordering.
+#' @param env (optional) Custom client environment.
+#' @param ... (optional) Additional query parameters (e.g. limit, offset).
+#'
+#' @examples \dontrun{
+#' Object.data("1234567890")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Object.data <- function(id, filters, row.names = NULL, env = solvebio:::.solveEnv, ...) {
+    if (missing(id) || !(class(id) %in% c("Object", "numeric", "integer", "character"))) {
+        stop("An object ID is required.")
+    }
+    if (class(id) == "Object") {
+        id <- id$id
+    }
+
+    body = list(...)
+    # Only JSON is supported right now as the results
+    # are formatted into a dataframe.
+    body$output_format = "json"
+
+    # Filters can be passed as a JSON string
+    if (!missing(filters) && !is.null(filters) && length(filters) > 0) {
+        if (class(filters) == "character") {
+            # Convert JSON string to an R structure
+            filters <- jsonlite::fromJSON(filters,
+                                          simplifyVector = FALSE,
+                                          simplifyDataFrame = TRUE,
+                                          simplifyMatrix = FALSE)
+        }
+        # Add filters to request body
+        body = modifyList(body, list(filters=filters))
+    }
+
+    path <- paste("v2/objects", paste(id), "data", sep="/")
+
+    tryCatch({
+        res <- .request('POST', path=path, body=body, env=env)
+        return(formatSolveBioQueryResponse(res, row.names=row.names))
+    }, error = function(e) {
+        cat(sprintf("Query failed: %s\n", e$message))
+    })
+}
+
+
+#' Object.query
+#'
+#' Queries a SolveBio file (vault object) and returns an R data frame containing all records.
+#' Returns a single page of results otherwise (default).
+#'
+#' @param id The ID of a SolveBio file (vault object).
+#' @param paginate When set to TRUE, retrieves all records (memory permitting).
+#' @param env (optional) Custom client environment.
+#' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
+#'
+#' @examples \dontrun{
+#' Object.query("12345678790", paginate=TRUE)
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Object.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
+    params <- list(...)
+    params$id <- id
+    params$env <- env
+
+    # Retrieve the list of fields
+    # NOTE: There is no inherent order to these fields, unless the file is a TSV or CSV.
+    params$row.names <- do.call(Object.fields, list(id))
+
+    # Retrieve the first page of results
+    response <- do.call(Object.data, params)
+    df <- response$result
+    offset <- response$offset
+    total <- response$total
+
+    # Continue to make requests for data if pagination is enabled and there are more records
+    while (isTRUE(paginate) && !is.null(offset)) {
+        params$offset <- offset
+        response <- do.call(Object.data, params)
+        df_page <- response$results
+        df <- dplyr::bind_rows(df, df_page)
+        offset <- response$offset
+    }
+
+    if (!isTRUE(paginate) && is.null(total)) {
+        warning(paste("This call returned only the first page of records. To retrieve more pages automatically,",
+                      "please set paginate=TRUE when calling Object.query().", call. = FALSE))
+    }
+
+    return(df)
+}
+
+
+#' Object.fields
+#'
+#' Retrieves the list of fields for a file (JSON, CSV, or TSV).
+#'
+#' @param id The ID of a SolveBio file (vault object).
+#' @param env (optional) Custom client environment.
+#' @param ... (optional) Additional query parameters (e.g. limit, offset).
+#'
+#' @examples \dontrun{
+#' Object.fields("1234567890")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Object.fields <- function(id, env = solvebio:::.solveEnv, ...) {
+    if (class(id) == "numeric") {
+        warning("Please use string IDs instead of numeric IDs.")
+    }
+
+    if (missing(id)) {
+        stop("A dataset ID is required.")
+    }
+
+    if (class(id) == "Object") {
+        id <- id$id
+    }
+
+    path <- paste("v2/objects", paste(id), "fields", sep="/")
+    .request('GET', path=path, query=list(...), env=env)$fields
+}
