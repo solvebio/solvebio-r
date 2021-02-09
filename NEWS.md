@@ -1,3 +1,9 @@
+# solvebio 2.10.0
+
+* Add ability to query files (`Object.query()`)
+* Use the dataset's field order when creating data frames from dataset queries
+
+
 # solvebio 2.9.0
 
 * Remove query limit of 500k records when paginating through Dataset.query()
