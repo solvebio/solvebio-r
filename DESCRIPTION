@@ -1,7 +1,7 @@
 Package: solvebio
 Type: Package
 Title: The Official SolveBio API Client
-Version: 2.10.0
+Version: 2.10.1
 Date: 2021-02-09
 Author: David Caplan
 Maintainer: David Caplan <dcaplan@solvebio.com>
