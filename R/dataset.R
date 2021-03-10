@@ -168,7 +168,7 @@ Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
     params$env <- env
 
     # Retrieve the list of ordered fields
-    params$row.names <- do.call(Dataset.fields, list(id, limit=1000))$data$name
+    params$row.names <- do.call(Dataset.fields, list(id, limit=1000, env=env))$data$name
 
     # Retrieve the first page of results
     response <- do.call(Dataset.data, params)

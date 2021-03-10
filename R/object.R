@@ -454,7 +454,7 @@ Object.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
 
     # Retrieve the list of fields
     # NOTE: There is no inherent order to these fields, unless the file is a TSV or CSV.
-    params$row.names <- do.call(Object.fields, list(id))
+    params$row.names <- do.call(Object.fields, list(id, env=env))
 
     # Retrieve the first page of results
     response <- do.call(Object.data, params)
