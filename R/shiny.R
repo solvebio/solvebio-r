@@ -123,6 +123,9 @@ protectedServer <- function(server, client_id, client_secret=NULL, base_url="htt
                     rawToChar(openssl::aes_cbc_decrypt(raw, key = aes_key))
                 }
             }
+            else {
+                warning("WARNING: SolveBio OAuth2 tokens will not be encrypted in cookies. Set client_secret to encrypt tokens.")
+            }
 
             shiny::observe({
                 try(shinyjs::js$getCookie(), silent = FALSE)
