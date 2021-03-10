@@ -1,7 +1,15 @@
+# solvebio 2.10.1
+
+* Fix an issue preventing dataset queries in Shiny apps
+
+
 # solvebio 2.10.0
 
 * Add ability to query files (`Object.query()`)
 * Use the dataset's field order when creating data frames from dataset queries
+
+
+**NOTE: This version has a bug that prevents dataset queries in Shiny apps, please upgrade to v2.10.1**
 
 
 # solvebio 2.9.0
