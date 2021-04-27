@@ -35,18 +35,19 @@ formatSolveBioQueryResponse <- function (id, res, raw = FALSE, row.names = NULL)
         res$results <- jsonlite::flatten(res$results)
         res$results <- res$results[, row.names]
 
-        # Replace the column names with column titles
+        # Create a dataframe that maps column names with titles
         names <-  do.call(Dataset.fields, list(id, limit=200))$data$name # get fields name
         titles <-  do.call(Dataset.fields, list(id, limit=200))$data$title # get fields titles
 
+        # Append column "_id" to the list of names and titles because it's always present in result query, but not in names and titles
         col.name.title.map <- data.frame(
             names = c(names, "_id"),
             title = c(titles, "_ID"),
             stringsAsFactors = FALSE
         )
+
         # Remove all names and titles that are not in the results query
         col.name.title.map <- col.name.title.map[!col.name.title.map$names %in% diff, ]
-        print(col.name.title.map)
 
         # Change column names to titles based on the col.name.title.map dataframe
         colnames(res$results)[match(col.name.title.map[,1], colnames(res$results))] <- col.name.title.map[,2][match(col.name.title.map[,1], colnames(res$results))]
