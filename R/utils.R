@@ -17,23 +17,45 @@ formatSolveBioResponse <- function (res, raw = FALSE) {
         res$'_url' = url
         return(res)
     }
+
 }
 
-formatSolveBioQueryResponse <- function (res, raw = FALSE, row.names = NULL) {
+formatSolveBioQueryResponse <- function (id, res, raw = FALSE, row.names = NULL) {
     # res will be the output of formatSolveBioResponse
     if (!raw & is.data.frame(res$results)) {
-        # Flatten the data frame
+        # Append column "_id" if it's not already there
+        if (!"_id" %in% row.names) {
+            row.names <- c(row.names, "_id")
+        }
+        # Remove columns from row.names that are not in the results query
+        diff <- setdiff(row.names, colnames(res$results))
+        row.names <- row.names [! row.names %in% diff]
+
+        # Flatten the data frame and sort columns by row.names
         res$results <- jsonlite::flatten(res$results)
+        res$results <- res$results[, row.names]
+
+        # Replace the column names with column titles
+        names <-  do.call(Dataset.fields, list(id, limit=200))$data$name # get fields name
+        titles <-  do.call(Dataset.fields, list(id, limit=200))$data$title # get fields titles
+
+        col.name.title.map <- data.frame(
+            names = c(names, "_id"),
+            title = c(titles, "_ID"),
+            stringsAsFactors = FALSE
+        )
+        # Remove all names and titles that are not in the results query
+        col.name.title.map <- col.name.title.map[!col.name.title.map$names %in% diff, ]
+        print(col.name.title.map)
+
+        # Change column names to titles based on the col.name.title.map dataframe
+        colnames(res$results)[match(col.name.title.map[,1], colnames(res$results))] <- col.name.title.map[,2][match(col.name.title.map[,1], colnames(res$results))]
     } else {
-        if (!is.null(row.names)) {
-            res$results <- as.data.frame(res$results, row.names = row.names)
-        }
-        else {
             res$results <- as.data.frame(res$results)
-        }
     }
     return(res)
 }
+
 
 prepareArgs <- function (args) {
     if (!is.null(args) && length(args) > 0) {
