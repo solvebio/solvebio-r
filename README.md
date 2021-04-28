@@ -3,7 +3,7 @@
 **This version of SolveBio for R is compatible with Vault-based datasets only (released on July 28th, 2017).**
 
 
-[![Build Status](https://travis-ci.org/solvebio/solvebio-r.png?branch=master)](https://travis-ci.org/solvebio/solvebio-r)
+[![Build Status](https://github.com/solvebio/solvebio-r/workflows/R/badge.svg)](https://github.com/solvebio/solvebio-r/actions) 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/solvebio)](https://cran.r-project.org/package=solvebio)
 
 This package contains the SolveBio R language bindings. SolveBio makes it easy
