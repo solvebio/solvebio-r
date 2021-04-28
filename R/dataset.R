@@ -141,16 +141,19 @@ Dataset.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveE
             # Create a dataframe that maps column names with titles
             # Append column "_id" to the list of names and titles because it's always present in result query, but not in names and titles
             col.name.title.map <- data.frame(
-                names = c(col.names$data$name, "_id"),
-                title = c(col.names$data$title, "_ID"),
+                names = c(col.names$name, "_id"),
+                title = c(col.names$title, "_ID"),
                 stringsAsFactors = FALSE
             )
             # Remove all names and titles that are not in the results query
             col.name.title.map <- col.name.title.map[col.name.title.map$names %in% colnames(res$results), ]
+            # Order columns in the dataframe based on list of dataset fields
+            res$results <- res$results[, col.name.title.map$names]
+
             # Change column names to titles based on the col.name.title.map dataframe
             colnames(res$results)[match(col.name.title.map[,1], colnames(res$results))] <- col.name.title.map[,2][match(col.name.title.map[,1], colnames(res$results))]
         }
-        return(formatSolveBioQueryResponse(res, col.names = col.names))
+        return(formatSolveBioQueryResponse(res))
     }, error = function(e) {
         cat(sprintf("Query failed: %s\n", e$message))
     })
@@ -181,8 +184,8 @@ Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
     params$env <- env
 
     # Retrieve the list of ordered fields
-    params$col.names <- do.call(Dataset.fields, list(id, limit=1000, env=env))
-
+    params$col.names <- do.call(Dataset.fields, list(id, limit=1000, env=env))$data
+    cat(sprintf("params: %s\n", params$col.names$data$name))
     # Retrieve the first page of results
     response <- do.call(Dataset.data, params)
     df <- response$result

@@ -24,8 +24,7 @@ formatSolveBioQueryResponse <- function (res, raw = FALSE, col.names = NULL) {
     # res will be the output of formatSolveBioResponse
     if (!raw & is.data.frame(res$results) & !is.null(col.names)) {
         # Flatten the data frame
-        res$results <- jsonlite::flatten(res$results)
-        res$results <- res$results[, col.names$data$names]
+        res$results <- as.data.frame(res$results, col.names = col.names$name)
     }
     else {
         if (!raw & is.data.frame(res$results)) {
