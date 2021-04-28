@@ -14,11 +14,14 @@ jobs:
           R -q -e "install.packages(c('curl'))"
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "rcmdcheck", "httr"))
+          install.packages(c("remotes", "rcmdcheck", "httr", "jsonlite", "devtools"))
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
-      - name: Check
+      - name: Check package
         run: |
           options(crayon.enabled = TRUE)
           rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
         shell: Rscript {0}
+      - name: Run tests
+        run: |
+          make test
