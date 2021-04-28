@@ -98,7 +98,7 @@ Dataset.template <- function(id, env = solvebio:::.solveEnv) {
 #' Returns one page of documents from a SolveBio dataset and processes the response.
 #' @param id The ID of a SolveBio dataset, or a Dataset object.
 #' @param filters (optional) Query filters.
-#' @param row.names (optional) Force data frame row name ordering.
+#' @param col.names (optional) Force data frame row name ordering.
 #' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
@@ -110,7 +110,7 @@ Dataset.template <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.data <- function(id, filters, row.names = NULL, env = solvebio:::.solveEnv, ...) {
+Dataset.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveEnv, ...) {
     if (missing(id) || !(class(id) %in% c("Dataset", "numeric", "integer", "character"))) {
         stop("A dataset ID (or object) is required.")
     }
@@ -137,7 +137,7 @@ Dataset.data <- function(id, filters, row.names = NULL, env = solvebio:::.solveE
 
     tryCatch({
         res <- .request('POST', path=path, body=body, env=env)
-        return(formatSolveBioQueryResponse(id, res, row.names=row.names))
+        return(formatSolveBioQueryResponse(id, res, col.names=col.names))
     }, error = function(e) {
         cat(sprintf("Query failed: %s\n", e$message))
     })
@@ -168,7 +168,7 @@ Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
     params$env <- env
 
     # Retrieve the list of ordered fields
-    params$row.names <- do.call(Dataset.fields, list(id, limit=1000, env=env))$data$name
+    params$col.names <- do.call(Dataset.fields, list(id, limit=1000, env=env))
 
     # Retrieve the first page of results
     response <- do.call(Dataset.data, params)

@@ -380,7 +380,7 @@ Object.get_or_upload_file <- function(local_path, vault_id, vault_path, filename
 #' Returns one page of documents from a SolveBio file (object) and processes the response.
 #' @param id The ID of a SolveBio file (vault object).
 #' @param filters (optional) Query filters.
-#' @param row.names (optional) Force data frame row name ordering.
+#' @param col.names (optional) Force data frame row name ordering.
 #' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
@@ -392,7 +392,7 @@ Object.get_or_upload_file <- function(local_path, vault_id, vault_path, filename
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.data <- function(id, filters, row.names = NULL, env = solvebio:::.solveEnv, ...) {
+Object.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveEnv, ...) {
     if (missing(id) || !(class(id) %in% c("Object", "numeric", "integer", "character"))) {
         stop("An object ID is required.")
     }
@@ -422,7 +422,7 @@ Object.data <- function(id, filters, row.names = NULL, env = solvebio:::.solveEn
 
     tryCatch({
         res <- .request('POST', path=path, body=body, env=env)
-        return(formatSolveBioQueryResponse(id, res, row.names=row.names))
+        return(formatSolveBioQueryResponse(id, res, col.names=col.names))
     }, error = function(e) {
         cat(sprintf("Query failed: %s\n", e$message))
     })
@@ -454,7 +454,7 @@ Object.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
 
     # Retrieve the list of fields
     # NOTE: There is no inherent order to these fields, unless the file is a TSV or CSV.
-    params$row.names <- do.call(Object.fields, list(id, env=env))
+    params$col.names <- do.call(Object.fields, list(id, env=env))
 
     # Retrieve the first page of results
     response <- do.call(Object.data, params)

@@ -20,24 +20,19 @@ formatSolveBioResponse <- function (res, raw = FALSE) {
 
 }
 
-formatSolveBioQueryResponse <- function (id, res, raw = FALSE, row.names = NULL) {
+formatSolveBioQueryResponse <- function (id, res, raw = FALSE, col.names = NULL) {
     # res will be the output of formatSolveBioResponse
-    if (!raw & is.data.frame(res$results)) {
-        # Append column "_id" if it's not already there
-        if (!"_id" %in% row.names) {
-            row.names <- c(row.names, "_id")
-        }
-        # Remove columns from row.names that are not in the results query
-        diff <- setdiff(row.names, colnames(res$results))
-        row.names <- row.names [! row.names %in% diff]
+    if (!raw & is.data.frame(res$results) & !is.null(col.names)) {
+        # Remove columns from col.names that are not in the results query
+        row.names$data$names [colnames(res$results)]
 
-        # Flatten the data frame and sort columns by row.names
+        # Flatten the data frame and sort columns by col.names + _id field
         res$results <- jsonlite::flatten(res$results)
-        res$results <- res$results[, row.names]
+        res$results <- res$results[, c(col.names$data$names, "_id")]
 
         # Create a dataframe that maps column names with titles
-        names <-  do.call(Dataset.fields, list(id, limit=200))$data$name # get fields name
-        titles <-  do.call(Dataset.fields, list(id, limit=200))$data$title # get fields titles
+        names <-  col.names$data$name # get fields name
+        titles <-  col.names$data$title # get fields titles
 
         # Append column "_id" to the list of names and titles because it's always present in result query, but not in names and titles
         col.name.title.map <- data.frame(
@@ -52,7 +47,11 @@ formatSolveBioQueryResponse <- function (id, res, raw = FALSE, row.names = NULL)
         # Change column names to titles based on the col.name.title.map dataframe
         colnames(res$results)[match(col.name.title.map[,1], colnames(res$results))] <- col.name.title.map[,2][match(col.name.title.map[,1], colnames(res$results))]
     } else {
+        if (!raw & is.data.frame(res$results)) {
+            res$results <- jsonlite::flatten(res$results)
+        } else {
             res$results <- as.data.frame(res$results)
+        }
     }
     return(res)
 }
