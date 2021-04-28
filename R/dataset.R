@@ -137,6 +137,7 @@ Dataset.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveE
 
     tryCatch({
         res <- .request('POST', path=path, body=body, env=env)
+        res <- formatSolveBioQueryResponse(res)
         if (!is.null(col.names)) {
             # Create a dataframe that maps column names with titles
             # Append column "_id" to the list of names and titles because it's always present in result query, but not in names and titles
@@ -153,7 +154,7 @@ Dataset.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveE
             # Change column names to titles based on the col.name.title.map dataframe
             colnames(res$results)[match(col.name.title.map[,1], colnames(res$results))] <- col.name.title.map[,2][match(col.name.title.map[,1], colnames(res$results))]
         }
-        return(formatSolveBioQueryResponse(res))
+        return(res)
     }, error = function(e) {
         cat(sprintf("Query failed: %s\n", e$message))
     })
