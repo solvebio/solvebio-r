@@ -20,37 +20,19 @@ formatSolveBioResponse <- function (res, raw = FALSE) {
 
 }
 
-formatSolveBioQueryResponse <- function (id, res, raw = FALSE, col.names = NULL) {
+formatSolveBioQueryResponse <- function (res, raw = FALSE, col.names = NULL) {
     # res will be the output of formatSolveBioResponse
     if (!raw & is.data.frame(res$results) & !is.null(col.names)) {
-        # Remove columns from col.names that are not in the results query
-        row.names$data$names [colnames(res$results)]
-
-        # Flatten the data frame and sort columns by col.names + _id field
+        # Flatten the data frame
         res$results <- jsonlite::flatten(res$results)
-        res$results <- res$results[, c(col.names$data$names, "_id")]
-
-        # Create a dataframe that maps column names with titles
-        names <-  col.names$data$name # get fields name
-        titles <-  col.names$data$title # get fields titles
-
-        # Append column "_id" to the list of names and titles because it's always present in result query, but not in names and titles
-        col.name.title.map <- data.frame(
-            names = c(names, "_id"),
-            title = c(titles, "_ID"),
-            stringsAsFactors = FALSE
-        )
-
-        # Remove all names and titles that are not in the results query
-        col.name.title.map <- col.name.title.map[!col.name.title.map$names %in% diff, ]
-
-        # Change column names to titles based on the col.name.title.map dataframe
-        colnames(res$results)[match(col.name.title.map[,1], colnames(res$results))] <- col.name.title.map[,2][match(col.name.title.map[,1], colnames(res$results))]
-    } else {
+        res$results <- res$results[, col.names$data$names]
+    }
+    else {
         if (!raw & is.data.frame(res$results)) {
+            # Flatten the data frame
             res$results <- jsonlite::flatten(res$results)
         } else {
-            res$results <- as.data.frame(res$results)
+                res$results <- as.data.frame(res$results)
         }
     }
     return(res)

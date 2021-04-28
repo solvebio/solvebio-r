@@ -422,7 +422,7 @@ Object.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveEn
 
     tryCatch({
         res <- .request('POST', path=path, body=body, env=env)
-        return(formatSolveBioQueryResponse(id, res, col.names=col.names))
+        return(formatSolveBioQueryResponse(res, col.names = col.names))
     }, error = function(e) {
         cat(sprintf("Query failed: %s\n", e$message))
     })
