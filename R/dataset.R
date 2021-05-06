@@ -98,7 +98,6 @@ Dataset.template <- function(id, env = solvebio:::.solveEnv) {
 #' Returns one page of documents from a SolveBio dataset and processes the response.
 #' @param id The ID of a SolveBio dataset, or a Dataset object.
 #' @param filters (optional) Query filters.
-#' @param col.names (optional) Force data frame row name ordering.
 #' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
@@ -110,16 +109,14 @@ Dataset.template <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveEnv, ...) {
+Dataset.data <- function(id, filters,  env = solvebio:::.solveEnv, ...) {
     if (missing(id) || !(class(id) %in% c("Dataset", "numeric", "integer", "character"))) {
         stop("A dataset ID (or object) is required.")
     }
     if (class(id) == "Dataset" || class(id) == "Object") {
         id <- id$id
     }
-
     body = list(...)
-
     # Filters can be passed as a JSON string
     if (!missing(filters) && !is.null(filters) && length(filters) > 0) {
         if (class(filters) == "character") {
@@ -138,22 +135,7 @@ Dataset.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveE
     tryCatch({
         res <- .request('POST', path=path, body=body, env=env)
         res <- formatSolveBioQueryResponse(res)
-        if (!is.null(col.names)) {
-            # Create a dataframe that maps column names with titles
-            # Append column "_id" to the list of names and titles because it's always present in result query, but not in names and titles
-            col.name.title.map <- data.frame(
-                names = c(col.names$name, "_id"),
-                title = c(col.names$title, "_ID"),
-                stringsAsFactors = FALSE
-            )
-            # Remove all names and titles that are not in the results query
-            col.name.title.map <- col.name.title.map[col.name.title.map$names %in% colnames(res$results), ]
-            # Order columns in the dataframe based on list of dataset fields
-            res$results <- res$results[, col.name.title.map$names]
 
-            # Change column names to titles based on the col.name.title.map dataframe
-            colnames(res$results)[match(col.name.title.map[,1], colnames(res$results))] <- col.name.title.map[,2][match(col.name.title.map[,1], colnames(res$results))]
-        }
         return(res)
     }, error = function(e) {
         cat(sprintf("Query failed: %s\n", e$message))
@@ -169,6 +151,7 @@ Dataset.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveE
 #' @param id The ID of a SolveBio dataset, or a Dataset object.
 #' @param paginate When set to TRUE, retrieves all records (memory permitting).
 #' @param env (optional) Custom client environment.
+#' @param use_field_titles (optional) Use field title instead of field name for query.
 #' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
 #'
 #' @examples \dontrun{
@@ -179,14 +162,11 @@ Dataset.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveE
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
+Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, use_field_titles=FALSE, ...) {
     params <- list(...)
     params$id <- id
     params$env <- env
 
-    # Retrieve the list of ordered fields
-    params$col.names <- do.call(Dataset.fields, list(id, limit=1000, env=env))$data
-    cat(sprintf("params: %s\n", params$col.names$data$name))
     # Retrieve the first page of results
     response <- do.call(Dataset.data, params)
     df <- response$result
@@ -209,7 +189,9 @@ Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
         warning(paste("This call returned only the first page of records. To retrieve more pages automatically,",
                       "please set paginate=TRUE when calling Dataset.query().", call. = FALSE))
     }
-
+    if (use_field_titles) {
+        df <- switchFieldNamesWithTitles(id, env, df)
+    }
     return(df)
 }
 
