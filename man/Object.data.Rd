@@ -11,7 +11,7 @@ Object.data(id, filters, col.names = NULL, env = solvebio:::.solveEnv, ...)
 
 \item{filters}{(optional) Query filters.}
 
-\item{col.names}{(optional) Force data frame col name ordering.}
+\item{col.names}{(optional) Force data frame column name ordering.}
 
 \item{env}{(optional) Custom client environment.}
 

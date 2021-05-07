@@ -2,7 +2,7 @@
 
 * Fix issue with order fields from dataset and file queries
 * Fix issue with mapping field names to titles for dataset queries
-    * Pass `use_field_titles=TRUE` to `Dataset.query()` to enable this feature
+    * This is enabled by default. To disable: `Dataset.query(use_field_titles=FALSE)`
 
 
 # solvebio 2.10.1

@@ -162,7 +162,7 @@ Dataset.data <- function(id, filters,  env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, use_field_titles=FALSE, ...) {
+Dataset.query <- function(id, paginate=FALSE, use_field_titles=TRUE, env = solvebio:::.solveEnv, ...) {
     params <- list(...)
     params$id <- id
     params$env <- env

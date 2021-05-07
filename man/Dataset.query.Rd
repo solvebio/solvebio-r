@@ -4,12 +4,20 @@
 \alias{Dataset.query}
 \title{Dataset.query}
 \usage{
-Dataset.query(id, paginate = FALSE, env = solvebio:::.solveEnv, ...)
+Dataset.query(
+  id,
+  paginate = FALSE,
+  use_field_titles = TRUE,
+  env = solvebio:::.solveEnv,
+  ...
+)
 }
 \arguments{
 \item{id}{The ID of a SolveBio dataset, or a Dataset object.}
 
 \item{paginate}{When set to TRUE, retrieves all records (memory permitting).}
+
+\item{use_field_titles}{(optional) Use field title instead of field name for query.}
 
 \item{env}{(optional) Custom client environment.}
 
