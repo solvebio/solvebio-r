@@ -48,7 +48,7 @@ prepareArgs <- function (args) {
     }
 }
 
-switchFieldNamesWithTitles <- function (id, env, res) {
+formatQueryColumns <- function (id, env, res, use_field_titles) {
     # Retrieve the list of ordered fields
     ds_fields <- do.call(Dataset.fields, list(id, limit=1000, env=env))$data
 
@@ -57,7 +57,7 @@ switchFieldNamesWithTitles <- function (id, env, res) {
         # Append column "_id" to the list of names and titles because it's always present in result query, but not in names and titles
         col.name.title.map <- data.frame(
             names = c(ds_fields$name, "_id"),
-            title = c(ds_fields$title, "_ID"),
+            title = c(ds_fields$title, "_id"),
             stringsAsFactors = FALSE
         )
     }
@@ -74,8 +74,9 @@ switchFieldNamesWithTitles <- function (id, env, res) {
     # Order columns in the dataframe based on list of dataset fields
     res <- res[col.name.title.map$names]
 
-    # Change column names to titles based on the col.name.title.map dataframe
-    colnames(res)[match(col.name.title.map[,1], colnames(res))] <- col.name.title.map[,2][match(col.name.title.map[,1], colnames(res))]
-
+    if (use_field_titles) {
+        # Change column names to titles based on the col.name.title.map dataframe
+        colnames(res)[match(col.name.title.map[,1], colnames(res))] <- col.name.title.map[,2][match(col.name.title.map[,1], colnames(res))]
+    }
     return (res)
 }

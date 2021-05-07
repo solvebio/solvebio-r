@@ -189,9 +189,9 @@ Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, use_fi
         warning(paste("This call returned only the first page of records. To retrieve more pages automatically,",
                       "please set paginate=TRUE when calling Dataset.query().", call. = FALSE))
     }
-    if (use_field_titles) {
-        df <- switchFieldNamesWithTitles(id, env, df)
-    }
+
+    df <- formatQueryColumns(id, env, df, use_field_titles)
+
     return(df)
 }
 

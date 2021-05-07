@@ -16,6 +16,6 @@ test_that("Query the dataset and check that titles are colnames in df", {
 
               ds <- Dataset.get_by_full_path(TEST_DATASET_FULL_PATH_2)
               query <- Dataset.query(ds$id, fields=list("variant", "_id", "disease", "allele"), use_field_titles=TRUE)
-              expect_true('_ID' %in% colnames(query))
+              expect_true('_id' %in% colnames(query))
 
 })
