@@ -4,14 +4,14 @@
 \alias{Object.data}
 \title{Object.data}
 \usage{
-Object.data(id, filters, row.names = NULL, env = solvebio:::.solveEnv, ...)
+Object.data(id, filters, col.names = NULL, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of a SolveBio file (vault object).}
 
 \item{filters}{(optional) Query filters.}
 
-\item{row.names}{(optional) Force data frame row name ordering.}
+\item{col.names}{(optional) Force data frame col name ordering.}
 
 \item{env}{(optional) Custom client environment.}
 

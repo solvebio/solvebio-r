@@ -98,7 +98,6 @@ Dataset.template <- function(id, env = solvebio:::.solveEnv) {
 #' Returns one page of documents from a SolveBio dataset and processes the response.
 #' @param id The ID of a SolveBio dataset, or a Dataset object.
 #' @param filters (optional) Query filters.
-#' @param row.names (optional) Force data frame row name ordering.
 #' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
@@ -110,16 +109,14 @@ Dataset.template <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.data <- function(id, filters, row.names = NULL, env = solvebio:::.solveEnv, ...) {
+Dataset.data <- function(id, filters,  env = solvebio:::.solveEnv, ...) {
     if (missing(id) || !(class(id) %in% c("Dataset", "numeric", "integer", "character"))) {
         stop("A dataset ID (or object) is required.")
     }
     if (class(id) == "Dataset" || class(id) == "Object") {
         id <- id$id
     }
-
     body = list(...)
-
     # Filters can be passed as a JSON string
     if (!missing(filters) && !is.null(filters) && length(filters) > 0) {
         if (class(filters) == "character") {
@@ -137,7 +134,9 @@ Dataset.data <- function(id, filters, row.names = NULL, env = solvebio:::.solveE
 
     tryCatch({
         res <- .request('POST', path=path, body=body, env=env)
-        return(formatSolveBioQueryResponse(res, row.names=row.names))
+        res <- formatSolveBioQueryResponse(res)
+
+        return(res)
     }, error = function(e) {
         cat(sprintf("Query failed: %s\n", e$message))
     })
@@ -152,6 +151,7 @@ Dataset.data <- function(id, filters, row.names = NULL, env = solvebio:::.solveE
 #' @param id The ID of a SolveBio dataset, or a Dataset object.
 #' @param paginate When set to TRUE, retrieves all records (memory permitting).
 #' @param env (optional) Custom client environment.
+#' @param use_field_titles (optional) Use field title instead of field name for query.
 #' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
 #'
 #' @examples \dontrun{
@@ -162,13 +162,10 @@ Dataset.data <- function(id, filters, row.names = NULL, env = solvebio:::.solveE
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
+Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, use_field_titles=FALSE, ...) {
     params <- list(...)
     params$id <- id
     params$env <- env
-
-    # Retrieve the list of ordered fields
-    params$row.names <- do.call(Dataset.fields, list(id, limit=1000, env=env))$data$name
 
     # Retrieve the first page of results
     response <- do.call(Dataset.data, params)
@@ -192,6 +189,8 @@ Dataset.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
         warning(paste("This call returned only the first page of records. To retrieve more pages automatically,",
                       "please set paginate=TRUE when calling Dataset.query().", call. = FALSE))
     }
+
+    df <- formatQueryColumns(id, env, df, use_field_titles)
 
     return(df)
 }

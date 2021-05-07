@@ -4,14 +4,14 @@
 \alias{Dataset.data}
 \title{Dataset.data}
 \usage{
-Dataset.data(id, filters, row.names = NULL, env = solvebio:::.solveEnv, ...)
+Dataset.data(id, filters, col.names = NULL, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of a SolveBio dataset, or a Dataset object.}
 
 \item{filters}{(optional) Query filters.}
 
-\item{row.names}{(optional) Force data frame row name ordering.}
+\item{col.names}{(optional) Force data frame col name ordering.}
 
 \item{env}{(optional) Custom client environment.}
 
