@@ -154,7 +154,7 @@ Object.update <- function(id, env = solvebio:::.solveEnv, ...) {
 #'
 #' A helper function to get an object on SolveBio by its full path.
 #'
-#' @param full_path The full path to the object. 
+#' @param full_path The full path to the object.
 #' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters.
 #'
@@ -269,7 +269,7 @@ Object.upload_file <- function(local_path, vault_id, vault_path, filename, env =
     if (missing(vault_id)) {
         stop("A valid vault ID is required.")
     }
-        
+
     if (missing(filename) || is.null(filename)) {
         filename = basename(local_path)
     }
@@ -512,3 +512,82 @@ Object.fields <- function(id, env = solvebio:::.solveEnv, ...) {
     path <- paste("v2/objects", paste(id), "fields", sep="/")
     .request('GET', path=path, query=list(...), env=env)$fields
 }
+
+
+#' Object.get_global_beacon_status
+#'
+#' Retrieves the global beacon status for the specified dataset.
+#'
+#' @param id The ID of a SolveBio dataset.
+#' @param env (optional) Custom client environment.
+#'
+#' @examples \dontrun{
+#' Object.get_global_beacon_status("1234567890")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Object.get_global_beacon_status <- function(id, env = solvebio:::.solveEnv) {
+    if (missing(id)) {
+        stop("A dataset ID is required.")
+    }
+
+    path <- paste("v2/objects", paste(id), "beacon", sep="/")
+    response <- .request('GET', path, query=NULL, env=env)
+
+    return(response)
+}
+
+
+#' Object.enable_global_beacon
+#'
+#' Enables Global Beacon for the specified dataset.
+#'
+#' @param id The ID of a SolveBio dataset.
+#' @param env (optional) Custom client environment.
+#'
+#' @examples \dontrun{
+#' Object.enable_global_beacon("1234567890")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Object.enable_global_beacon <- function(id, env = solvebio:::.solveEnv) {
+    if (missing(id)) {
+        stop("A dataset ID is required.")
+    }
+
+    path <- paste("v2/objects", paste(id), "beacon", sep="/")
+    .request('POST', path, query=NULL, body=NULL, env=env)
+}
+
+
+#' Object.disable_global_beacon
+#'
+#' Disables Global Beacon for the specified dataset.
+#'
+#' @param id The ID of a SolveBio dataset.
+#' @param env (optional) Custom client environment.
+#'
+#' @examples \dontrun{
+#' Object.disable_global_beacon("1234567890")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Object.disable_global_beacon <- function(id, env = solvebio:::.solveEnv) {
+    if (missing(id)) {
+        stop("A dataset ID is required.")
+    }
+
+    path <- paste("v2/objects", paste(id), "beacon", sep="/")
+    .request('DELETE', path, query=NULL, body=NULL, env=env)
+}
+
+
