@@ -1,3 +1,7 @@
+# solvebio 2.12.0
+
+* Add support for Global Beacon on datasets
+
 # solvebio 2.11.0
 
 * Fix issue with order fields from dataset and file queries
