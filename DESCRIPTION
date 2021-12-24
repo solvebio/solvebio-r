@@ -1,7 +1,7 @@
 Package: solvebio
 Type: Package
 Title: The Official SolveBio API Client
-Version: 2.11.0
+Version: 2.12.0
 Date: 2021-05-07
 Author: David Caplan
 Maintainer: David Caplan <dcaplan@solvebio.com>
@@ -38,7 +38,7 @@ Collate:
     utils.R
     vault.R
     zzz.R
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests:
     testthat,
     shiny,
