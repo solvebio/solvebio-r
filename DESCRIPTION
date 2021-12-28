@@ -2,7 +2,7 @@ Package: solvebio
 Type: Package
 Title: The Official SolveBio API Client
 Version: 2.12.0
-Date: 2021-05-07
+Date: 2021-12-28
 Author: David Caplan
 Maintainer: David Caplan <dcaplan@solvebio.com>
 Description: R language bindings for SolveBio's API.
@@ -30,6 +30,7 @@ Collate:
     dataset_import.R
     dataset_migration.R
     dataset_template.R
+    global_search.R
     object.R
     saved_query.R
     shiny.R

@@ -1,6 +1,7 @@
 # solvebio 2.12.0
 
-* Add support for Global Beacon on datasets
+* Add support for enabling/disabling Global Beacon on datasets
+* Add ability to perform Global Search
 
 # solvebio 2.11.0
 
