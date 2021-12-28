@@ -4,14 +4,12 @@
 \alias{GlobalSearch.search}
 \title{GlobalSearch.search}
 \usage{
-GlobalSearch.search(filters, env = solvebio:::.solveEnv, ...)
+GlobalSearch.search(filters, env = solvebio:::.solveEnv)
 }
 \arguments{
 \item{filters}{(optional) Query filters.}
 
 \item{env}{(optional) Custom client environment.}
-
-\item{...}{(optional) Additional query parameters (e.g. limit, offset).}
 }
 \description{
 Performs Global Search based on provided filters.

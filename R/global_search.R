@@ -3,7 +3,6 @@
 #' Performs Global Search based on provided filters.
 #' @param filters (optional) Query filters.
 #' @param env (optional) Custom client environment.
-#' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
 #' # No filters are applied
@@ -24,8 +23,8 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-GlobalSearch.search <- function(filters, env = solvebio:::.solveEnv, ...) {
-  body = list(...)
+GlobalSearch.search <- function(filters, env = solvebio:::.solveEnv) {
+  body = list()
   # Filters can be passed as a JSON string
   if (!missing(filters) && !is.null(filters) && length(filters) > 0) {
     if (class(filters) == "character") {
