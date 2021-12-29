@@ -2,6 +2,7 @@
 title: "Global Beacon and Global Search"
 output:
   html_document:
+    toc: true
     df_print: paged
 ---
 
@@ -18,7 +19,7 @@ library("solvebio")
 First let's start with enabling Global Beacon on the dataset:
 ```{r}
 # Dataset ID
-dataset_id <- "1676139881237207342"
+dataset_id <- "1658666726768179211"
 
 # Turn on Global Beacon on the selected dataset
 Object.enable_global_beacon(dataset_id)
@@ -26,8 +27,8 @@ Object.enable_global_beacon(dataset_id)
 
 Let's check now the status of Glboal Beacon indexing for the datasets:
 ```{r}
-# Waiting for a couple of seconds until indexing is complete
-Sys.sleep(20)
+# Waiting a minute until indexing is complete
+Sys.sleep(60)
 
 # Getting the status of global beacon on the dataset
 Object.get_global_beacon_status(dataset_id)
@@ -35,7 +36,7 @@ Object.get_global_beacon_status(dataset_id)
 As we can see from the response, the indexing in complete. It means that now we can perform search on dataset entities.
 
 Similarly to `enabling` Global Beacon for the datasets, you may also `disable` it using `disable_global_beacon` function:
-```
+```R
 Object.disable_global_beacon("1676139881237207342")
 ``` 
 
@@ -47,16 +48,65 @@ Global Search is available on SolveBio Mesh. For more information about Global S
 
 Similarly to Global Search on the web application, the search functionality is available through solvebio R client as well.
 
+### Global Search functions
+
+`GlobalSearch` module provides three functions:
+
+1. `GlobalSearch.search` - Performs global search based on the provided filters, similar as you would do from web application.
+   In the response there will be the following attributes:
+   
+   - results - list of vault objects (datasets, files, folders and vaults). Those are the same objects from the "Results" tab in GlobalSearch page on Mesh.
+   - total - number of objects in the search results
+   - vaults - list of vaults
+   - subjects - list of subjects
+   - subjects_count - number of subjects in the subjects list
+   - took - amount of time it took to perform search
+   - offset - offset for pagination, offset from the first result you want to fetch
+   
+   You may call the seach function by providing some of the following arguments: filters, entities, query (advanced search query), limit, offset:
+
+   ```R
+   GlobalSearch.search(query = "fuji", limit=200)
+   GlobalSearch.search(entities = '[["gene","BRCA2"]]')
+   GlobalSearch.search(entities = '[["gene","BRCA2"]]', filters = '[{"and":[{"and":[["created_at__range",["2021-11-28","2021-12-28"]]]},["type__in",["dataset"]]]}]')
+   ```
+
+2. `GlobalSearch.results` - Similar as search function, performs a global search based on provided filters, entities, queries but returns an R data frame containing results from API response. For full list of results set `paginate` attribute to TRUE:
+
+   ```R
+   GlobalSearch.results(filters = '[{"and":[["type__in",["dataset"]]]}]')
+   GlobalSearch.results(query = "fuji")
+   GlobalSearch.results(query = "fuji", paginate=TRUE)
+   ```
+
+3. `GlobalSearch.subjects` - Like results function returns results in form of R data frame, subjects function returns R data frame containing subjects. In order to get subjects from search you must provide `entities` search parameter:
+
+   ```R
+   GlobalSearch.subjects(entities = '[["gene","BRCA2"]]')
+   ```
+
+### Examples
+
 #### 1. Global Beacon Search
 
-As we previously indexed the dataset, we should be able to perform entity search and see that dataset in the results
+As we previously indexed the dataset, we should be able to perform entity search and see that dataset in the results.
 ```{r}
-response <- GlobalSearch.search('{"entities":[["gene","BRCA2"]]}')
+response <- GlobalSearch.search(entities = '[["gene","BRCA2"]]')
 ```
 
 Response attributes:
 ```{r}
 names(response)
+```
+
+Response results (we can see that in the results there is the dataset which was previously indexed):
+```{r}
+response$results
+```
+
+Response subjects:
+```{r}
+response$subjects
 ```
 
 Full response structure:
@@ -65,28 +115,77 @@ response
 ```
 
 
-From the response, we can see that we have 2 results in total (`total` field). Results themselves could be accessed through `results` field in the response.
-The total subject count for this search is zero (`subjects_count`).
+From the response, we can see that we have 3 results in total (`total` field). Results themselves could be accessed through `results` field in the response.
+The total subject count for this search is one (`subjects_count`).
 
 #### 2. Applying filters for Global Search
 
 Search only for vaults:
 ```{r}
-response <- GlobalSearch.search('{"filters":[{"and":[["type__in",["vault"]]]}]}')
+response <- GlobalSearch.search(filters = '[{"and":[["type__in",["vault"]]]}]')
 response$results
 ```
 
-Search based on data created:
+Search based on date created:
 ```{r}
-response <- GlobalSearch.search('{"filters":[{"and":[{"and":[["created_at__range",["2021-12-21","2021-12-28"]]]}]}]}')
+response <- GlobalSearch.search(filters = '[{"and":[{"and":[["created_at__range",["2021-11-21","2021-12-28"]]]}]}]')
 response$results
 ```
 
 
 #### 3. Advanced search query:
+
+By performing advanced search as we can see, we have 1407 objects in total but only 100 are returned:
 ```{r}
-response <- GlobalSearch.search('{"query":"fuji"}')
-response$total
-response$results
+response <- GlobalSearch.search(query = "fuji")
+print(paste('Objects in total: ', response$total))
+print(paste('Results: ', dim(response$results)[1]))
+```
+
+We can either set `limit` attribute to fetch them all:
+```{r}
+response <- GlobalSearch.search(query = "fuji", limit=2000)
+print(paste('Results: ', dim(response$results)[1]))
+```
+
+Or we can use `results` function with argument `parinate = TRUE`:
+```{r}
+results <- GlobalSearch.results(query = "fuji", paginate = TRUE)
+print(paste('Results: ', dim(results)))
+```
+
+```{r}
+results
+```
+
+
+#### 4. Getting the Global Search results
+
+We have already seen in previous section how we can use `results` function. That function has embeded pagination in itself, so by setting that attribute to true, it will fetch all results (warning: that operation may be costly and time consuming).
+
+Directly get only results from search:
+```{r}
+GlobalSearch.results(filters = '[{"and":[["type__in",["dataset"]]]}]')
+```
+
+Not all results are returned:
+```{r}
+results <- GlobalSearch.results(query = "fuji")
+dim(results)
+```
+
+Adding `paginate=TRUE` (this call takes a bit more time to fetch all of the results):
+```{r}
+results <- GlobalSearch.results(query = "fuji", paginate=TRUE)
+dim(results)
+```
+
+
+#### 5. Getting the Global Search subjects
+
+Similar as in the results section above, we can use `subjects` function to get a data frame containing only subjects:
+
+```{r}
+GlobalSearch.subjects(entities = '[["gene","BRCA2"]]')
 ```
 
