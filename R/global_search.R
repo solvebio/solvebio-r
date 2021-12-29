@@ -2,6 +2,7 @@
 #'
 #' Performs Global Search based on the provided filters.
 #' Returns full API response (containing attributes: results, vaults, subjects, subjects_count, total, took and offset)
+#'
 #' @param filters (optional) Low-level filter specification.
 #' @param entities (optional) Low-level entity specification
 #' @param env (optional) Custom client environment.
@@ -22,7 +23,16 @@
 #'
 #'
 #' # Multiple filters and entities
-#' GlobalSearch.search(entities = '[["gene","BRCA2"]]', filters = '[{"and":[{"and":[["created_at__range",["2021-11-28","2021-12-28"]]]},["type__in",["dataset"]]]}]')
+#' GlobalSearch.search(
+#'   entities = '[["gene","BRCA2"]]',
+#'   filters = '[{
+#'                "and": [
+#'                       {"and": [
+#'                          ["created_at__range",["2021-11-28","2021-12-28"]]]},
+#'                          ["type__in",["dataset"]]
+#'                      ]
+#'              }]'
+#' )
 #' }
 #'
 #' @references
@@ -71,13 +81,13 @@ GlobalSearch.search <- function(filters, entities, env = solvebio:::.solveEnv, .
 
 #' GlobalSearch.results
 #'
-#' Performs a Global Search based on provided filters and returns an R data frame containing results from API response.
+#' Performs a Global Search based on provided filters, entities, queries, and returns an R data frame containing results from API response.
 #' Returns a single page of results otherwise (default).
 #'
 #' @param paginate When set to TRUE, retrieves all records (memory permitting).
 #' @param env (optional) Custom client environment.
 #' @param use_field_titles (optional) Use field title instead of field name for query.
-#' @param ... (optional) Additional query parameters (e.g. filters, limit, offset).
+#' @param ... (optional) Additional query parameters (e.g. filters, entities, query, limit, offset).
 #'
 #' @examples \dontrun{
 #' # No filters applied
@@ -124,6 +134,32 @@ GlobalSearch.results <- function(paginate=FALSE, use_field_titles=TRUE, env = so
                   "please set paginate=TRUE when calling Dataset.query().", call. = FALSE))
   }
 
+
+  return(df)
+}
+
+
+#' GlobalSearch.subjects
+#'
+#' Performs a Global Search based on provided filters, entities, queries, and returns an R data frame containing subjects from API response.
+#' @param env (optional) Custom client environment.
+#' @param ... (optional) Additional query parameters (e.g. filters, entities, query, limit, offset).
+#'
+#' @examples \dontrun{
+#' GlobalSearch.subjects(entities = '[["gene","BRCA2"]]')
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+GlobalSearch.subjects <- function(env = solvebio:::.solveEnv, ...) {
+  params <- list(...)
+  params$env <- env
+
+  # Retrieve the first page of subject
+  response <- do.call(GlobalSearch.search, params)
+  df <- response$subjects
 
   return(df)
 }

@@ -4,15 +4,20 @@
 \alias{GlobalSearch.search}
 \title{GlobalSearch.search}
 \usage{
-GlobalSearch.search(filters, env = solvebio:::.solveEnv)
+GlobalSearch.search(filters, entities, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
-\item{filters}{(optional) Query filters.}
+\item{filters}{(optional) Low-level filter specification.}
+
+\item{entities}{(optional) Low-level entity specification}
 
 \item{env}{(optional) Custom client environment.}
+
+\item{...}{(optional) Additional query parameters (e.g. query, limit, offset).}
 }
 \description{
-Performs Global Search based on provided filters.
+Performs Global Search based on the provided filters.
+Returns full API response (containing attributes: results, vaults, subjects, subjects_count, total, took and offset)
 }
 \examples{
 \dontrun{
@@ -20,14 +25,26 @@ Performs Global Search based on provided filters.
 GlobalSearch.search()
 
 # Global Beacon search
-GlobalSearch.search('{"entities":[["gene","BRCA2"]]}')
+GlobalSearch.search(entities = '[["gene","BRCA2"]]')
 
 # Type filter (only vaults)
-GlobalSearch.search('{"filters":[{"and":[["type__in",["vault"]]]}]}')
+GlobalSearch.search(filters = '[{"and":[["type__in",["vault"]]]}]')
 
 # Advanced search
-GlobalSearch.search('{"filters":[{"and":[{"and":[["created_at__range",["2020-12-27","2021-12-27"]]]}]}],"query":"fuji"}')
+GlobalSearch.search(query = "fuji")
 
+
+# Multiple filters and entities
+GlobalSearch.search(
+  entities = '[["gene","BRCA2"]]',
+  filters = '[{
+               "and": [
+                      {"and": [
+                         ["created_at__range",["2021-11-28","2021-12-28"]]]},
+                         ["type__in",["dataset"]]
+                     ]
+             }]'
+)
 }
 
 }
