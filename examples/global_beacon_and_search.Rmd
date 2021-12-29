@@ -3,6 +3,7 @@ title: "Global Beacon and Global Search"
 output:
   html_document:
     toc: true
+    toc_depth: 4
     df_print: paged
 ---
 
@@ -52,7 +53,8 @@ Similarly to Global Search on the web application, the search functionality is a
 
 `GlobalSearch` module provides three functions:
 
-1. `GlobalSearch.search` - Performs global search based on the provided filters, similar as you would do from web application.
+#### 1. GlobalSearch.search
+   Performs global search based on the provided filters, similar as you would do from web application.
    In the response there will be the following attributes:
    
    - results - list of vault objects (datasets, files, folders and vaults). Those are the same objects from the "Results" tab in GlobalSearch page on Mesh.
@@ -71,7 +73,8 @@ Similarly to Global Search on the web application, the search functionality is a
    GlobalSearch.search(entities = '[["gene","BRCA2"]]', filters = '[{"and":[{"and":[["created_at__range",["2021-11-28","2021-12-28"]]]},["type__in",["dataset"]]]}]')
    ```
 
-2. `GlobalSearch.results` - Similar as search function, performs a global search based on provided filters, entities, queries but returns an R data frame containing results from API response. For full list of results set `paginate` attribute to TRUE:
+#### 2. GlobalSearch.results
+   Similar as search function, performs a global search based on provided filters, entities, queries but returns an R data frame containing results from API response. For full list of results set `paginate` attribute to TRUE:
 
    ```R
    GlobalSearch.results(filters = '[{"and":[["type__in",["dataset"]]]}]')
@@ -79,7 +82,8 @@ Similarly to Global Search on the web application, the search functionality is a
    GlobalSearch.results(query = "fuji", paginate=TRUE)
    ```
 
-3. `GlobalSearch.subjects` - Like results function returns results in form of R data frame, subjects function returns R data frame containing subjects. In order to get subjects from search you must provide `entities` search parameter:
+#### 3. GlobalSearch.subjects
+   Like results function returns results in form of R data frame, subjects function returns R data frame containing subjects. In order to get subjects from search you must provide `entities` search parameter:
 
    ```R
    GlobalSearch.subjects(entities = '[["gene","BRCA2"]]')
@@ -133,7 +137,7 @@ response$results
 ```
 
 
-#### 3. Advanced search query:
+#### 3. Advanced search query
 
 By performing advanced search as we can see, we have 1407 objects in total but only 100 are returned:
 ```{r}
