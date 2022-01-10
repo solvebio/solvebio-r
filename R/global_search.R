@@ -3,10 +3,11 @@
 #' Performs Global Search based on the provided filters.
 #' Returns full API response (containing attributes: results, vaults, subjects, subjects_count, total, took and offset)
 #'
+#' @param query (optional) Advanced search query.
 #' @param filters (optional) Low-level filter specification.
-#' @param entities (optional) Low-level entity specification
+#' @param entities (optional) Low-level entity specification.
 #' @param env (optional) Custom client environment.
-#' @param ... (optional) Additional query parameters (e.g. query, limit, offset).
+#' @param ... (optional) Additional query parameters (e.g. limit, offset).
 #'
 #' @examples \dontrun{
 #' # No filters are applied
@@ -39,8 +40,12 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-GlobalSearch.search <- function(filters, entities, env = solvebio:::.solveEnv, ...) {
+GlobalSearch.search <- function(query=NULL, filters, entities, env = solvebio:::.solveEnv, ...) {
   body = list(...)
+
+  # Advanced search query
+  body = modifyList(body, list(query=query))
+
   # Filters can be passed as a JSON string
   if (!missing(filters) && !is.null(filters) && length(filters) > 0) {
     if (class(filters) == "character") {
