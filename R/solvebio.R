@@ -38,11 +38,19 @@ login <- function(api_key, api_host, env = solvebio:::.solveEnv) {
     if (!missing(api_key)) {
         assign('token', api_key, envir=env)
     }
+    .solveEnv$token <- Sys.getenv('SOLVEBIO_API_KEY', unset='')
+    .solveEnv$token_type <- 'Token'
 
     if(nchar(env$token) == 0L) {
-        stop("No API key found. Please set the 'SOLVEBIO_API_KEY' environment variable, or specify your key as the 'api_key' parameter of this function. Your API key can be found on the Account page of the SolveBio website: https://my.solvebio.com/settings/security")
+        # No API key, look for access token
+        .solveEnv$token <- Sys.getenv('SOLVEBIO_ACCESS_TOKEN', unset='')
+        if (nchar(.solveEnv$token) > 0L) {
+            .solveEnv$token_type <- 'Bearer'
+        }
+        else {
+            stop("No Access Token or API key found. Learn more: https://docs.solvebio.com/#authenticating-with-r")
+        }
     }
-
     if (!missing(api_host)) {
         assign('host', api_host, envir=env)
     }
