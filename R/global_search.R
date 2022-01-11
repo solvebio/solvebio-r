@@ -91,7 +91,6 @@ GlobalSearch.search <- function(query=NULL, filters, entities, env = solvebio:::
 #'
 #' @param paginate When set to TRUE, retrieves all records (memory permitting).
 #' @param env (optional) Custom client environment.
-#' @param use_field_titles (optional) Use field title instead of field name for query.
 #' @param ... (optional) Additional query parameters (e.g. filters, entities, query, limit, offset).
 #'
 #' @examples \dontrun{
@@ -112,7 +111,7 @@ GlobalSearch.search <- function(query=NULL, filters, entities, env = solvebio:::
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-GlobalSearch.results <- function(paginate=FALSE, use_field_titles=TRUE, env = solvebio:::.solveEnv, ...) {
+GlobalSearch.results <- function(paginate=FALSE, env = solvebio:::.solveEnv, ...) {
   params <- list(...)
   params$env <- env
 
@@ -162,7 +161,6 @@ GlobalSearch.subjects <- function(env = solvebio:::.solveEnv, ...) {
   params <- list(...)
   params$env <- env
 
-  # Retrieve the first page of subject
   response <- do.call(GlobalSearch.search, params)
   df <- response$subjects
 
