@@ -135,7 +135,7 @@ GlobalSearch.search <- function(paginate=FALSE, env = solvebio:::.solveEnv, ...)
 
   if (!isTRUE(paginate) && !is.null(offset)) {
     warning(paste("This call returned only the first page of records. To retrieve more pages automatically,",
-                  "please set paginate=TRUE when calling Dataset.query().", call. = FALSE))
+                  "please set paginate=TRUE when calling GlobalSearch.search().", call. = FALSE))
   }
 
 
