@@ -1,6 +1,6 @@
-#' GlobalSearch.search
+#' GlobalSearch.request
 #'
-#' Performs Global Search based on the provided filters.
+#' Performs low-level Global Search based on the provided filters, queries and entities.
 #' Returns full API response (containing attributes: results, vaults, subjects, subjects_count, total, took and offset)
 #'
 #' @param query (optional) Advanced search query.
@@ -11,20 +11,20 @@
 #'
 #' @examples \dontrun{
 #' # No filters are applied
-#' GlobalSearch.search()
+#' GlobalSearch.request()
 #'
 #' # Global Beacon search
-#' GlobalSearch.search(entities = '[["gene","BRCA2"]]')
+#' GlobalSearch.request(entities = '[["gene","BRCA2"]]')
 #'
 #' # Type filter (only vaults)
-#' GlobalSearch.search(filters = '[{"and":[["type__in",["vault"]]]}]')
+#' GlobalSearch.request(filters = '[{"and":[["type__in",["vault"]]]}]')
 #'
 #' # Advanced search
-#' GlobalSearch.search(query = "fuji")
+#' GlobalSearch.request(query = "fuji")
 #'
 #'
 #' # Multiple filters and entities
-#' GlobalSearch.search(
+#' GlobalSearch.request(
 #'   entities = '[["gene","BRCA2"]]',
 #'   filters = '[{
 #'                "and": [
@@ -40,7 +40,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-GlobalSearch.search <- function(query=NULL, filters, entities, env = solvebio:::.solveEnv, ...) {
+GlobalSearch.request <- function(query=NULL, filters, entities, env = solvebio:::.solveEnv, ...) {
   body = list(...)
 
   # Advanced search query
@@ -84,7 +84,7 @@ GlobalSearch.search <- function(query=NULL, filters, entities, env = solvebio:::
 }
 
 
-#' GlobalSearch.results
+#' GlobalSearch.search
 #'
 #' Performs a Global Search based on provided filters, entities, queries, and returns an R data frame containing results from API response.
 #' Returns a single page of results otherwise (default).
@@ -95,28 +95,28 @@ GlobalSearch.search <- function(query=NULL, filters, entities, env = solvebio:::
 #'
 #' @examples \dontrun{
 #' # No filters applied
-#' GlobalSearch.results()
+#' GlobalSearch.search()
 #'
 #' #Global Beacon search
-#' GlobalSearch.results(entities = '[["gene","BRCA2"]]')
+#' GlobalSearch.search(entities = '[["gene","BRCA2"]]')
 #'
 #  #Type filter (only vaults)
-#' GlobalSearch.results(filters = '[{"and":[["type__in",["vault"]]]}]')
+#' GlobalSearch.search(filters = '[{"and":[["type__in",["vault"]]]}]')
 #'
 #' # Advanced search
-#' GlobalSearch.results(query = "fuji")
+#' GlobalSearch.search(query = "fuji")
 #' }
 #'
 #' @references
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-GlobalSearch.results <- function(paginate=FALSE, env = solvebio:::.solveEnv, ...) {
+GlobalSearch.search <- function(paginate=FALSE, env = solvebio:::.solveEnv, ...) {
   params <- list(...)
   params$env <- env
 
   # Retrieve the first page of results
-  response <- do.call(GlobalSearch.search, params)
+  response <- do.call(GlobalSearch.request, params)
   df <- response$result
   offset <- response$offset
 
@@ -127,7 +127,7 @@ GlobalSearch.results <- function(paginate=FALSE, env = solvebio:::.solveEnv, ...
   # Continue to make requests for data if pagination is enabled and there are more records
   while (isTRUE(paginate) && !is.null(offset)) {
     params$offset <- offset
-    response <- do.call(GlobalSearch.search, params)
+    response <- do.call(GlobalSearch.request, params)
     df_page <- response$results
     df <- dplyr::bind_rows(df, df_page)
     offset <- response$offset
@@ -161,7 +161,7 @@ GlobalSearch.subjects <- function(env = solvebio:::.solveEnv, ...) {
   params <- list(...)
   params$env <- env
 
-  response <- do.call(GlobalSearch.search, params)
+  response <- do.call(GlobalSearch.request, params)
   df <- response$subjects
 
   return(df)
