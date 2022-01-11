@@ -57,9 +57,9 @@ Similarly to Global Search on the web application, the search functionality is a
    Performs a global search based on provided filters, entities, queries (advanced query) and returns an R data frame containing results from API response. For full list of results set `paginate` attribute to TRUE:
 
    ```R
-   GlobalSearch.results(filters = '[{"and":[["type__in",["dataset"]]]}]')
-   GlobalSearch.results(query = "fuji")
-   GlobalSearch.results(query = "fuji", paginate=TRUE)
+   GlobalSearch.search(filters = '[{"and":[["type__in",["dataset"]]]}]')
+   GlobalSearch.search(query = "fuji")
+   GlobalSearch.search(query = "fuji", paginate=TRUE)
    ```
 
 #### 2. GlobalSearch.subjects
