@@ -1,7 +1,8 @@
 #' GlobalSearch.request
 #'
-#' Performs low-level Global Search based on the provided filters, queries and entities.
-#' Returns full API response (containing attributes: results, vaults, subjects, subjects_count, total, took and offset)
+#' Performs a low-level Global Search API request based on provided filters, queries and entities.
+#' Returns only a single "page" of results (use GlobalSearch.search() to get all results). 
+#' Returns the full API response (containing attributes: results, vaults, subjects, subjects_count, total, took and offset)
 #'
 #' @param query (optional) Advanced search query.
 #' @param filters (optional) Low-level filter specification.
