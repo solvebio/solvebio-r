@@ -515,3 +515,78 @@ Dataset.activity <- function(id, follow=TRUE, env = solvebio:::.solveEnv) {
 
     cat("No active tasks found.\n")
 }
+
+#' Dataset.get_global_beacon_status
+#'
+#' Retrieves the global beacon status for the dataset.
+#'
+#' @param id The ID of a SolveBio dataset.
+#' @param raise_on_disabled Whether to raise an exception if Global Beacon is disabled or to return NULL.
+#' @param env (optional) Custom client environment.
+#'
+#' @examples \dontrun{
+#' Dataset.get_global_beacon_status("1234567890")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Dataset.get_global_beacon_status <- function(id, raise_on_disabled = FALSE, env = solvebio:::.solveEnv) {
+    if (missing(id)) {
+        stop("A dataset ID is required.")
+    }
+
+    return(Object.get_global_beacon_status(id, raise_on_disabled=raise_on_disabled, env=env))
+}
+
+
+#' Dataset.enable_global_beacon
+#'
+#' Enables Global Beacon for the the dataset.
+#'
+#' @param id The ID of a SolveBio dataset.
+#' @param env (optional) Custom client environment.
+#'
+#' @examples \dontrun{
+#' Dataset.enable_global_beacon("1234567890")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Dataset.enable_global_beacon <- function(id, env = solvebio:::.solveEnv) {
+    if (missing(id)) {
+        stop("A dataset ID is required.")
+    }
+
+    return(Object.enable_global_beacon(id, env=env))
+}
+
+
+#' Dataset.disable_global_beacon
+#'
+#' Disables Global Beacon for the dataset.
+#'
+#' @param id The ID of a SolveBio dataset.
+#' @param env (optional) Custom client environment.
+#'
+#' @examples \dontrun{
+#' Dataset.disable_global_beacon("1234567890")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+Dataset.disable_global_beacon <- function(id, env = solvebio:::.solveEnv) {
+    if (missing(id)) {
+        stop("A dataset ID is required.")
+    }
+
+    return(Object.disable_global_beacon(id, env=env))
+}
+
+
+

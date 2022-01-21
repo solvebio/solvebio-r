@@ -519,23 +519,36 @@ Object.fields <- function(id, env = solvebio:::.solveEnv, ...) {
 #' Retrieves the global beacon status for the specified dataset.
 #'
 #' @param id The ID of a SolveBio dataset.
+#' @param raise_on_disabled Whether to raise an exception if Global Beacon is disabled or to return NULL.
 #' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
 #' Object.get_global_beacon_status("1234567890")
+#' Object.get_global_beacon_status("1234567890", raise_on_disabled=TRUE)
 #' }
 #'
 #' @references
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.get_global_beacon_status <- function(id, env = solvebio:::.solveEnv) {
+Object.get_global_beacon_status <- function(id, raise_on_disabled = FALSE, env = solvebio:::.solveEnv) {
     if (missing(id)) {
         stop("A dataset ID is required.")
     }
 
     path <- paste("v2/objects", paste(id), "beacon", sep="/")
-    response <- .request('GET', path, query=NULL, env=env)
+    response <- NULL
+
+    tryCatch({
+        response <- .request('GET', path, query=NULL, env=env)
+    }, error = function(e) {
+        if(raise_on_disabled){
+            stop(e)
+        }
+        else{
+            response <- NULL
+        }
+    })
 
     return(response)
 }
