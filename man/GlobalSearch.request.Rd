@@ -24,8 +24,10 @@ GlobalSearch.request(
 \item{...}{(optional) Additional query parameters (e.g. limit, offset).}
 }
 \description{
-Performs low-level Global Search based on the provided filters, queries and entities.
-Returns full API response (containing attributes: results, vaults, subjects, subjects_count, total, took and offset)
+Performs a single Global Search API request with the provided filters, queries and entities.
+A single request will only retrieve one page of results (based on the `limit` parameter).
+Use `GlobalSearch.search()` to retrieve all pages of results.
+Returns the full API response (containing attributes: results, vaults, subjects, subjects_count, total)
 }
 \examples{
 \dontrun{

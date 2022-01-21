@@ -23,7 +23,7 @@ First let's start with enabling Global Beacon on the dataset:
 dataset_id <- "1658666726768179211"
 
 # Turn on Global Beacon on the selected dataset
-Object.enable_global_beacon(dataset_id)
+Dataset.enable_global_beacon(dataset_id)
 ```
 
 Let's check now the status of Global Beacon indexing for the datasets:
@@ -32,15 +32,15 @@ Let's check now the status of Global Beacon indexing for the datasets:
 Sys.sleep(60)
 
 # Getting the status of global beacon on the dataset
-Object.get_global_beacon_status(dataset_id)
+Dataset.get_global_beacon_status(dataset_id)
 ```
 As we can see from the response, the indexing in complete. It means that now we can perform search on dataset entities.
 
 Similarly to `enabling` Global Beacon for the datasets, you may also `disable` it using `disable_global_beacon` function:
-```R
-Object.disable_global_beacon("1676139881237207342")
-``` 
 
+```{r}
+# Dataset.disable_global_beacon(dataset_id)
+```
 
 ## Global Search
 
@@ -63,7 +63,7 @@ Similarly to Global Search on the web application, the search functionality is a
    ```
 
 #### 2. GlobalSearch.subjects
-   Similar to the search function, returns the results in form of R data frame. That data frame returned contains subjects. In order to get subjects in the search results you must provide `entities` search parameter:
+   Similar to the search function, returns the results in form of R data frame. Returned data frame contains subjects:
 
    ```R
    GlobalSearch.subjects(entities = '[["gene","BRCA2"]]')
