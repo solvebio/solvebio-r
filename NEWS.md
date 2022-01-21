@@ -1,3 +1,10 @@
+# solvebio 2.12.1
+
+* Return NULL if Global Beacon doesn't exist on dataset (instead of raising an error)
+* Add Global Beacon alias functions for Dataset resources
+* Clarify Global Beacon method docs
+
+
 # solvebio 2.12.0
 
 * Add support for enabling/disabling Global Beacon on datasets
