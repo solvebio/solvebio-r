@@ -77,6 +77,7 @@ formatQueryColumns <- function (id, env, res, use_field_titles) {
     if (use_field_titles) {
         # Change column names to titles based on the col.name.title.map dataframe
         colnames(res)[match(col.name.title.map[,1], colnames(res))] <- col.name.title.map[,2][match(col.name.title.map[,1], colnames(res))]
+        colnames(res) <- make.unique(colnames(res), sep="_")
     }
     return (res)
 }
