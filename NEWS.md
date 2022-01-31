@@ -3,6 +3,7 @@
 * Return NULL if Global Beacon doesn't exist on dataset (instead of raising an error)
 * Add Global Beacon alias functions for Dataset resources
 * Clarify Global Beacon method docs
+* Deduplicate columns with the same title (when `use_field_titles=TRUE` is passed to `Dataset.query`)
 
 
 # solvebio 2.12.0
