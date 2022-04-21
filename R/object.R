@@ -466,8 +466,7 @@ Object.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
     while (isTRUE(paginate) && !is.null(offset)) {
         params$offset <- offset
         response <- do.call(Object.data, params)
-        df_page <- response$results
-        df <- dplyr::bind_rows(df, df_page)
+        df <- jsonlite::rbind_pages(list(df, response$results))
         offset <- response$offset
     }
 

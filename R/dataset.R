@@ -180,8 +180,7 @@ Dataset.query <- function(id, paginate=FALSE, use_field_titles=TRUE, env = solve
     while (isTRUE(paginate) && !is.null(offset)) {
         params$offset <- offset
         response <- do.call(Dataset.data, params)
-        df_page <- response$results
-        df <- dplyr::bind_rows(df, df_page)
+        df <- jsonlite::rbind_pages(list(df, response$results))
         offset <- response$offset
     }
 
