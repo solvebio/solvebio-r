@@ -42,8 +42,8 @@ GlobalSearch.search <- function(paginate=FALSE, env = solvebio:::.solveEnv, ...)
   while (isTRUE(paginate) && !is.null(offset)) {
     params$offset <- offset
     response <- do.call(GlobalSearch.request, params)
-    df_page <- response$results
-    df <- dplyr::bind_rows(df, df_page)
+    # df <- dplyr::bind_rows(df, df_page)
+    df <- jsonlite::rbind_pages(list(df, response$results))
     offset <- response$offset
   }
 
@@ -51,7 +51,6 @@ GlobalSearch.search <- function(paginate=FALSE, env = solvebio:::.solveEnv, ...)
     warning(paste("This call returned only the first page of records. To retrieve more pages automatically,",
                   "please set paginate=TRUE when calling GlobalSearch.search().", call. = FALSE))
   }
-
 
   return(df)
 }
