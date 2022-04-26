@@ -396,7 +396,7 @@ Object.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveEn
     if (missing(id) || !(class(id) %in% c("Object", "numeric", "integer", "character"))) {
         stop("An object ID is required.")
     }
-    if (class(id) == "Object") {
+    if (inherits(id, "Object")) {
         id <- id$id
     }
 
@@ -407,7 +407,7 @@ Object.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveEn
 
     # Filters can be passed as a JSON string
     if (!missing(filters) && !is.null(filters) && length(filters) > 0) {
-        if (class(filters) == "character") {
+        if (inherits(filters, "character")) {
             # Convert JSON string to an R structure
             filters <- jsonlite::fromJSON(filters,
                                           simplifyVector = FALSE,
@@ -496,7 +496,7 @@ Object.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
 #'
 #' @export
 Object.fields <- function(id, env = solvebio:::.solveEnv, ...) {
-    if (class(id) == "numeric") {
+    if (inherits(id, "numeric")) {
         warning("Please use string IDs instead of numeric IDs.")
     }
 
@@ -504,7 +504,7 @@ Object.fields <- function(id, env = solvebio:::.solveEnv, ...) {
         stop("A dataset ID is required.")
     }
 
-    if (class(id) == "Object") {
+    if (inherits(id, "Object")) {
         id <- id$id
     }
 

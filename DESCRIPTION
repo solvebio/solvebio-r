@@ -14,7 +14,6 @@ URL: https://github.com/solvebio/solvebio-r
 Imports:
     httr,
     jsonlite,
-    dplyr (>= 0.5.0),
     mime
 License: MIT + file LICENSE
 Collate:

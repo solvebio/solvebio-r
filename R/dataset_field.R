@@ -63,7 +63,7 @@ DatasetField.facets <- function(id, env = solvebio:::.solveEnv, ...) {
     if (missing(id) | !(class(id) %in% c("DatasetField", "numeric", "character"))) {
         stop("A dataset field ID is required.")
     }
-    if (class(id) == "DatasetField") {
+    if (inherits(id, "DatasetField")) {
         id <- id$id
     }
 
