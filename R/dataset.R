@@ -113,13 +113,13 @@ Dataset.data <- function(id, filters,  env = solvebio:::.solveEnv, ...) {
     if (missing(id) || !(class(id) %in% c("Dataset", "numeric", "integer", "character"))) {
         stop("A dataset ID (or object) is required.")
     }
-    if (is(id, "Dataset") || is(id, "Object")) {
+    if (inherits(id, "Dataset") || inherits(id, "Object")) {
         id <- id$id
     }
     body = list(...)
     # Filters can be passed as a JSON string
     if (!missing(filters) && !is.null(filters) && length(filters) > 0) {
-        if (is(filters, "character")) {
+        if (inherits(filters, "character")) {
             # Convert JSON string to an R structure
             filters <- jsonlite::fromJSON(filters,
                                           simplifyVector = FALSE,
@@ -212,7 +212,7 @@ Dataset.query <- function(id, paginate=FALSE, use_field_titles=TRUE, env = solve
 #'
 #' @export
 Dataset.fields <- function(id, env = solvebio:::.solveEnv, ...) {
-    if (is(id, "numeric")) {
+    if (inherits(id, "numeric")) {
         warning("Please use string IDs instead of numeric IDs.")
     }
 
@@ -220,7 +220,7 @@ Dataset.fields <- function(id, env = solvebio:::.solveEnv, ...) {
         stop("A dataset ID is required.")
     }
 
-    if (is(id, "Dataset") || is(id, "Object")) {
+    if (inherits(id, "Dataset") || inherits(id, "Object")) {
         id <- id$id
     }
 
@@ -251,7 +251,7 @@ Dataset.facets <- function(id, facets, env = solvebio:::.solveEnv, ...) {
         stop("A list of one or more facets is required.")
     }
 
-    if (is(facets, "character")) {
+    if (inherits(facets, "character")) {
         if (grepl("[[{]", facets)) {
             # If it looks like JSON, try to convert to an R structure
             facets <- jsonlite::fromJSON(facets,

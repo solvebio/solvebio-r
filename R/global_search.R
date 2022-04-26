@@ -42,7 +42,6 @@ GlobalSearch.search <- function(paginate=FALSE, env = solvebio:::.solveEnv, ...)
   while (isTRUE(paginate) && !is.null(offset)) {
     params$offset <- offset
     response <- do.call(GlobalSearch.request, params)
-    # df <- dplyr::bind_rows(df, df_page)
     df <- jsonlite::rbind_pages(list(df, response$results))
     offset <- response$offset
   }
@@ -133,7 +132,7 @@ GlobalSearch.request <- function(query=NULL, filters, entities, env = solvebio::
 
   # Filters can be passed as a JSON string
   if (!missing(filters) && !is.null(filters) && length(filters) > 0) {
-    if (is(filters, "character")) {
+    if (inherits(filters, "character")) {
       # Convert JSON string to an R structure
       filters <- jsonlite::fromJSON(filters,
                                     simplifyVector = FALSE,
@@ -146,7 +145,7 @@ GlobalSearch.request <- function(query=NULL, filters, entities, env = solvebio::
 
   # Entities can be passed as a JSON string
   if (!missing(entities) && !is.null(entities) && length(entities) > 0){
-    if (is(entities, "character")) {
+    if (inherits(entities, "character")) {
       # Convert JSON string to an R structure
       entities <- jsonlite::fromJSON(entities,
                                     simplifyVector = FALSE,
