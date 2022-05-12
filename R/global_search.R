@@ -71,7 +71,7 @@ GlobalSearch.search <- function(paginate=FALSE, env = solvebio:::.solveEnv, ...)
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-GlobalSearch.search <- function(facets, env = solvebio:::.solveEnv, ...) {
+GlobalSearch.facets <- function(facets, env = solvebio:::.solveEnv, ...) {
     if (missing(facets) || is.null(facets) || facets == "") {
         stop("A list of one or more facets is required.")
     }
@@ -89,7 +89,6 @@ GlobalSearch.search <- function(facets, env = solvebio:::.solveEnv, ...) {
     params <- list(...)
     # Facet queries should not return results
     params$limit <- 0
-    params$id <- id
     params$env <- env
     params <- modifyList(params, list(facets=facets))
 
