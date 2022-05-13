@@ -59,7 +59,7 @@ GlobalSearch.search <- function(paginate=FALSE, env = solvebio:::.solveEnv, ...)
 #'
 #' Performs a Global Search based on provided filters, entities, queries, and returns an R data frame containing the facets results from API response.
 #'
-#' @param facet Facets list.
+#' @param facets Facets list.
 #' @param env (optional) Custom client environment.
 #' @param ... (optional) Additional query parameters (e.g. filters, entities, query).
 #'

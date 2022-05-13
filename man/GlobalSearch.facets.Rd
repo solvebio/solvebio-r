@@ -7,11 +7,11 @@
 GlobalSearch.facets(facets, env = solvebio:::.solveEnv, ...)
 }
 \arguments{
+\item{facets}{Facets list.}
+
 \item{env}{(optional) Custom client environment.}
 
 \item{...}{(optional) Additional query parameters (e.g. filters, entities, query).}
-
-\item{facet}{Facets list.}
 }
 \description{
 Performs a Global Search based on provided filters, entities, queries, and returns an R data frame containing the facets results from API response.
