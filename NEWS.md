@@ -1,3 +1,9 @@
+# solvebio 2.14.0
+
+* Add 2 GlobalSearch methods (`subjects_count()` and `facets()`)
+* Fix issue with GlobalSearch::subjects() where it would return empty results
+
+
 # solvebio 2.13.0
 
 * Use `jsonlite::rbind_pages` instead of `dplyr::bind_rows` to combine paginated result
