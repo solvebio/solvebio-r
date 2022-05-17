@@ -55,6 +55,48 @@ GlobalSearch.search <- function(paginate=FALSE, env = solvebio:::.solveEnv, ...)
 }
 
 
+#' GlobalSearch.facets
+#'
+#' Performs a Global Search based on provided filters, entities, queries, and returns an R data frame containing the facets results from API response.
+#'
+#' @param facets Facets list.
+#' @param env (optional) Custom client environment.
+#' @param ... (optional) Additional query parameters (e.g. filters, entities, query).
+#'
+#' @examples \dontrun{
+#' GlobalSearch.facets(facets="study")
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+GlobalSearch.facets <- function(facets, env = solvebio:::.solveEnv, ...) {
+    if (missing(facets) || is.null(facets) || facets == "") {
+        stop("A list of one or more facets is required.")
+    }
+
+    if (inherits(facets, "character")) {
+        if (grepl("[[{]", facets)) {
+            # If it looks like JSON, try to convert to an R structure
+            facets <- jsonlite::fromJSON(facets,
+                                         simplifyVector = FALSE,
+                                         simplifyDataFrame = TRUE,
+                                         simplifyMatrix = FALSE)
+        }
+    }
+
+    params <- list(...)
+    # Facet queries should not return results
+    params$limit <- 0
+    params$env <- env
+    params <- modifyList(params, list(facets=facets))
+
+    response <- do.call(GlobalSearch.request, params)
+    return(response$facets)
+}
+
+
 #' GlobalSearch.subjects
 #'
 #' Performs a Global Search based on provided filters, entities, queries, and returns an R data frame containing subjects from API response.
@@ -71,10 +113,38 @@ GlobalSearch.search <- function(paginate=FALSE, env = solvebio:::.solveEnv, ...)
 #' @export
 GlobalSearch.subjects <- function(env = solvebio:::.solveEnv, ...) {
   params <- list(...)
+  params$limit = 0
+  params$include_subjects = TRUE
   params$env <- env
 
   response <- do.call(GlobalSearch.request, params)
   df <- response$subjects
+
+  return(df)
+}
+
+
+#' GlobalSearch.subjects_count
+#'
+#' Performs a Global Search based on provided filters, entities, queries, and returns the total number of subjects from API response.
+#' @param env (optional) Custom client environment.
+#' @param ... (optional) Additional query parameters (e.g. filters, entities, query, limit, offset).
+#'
+#' @examples \dontrun{
+#' GlobalSearch.subjects_count(entities = '[["gene","BRCA2"]]')
+#' }
+#'
+#' @references
+#' \url{https://docs.solvebio.com/}
+#'
+#' @export
+GlobalSearch.subjects_count <- function(env = solvebio:::.solveEnv, ...) {
+  params <- list(...)
+  params$limit = 0
+  params$env <- env
+
+  response <- do.call(GlobalSearch.request, params)
+  df <- response$subjects_count
 
   return(df)
 }
