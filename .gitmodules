@@ -1,0 +1,3 @@
+[submodule "qbr3"]
+	path = qbr3
+	url = ../../../code/qbr3

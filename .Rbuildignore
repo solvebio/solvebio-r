@@ -7,5 +7,7 @@
 ^.*\.gz$
 ^\.Rd2pdf.*$
 ^\.travis\.yml$
+^qbr
+^etc
 Makefile
 examples
