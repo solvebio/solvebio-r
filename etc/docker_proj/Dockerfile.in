@@ -1,0 +1,11 @@
+## Emacs, make this -*- mode: sh; -*-
+# This dockerfile is incomplete: it misses the FROM argument in statement
+# which is automatically added by qbr/scripts/qbrocker.pl
+FROM
+MAINTAINER dummy <info@quartz.bio>
+
+USER root
+
+#RUN Rscript -e "devtools::install_github('solvebio/solvebio-r', ref='v2.13.0', dependencies=TRUE)" 
+
+USER $QBROCKER_USER

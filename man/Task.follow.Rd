@@ -4,21 +4,25 @@
 \alias{Task.follow}
 \title{Task.follow}
 \usage{
-Task.follow(id, env = solvebio:::.solveEnv)
+Task.follow(id, env = solvebio:::.solveEnv, interval = 2)
 }
 \arguments{
 \item{id}{String The ID of a task.}
 
 \item{env}{(optional) Custom client environment.}
+
+\item{interval}{2. Delay in seconds between each completion status query}
+}
+\value{
+the task object
 }
 \description{
-A helper function to follow a specific tasks.
+A helper function to follow a specific task until it gets completed.
 }
 \examples{
 \dontrun{
 Task.follow("1234567890")
 }
-
 }
 \references{
 \url{https://docs.solvebio.com/}

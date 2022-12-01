@@ -14,14 +14,14 @@
 #'
 #' @export
 Task.all <- function(env = solvebio:::.solveEnv, ...) {
-    .request('GET', "v2/tasks", query=list(...), env=env)
+    .request("GET", "v2/tasks", query = list(...), env = env)
 }
 
 #' Task.retrieve
 #'
 #' Retrieves the metadata about a specific task on SolveBio.
 #'
-#' @param id The ID of a task. 
+#' @param id The ID of a task.
 #' @param env (optional) Custom client environment.
 #'
 #' @examples \dontrun{
@@ -37,32 +37,34 @@ Task.retrieve <- function(id, env = solvebio:::.solveEnv) {
         stop("A task ID is required.")
     }
 
-    path <- paste("v2/tasks", paste(id), sep="/")
-    .request('GET', path=path, env=env)
+    path <- paste("v2/tasks", paste(id), sep = "/")
+    .request("GET", path = path, env = env)
 }
 
 
 #' Task.follow
 #'
-#' A helper function to follow a specific tasks.
+#' A helper function to follow a specific task until it gets completed.
 #'
 #' @param id String The ID of a task.
 #' @param env (optional) Custom client environment.
+#' @param interval 2. Delay in seconds between each completion status query
 #'
 #' @examples \dontrun{
 #' Task.follow("1234567890")
 #' }
+#' @return the task object
 #'
 #' @references
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Task.follow <- function(id, env = solvebio:::.solveEnv) {
-    imp <- Task.retrieve(id)
-
-    while(imp$status == "pending" || imp$status == "queued" || imp$status == "running") {
-        imp <- Task.retrieve(id)
-        cat(paste("Task", id, "status:", imp$status, "\n", sep=" "))
-        Sys.sleep(4)
+Task.follow <- function(id, env = solvebio:::.solveEnv, interval = 2) {
+    imp <- Task.retrieve(id, env)
+    while (imp$status == "pending" || imp$status == "queued" || imp$status == "running") {
+        imp <- Task.retrieve(id, env)
+        cat(paste("Task", id, "status:", imp$status, "\n", sep = " "))
+        Sys.sleep(interval)
     }
+    return(imp)
 }

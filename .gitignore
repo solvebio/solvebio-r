@@ -1,3 +1,4 @@
+.*
 .DS_Store
 .Rproj.user
 .Rhistory
@@ -9,3 +10,6 @@
 .Rd2pdf*
 *\~
 /.idea
+.qbdev
+.qbdev_devmode
+.qbrocker_bash_history
