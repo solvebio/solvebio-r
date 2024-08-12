@@ -159,7 +159,7 @@ createEnv <- function(token, token_type="Token", host=.solveEnv$host) {
                                 httr::add_headers(headers),
                                 config = config,
                                 query = query,
-                                httr::verbose(),
+                                # httr::verbose(),
                                 ...
                                 )
            },
@@ -171,7 +171,7 @@ createEnv <- function(token, token_type="Token", host=.solveEnv$host) {
                                  body = body,
                                  query = query,
                                  encode = encode,
-                                 httr::verbose(),
+                                 # httr::verbose(),
                                  ...
                                  )
            },
