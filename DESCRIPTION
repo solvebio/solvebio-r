@@ -38,7 +38,7 @@ Collate:
     utils.R
     vault.R
     zzz.R
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.2
 Encoding: UTF-8
 Suggests:
     testthat,

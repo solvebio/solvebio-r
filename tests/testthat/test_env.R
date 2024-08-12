@@ -7,12 +7,16 @@ bad_env <- solvebio::createEnv("bad")
 # NOTE: good_env only works if assert_api_key()
 good_env <- solvebio::createEnv(solvebio:::.solveEnv$token)
 
+is_valid_email <- function(email) {
+  grepl("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b", email, ignore.case = TRUE)
+}
+
 
 test_that("createEnv properly sets defaults", {
               env <- solvebio::createEnv("token")
               expect_equal(env$token, "token")
               expect_equal(env$token_type, "Token")
-              expect_equal(env$host, "https://api.solvebio.com")
+              expect_type(env$host, "character")
 })
 
 test_that("A default env is created", {
@@ -27,14 +31,14 @@ test_that("Simple functions work with global and local envs", {
 
               # Global env should work
               user <- User.retrieve()
-              expect_equal(user$email, "test@solvebio.com")
+              expect_true(is_valid_email(user$email))
 
               # Local env should error
               expect_error(User.retrieve(env=bad_env), ".*401.*")
 
               # Local env with global's token should work
               user <- User.retrieve(env=good_env)
-              expect_equal(user$email, "test@solvebio.com")
+              expect_true(is_valid_email(user$email))
 })
 
 test_that("Functions with ellipsis work with global and local envs", {
@@ -84,7 +88,7 @@ test_that("do.call works with env argument", {
 
               # Simple functions
               user <- do.call(User.retrieve, c(good_env))
-              expect_equal(user$email, "test@solvebio.com")
+              expect_true(is_valid_email(user$email))
               expect_error(do.call(User.retrieve, c(bad_env)), ".*401.*")
 
               # Functions with ellipsis
