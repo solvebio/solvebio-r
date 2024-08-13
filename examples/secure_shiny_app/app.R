@@ -5,17 +5,25 @@ library(DT)
 library(tidyverse)
 library(solvebio)
 
-CLIENT_ID <- Sys.getenv('CLIENT_ID', unset='your SolveBio app client ID')
-# Client secret is optional
-CLIENT_SECRET <- Sys.getenv('CLIENT_SECRET')
+# NOTE: If SOLVEBIO_ACCESS_TOKEN exists this will override OAuth2 configuration
+# Example Shiny app client ID
+CLIENT_ID <- 'YOUR CLIENT ID'
+# CLIENT_ID <- Sys.getenv('CLIENT_ID')
+CLIENT_SECRET <- Sys.getenv('CLIENT_SECRET')  # OPTIONAL
+BASE_URL <- "https://<DOMAIN>.edp.aws.quartz.bio"
 
 server <- function(input, output, session) {
     retrieveDatasets <- reactive({
         # Get a list of datasets in the current user's personal vault.
         env = session$userData$solvebio_env
 
-        vault = Vault.get_personal_vault(env=env)
-        datasets <- Vault.datasets(vault$id, limit=1000, env=env)
+        # Get list of all datasets you can access
+        # vault = Vault.get_personal_vault(env=env)
+        # datasets <- Vault.datasets(vault$id, limit=1000, env=env)
+
+        # Find all accessible datasets
+        datasets <- GlobalSearch.search(limit=1000, filters = '[["type","dataset"]]', vault_scope="access", paginate=TRUE, env=env)
+
         shiny::validate(need(nrow(datasets)>0, "No datasets found."))
         return(datasets)
     })
@@ -23,11 +31,11 @@ server <- function(input, output, session) {
     output$dataset_list = DT::renderDataTable({
         data <- retrieveDatasets()
         # Only show a few columns in the table.
-        data <- data[,c("id", "path", "filename", "description", "dataset_documents_count", "created_at", "updated_at")]
+        data <- data[,c("id", "vault", "path", "name", "created_at", "updated_at")]
         # Add a link to SolveBio web
         data <- data %>%
-            mutate(url = paste0('<a href="https://my.solvebio.com/data/', id, '" target="_blank">Open on SolveBio</a>')) %>%
-            select(id, path, filename, description, url, dataset_documents_count, created_at, updated_at)
+            mutate(url = paste0('<a href="', BASE_URL, '/data/', id, '" target="_blank">Open in EDP</a>')) %>%
+            select(id, path, name, url, created_at, updated_at)
 
         DT::datatable(data,
                       selection='single',
@@ -62,7 +70,7 @@ server <- function(input, output, session) {
 }
 
 ui <- dashboardPage(
-                    dashboardHeader(title="SolveBio Shiny App Example"),
+                    dashboardHeader(title="QuartzBio EDP Shiny Example"),
                     dashboardSidebar(disable=TRUE),
                     dashboardBody(
                                   # Optional code for token cookie support
@@ -74,7 +82,7 @@ ui <- dashboardPage(
                                                 functions = c("enableCookieAuth", "getCookie", "setCookie", "rmCookie")),
                                   fluidPage(
                                             fluidRow(
-                                                     box(width = 12, title = "Datasets in your personal vault ",
+                                                     box(width = 12, title = "Accessible datasets ",
                                                          DT::dataTableOutput('dataset_list')
                                                          )
                                                      ),
@@ -90,7 +98,7 @@ ui <- dashboardPage(
 
 
 # Wrap your base server and return a new protected server function
-protected_server <- solvebio::protectedServer(server, client_id=CLIENT_ID, client_secret=CLIENT_SECRET)
+protected_server <- solvebio::protectedServer(server, client_id=CLIENT_ID, client_secret=CLIENT_SECRET, base_url=BASE_URL)
 
 options(shiny.port = 3838)
 shinyApp(ui = ui, server = protected_server)
