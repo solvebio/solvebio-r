@@ -2,6 +2,7 @@
 
 * Follow redirects from solvebio.com to quartz.bio
 * Point to QuartzBio when running automated tests
+* Update Shiny example to work better with QuartzBio
 
 
 # solvebio 2.14.0
