@@ -4,7 +4,7 @@
 \alias{Beacon.query}
 \title{Beacon.query}
 \usage{
-Beacon.query(id, query, entity_type, env = solvebio:::.solveEnv, ...)
+Beacon.query(id, query, entity_type, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the beacon.}

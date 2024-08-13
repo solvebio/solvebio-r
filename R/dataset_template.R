@@ -13,7 +13,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetTemplate.all <- function(env = solvebio:::.solveEnv, ...) {
+DatasetTemplate.all <- function(env = .solveEnv, ...) {
     .request('GET', "v2/dataset_templates", query=list(...), env=env)
 }
 
@@ -33,7 +33,7 @@ DatasetTemplate.all <- function(env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetTemplate.retrieve <- function(id, env = solvebio:::.solveEnv) {
+DatasetTemplate.retrieve <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A dataset template ID is required.")
     }
@@ -58,7 +58,7 @@ DatasetTemplate.retrieve <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetTemplate.delete <- function(id, env = solvebio:::.solveEnv) {
+DatasetTemplate.delete <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A dataset template ID is required.")
     }
@@ -82,7 +82,7 @@ DatasetTemplate.delete <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetTemplate.create <- function(env = solvebio:::.solveEnv, ...) {
+DatasetTemplate.create <- function(env = .solveEnv, ...) {
     .request('POST', path='v2/dataset_templates', query=NULL, body=list(...), env=env)
 }
 
@@ -106,7 +106,7 @@ DatasetTemplate.create <- function(env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetTemplate.update <- function(id, env = solvebio:::.solveEnv, ...) {
+DatasetTemplate.update <- function(id, env = .solveEnv, ...) {
     if (missing(id)) {
         stop("A dataset template ID is required.")
     }

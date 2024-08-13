@@ -9,7 +9,7 @@ Annotator.annotate(
   fields,
   include_errors = FALSE,
   raw = FALSE,
-  env = solvebio:::.solveEnv
+  env = .solveEnv
 )
 }
 \arguments{

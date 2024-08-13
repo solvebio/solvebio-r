@@ -4,7 +4,7 @@
 \alias{DatasetTemplate.delete}
 \title{DatasetTemplate.delete}
 \usage{
-DatasetTemplate.delete(id, env = solvebio:::.solveEnv)
+DatasetTemplate.delete(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID or full name of a SolveBio dataset template.}

@@ -4,7 +4,7 @@
 \alias{Task.all}
 \title{Task.all}
 \usage{
-Task.all(env = solvebio:::.solveEnv, ...)
+Task.all(env = .solveEnv, ...)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

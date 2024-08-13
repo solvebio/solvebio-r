@@ -4,7 +4,7 @@
 \alias{Application.all}
 \title{Application.all}
 \usage{
-Application.all(env = solvebio:::.solveEnv, ...)
+Application.all(env = .solveEnv, ...)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

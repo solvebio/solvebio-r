@@ -4,7 +4,7 @@
 \alias{Application.retrieve}
 \title{Application.retrieve}
 \usage{
-Application.retrieve(client_id, env = solvebio:::.solveEnv)
+Application.retrieve(client_id, env = .solveEnv)
 }
 \arguments{
 \item{client_id}{The client ID for the application.}

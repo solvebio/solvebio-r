@@ -4,7 +4,7 @@
 \alias{SavedQuery.retrieve}
 \title{SavedQuery.retrieve}
 \usage{
-SavedQuery.retrieve(id, env = solvebio:::.solveEnv)
+SavedQuery.retrieve(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio saved query.}

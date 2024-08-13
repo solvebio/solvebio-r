@@ -4,7 +4,7 @@
 \alias{DatasetTemplate.all}
 \title{DatasetTemplate.all}
 \usage{
-DatasetTemplate.all(env = solvebio:::.solveEnv, ...)
+DatasetTemplate.all(env = .solveEnv, ...)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

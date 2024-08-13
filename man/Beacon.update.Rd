@@ -4,7 +4,7 @@
 \alias{Beacon.update}
 \title{Beacon.update}
 \usage{
-Beacon.update(id, env = solvebio:::.solveEnv, ...)
+Beacon.update(id, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the beacon to update.}

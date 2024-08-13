@@ -4,7 +4,7 @@
 \alias{DatasetExport.retrieve}
 \title{DatasetExport.retrieve}
 \usage{
-DatasetExport.retrieve(id, env = solvebio:::.solveEnv)
+DatasetExport.retrieve(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio dataset export.}

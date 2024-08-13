@@ -4,7 +4,7 @@
 \alias{Dataset.activity}
 \title{Dataset.activity}
 \usage{
-Dataset.activity(id, follow = TRUE, env = solvebio:::.solveEnv)
+Dataset.activity(id, follow = TRUE, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio dataset}

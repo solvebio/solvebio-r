@@ -13,7 +13,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-SavedQuery.all <- function(env = solvebio:::.solveEnv, ...) {
+SavedQuery.all <- function(env = .solveEnv, ...) {
     .request('GET', "v2/saved_queries", query=list(...), env=env)
 }
 
@@ -33,7 +33,7 @@ SavedQuery.all <- function(env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-SavedQuery.retrieve <- function(id, env = solvebio:::.solveEnv) {
+SavedQuery.retrieve <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A saved query ID is required.")
     }
@@ -58,7 +58,7 @@ SavedQuery.retrieve <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-SavedQuery.delete <- function(id, env = solvebio:::.solveEnv) {
+SavedQuery.delete <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A saved query ID is required.")
     }
@@ -82,7 +82,7 @@ SavedQuery.delete <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-SavedQuery.create <- function(env = solvebio:::.solveEnv, ...) {
+SavedQuery.create <- function(env = .solveEnv, ...) {
     .request('POST', path='v2/saved_queries', query=NULL, body=list(...), env=env)
 }
 
@@ -106,7 +106,7 @@ SavedQuery.create <- function(env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-SavedQuery.update <- function(id, env = solvebio:::.solveEnv, ...) {
+SavedQuery.update <- function(id, env = .solveEnv, ...) {
     if (missing(id)) {
         stop("A saved query ID is required.")
     }

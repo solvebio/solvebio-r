@@ -12,6 +12,6 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-User.retrieve <- function(env = solvebio:::.solveEnv) {
+User.retrieve <- function(env = .solveEnv) {
     .request('GET', "v1/user", env=env)
 }

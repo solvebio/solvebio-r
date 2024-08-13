@@ -4,7 +4,7 @@
 \alias{Vault.search}
 \title{Vault.search}
 \usage{
-Vault.search(id, query, env = solvebio:::.solveEnv, ...)
+Vault.search(id, query, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the vault.}

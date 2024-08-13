@@ -4,7 +4,7 @@
 \alias{SavedQuery.create}
 \title{SavedQuery.create}
 \usage{
-SavedQuery.create(env = solvebio:::.solveEnv, ...)
+SavedQuery.create(env = .solveEnv, ...)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

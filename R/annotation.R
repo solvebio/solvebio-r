@@ -16,7 +16,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Annotator.annotate <- function(records, fields, include_errors=FALSE, raw=FALSE, env = solvebio:::.solveEnv) {
+Annotator.annotate <- function(records, fields, include_errors=FALSE, raw=FALSE, env = .solveEnv) {
     if (missing(records) || missing(fields)) {
         stop("A data table/frame and fields are both required.")
     }
@@ -55,7 +55,7 @@ Annotator.annotate <- function(records, fields, include_errors=FALSE, raw=FALSE,
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Expression.evaluate <- function(expression, data_type="string", is_list=FALSE, data=NULL, raw=FALSE, env = solvebio:::.solveEnv) {
+Expression.evaluate <- function(expression, data_type="string", is_list=FALSE, data=NULL, raw=FALSE, env = .solveEnv) {
     if (missing(expression)) {
         stop("A SolveBio expression is required.")
     }

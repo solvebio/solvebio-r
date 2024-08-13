@@ -4,7 +4,7 @@
 \alias{Beacon.delete}
 \title{Beacon.delete}
 \usage{
-Beacon.delete(id, env = solvebio:::.solveEnv)
+Beacon.delete(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{The ID of the beacon.}

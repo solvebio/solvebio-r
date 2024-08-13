@@ -9,7 +9,7 @@ Object.create(
   parent_object_id,
   object_type,
   filename,
-  env = solvebio:::.solveEnv,
+  env = .solveEnv,
   ...
 )
 }

@@ -4,7 +4,7 @@
 \alias{Dataset.data}
 \title{Dataset.data}
 \usage{
-Dataset.data(id, filters, env = solvebio:::.solveEnv, ...)
+Dataset.data(id, filters, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of a SolveBio dataset, or a Dataset object.}

@@ -7,7 +7,7 @@
 Dataset.get_global_beacon_status(
   id,
   raise_on_disabled = FALSE,
-  env = solvebio:::.solveEnv
+  env = .solveEnv
 )
 }
 \arguments{

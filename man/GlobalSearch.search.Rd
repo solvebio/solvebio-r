@@ -4,7 +4,7 @@
 \alias{GlobalSearch.search}
 \title{GlobalSearch.search}
 \usage{
-GlobalSearch.search(paginate = FALSE, env = solvebio:::.solveEnv, ...)
+GlobalSearch.search(paginate = FALSE, env = .solveEnv, ...)
 }
 \arguments{
 \item{paginate}{When set to TRUE, retrieves all records (memory permitting).}

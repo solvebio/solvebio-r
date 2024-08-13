@@ -4,7 +4,7 @@
 \alias{login}
 \title{login}
 \usage{
-login(api_key, api_host, env = solvebio:::.solveEnv)
+login(api_key, api_host, env = .solveEnv)
 }
 \arguments{
 \item{api_key}{Your SolveBio API key}

@@ -4,7 +4,7 @@
 \alias{Object.get_by_full_path}
 \title{Object.get_by_full_path}
 \usage{
-Object.get_by_full_path(full_path, env = solvebio:::.solveEnv, ...)
+Object.get_by_full_path(full_path, env = .solveEnv, ...)
 }
 \arguments{
 \item{full_path}{The full path to the object.}

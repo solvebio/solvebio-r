@@ -4,7 +4,7 @@
 \alias{DatasetCommit.delete}
 \title{DatasetCommit.delete}
 \usage{
-DatasetCommit.delete(id, env = solvebio:::.solveEnv)
+DatasetCommit.delete(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID or full name of a SolveBio dataset commit.}

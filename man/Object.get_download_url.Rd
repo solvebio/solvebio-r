@@ -4,7 +4,7 @@
 \alias{Object.get_download_url}
 \title{Object.get_download_url}
 \usage{
-Object.get_download_url(id, env = solvebio:::.solveEnv)
+Object.get_download_url(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{The ID of the object.}

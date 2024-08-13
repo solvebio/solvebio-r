@@ -4,7 +4,7 @@
 \alias{DatasetImport.all}
 \title{DatasetImport.all}
 \usage{
-DatasetImport.all(env = solvebio:::.solveEnv, ...)
+DatasetImport.all(env = .solveEnv, ...)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

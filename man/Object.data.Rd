@@ -4,7 +4,7 @@
 \alias{Object.data}
 \title{Object.data}
 \usage{
-Object.data(id, filters, col.names = NULL, env = solvebio:::.solveEnv, ...)
+Object.data(id, filters, col.names = NULL, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of a SolveBio file (vault object).}

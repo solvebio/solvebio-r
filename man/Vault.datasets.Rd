@@ -4,7 +4,7 @@
 \alias{Vault.datasets}
 \title{Vault.datasets}
 \usage{
-Vault.datasets(id, env = solvebio:::.solveEnv, ...)
+Vault.datasets(id, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the vault.}

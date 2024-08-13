@@ -13,7 +13,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Beacon.all <- function(env = solvebio:::.solveEnv, ...) {
+Beacon.all <- function(env = .solveEnv, ...) {
     .request('GET', "v2/beacons", query=list(...), env=env)
 }
 
@@ -32,7 +32,7 @@ Beacon.all <- function(env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Beacon.retrieve <- function(id, env = solvebio:::.solveEnv) {
+Beacon.retrieve <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A beacon ID is required.")
     }
@@ -57,7 +57,7 @@ Beacon.retrieve <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Beacon.delete <- function(id, env = solvebio:::.solveEnv) {
+Beacon.delete <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A beacon ID is required.")
     }
@@ -89,7 +89,7 @@ Beacon.delete <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Beacon.create <- function(beacon_set_id, vault_object_id, title, env = solvebio:::.solveEnv, ...) {
+Beacon.create <- function(beacon_set_id, vault_object_id, title, env = .solveEnv, ...) {
     if (missing(beacon_set_id)) {
         stop("A beacon set ID is required.")
     }
@@ -130,7 +130,7 @@ Beacon.create <- function(beacon_set_id, vault_object_id, title, env = solvebio:
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Beacon.update <- function(id, env = solvebio:::.solveEnv, ...) {
+Beacon.update <- function(id, env = .solveEnv, ...) {
     if (missing(id)) {
         stop("A beacon ID is required.")
     }
@@ -164,7 +164,7 @@ Beacon.update <- function(id, env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Beacon.query <- function(id, query, entity_type, env = solvebio:::.solveEnv, ...) {
+Beacon.query <- function(id, query, entity_type, env = .solveEnv, ...) {
     if (missing(id)) {
         stop("A beacon ID is required.")
     }

@@ -4,7 +4,7 @@
 \alias{Dataset.count}
 \title{Dataset.count}
 \usage{
-Dataset.count(id, env = solvebio:::.solveEnv, ...)
+Dataset.count(id, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of a SolveBio dataset, or a Dataset object.}

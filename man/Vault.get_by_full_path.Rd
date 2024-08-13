@@ -4,7 +4,7 @@
 \alias{Vault.get_by_full_path}
 \title{Vault.get_by_full_path}
 \usage{
-Vault.get_by_full_path(full_path, verbose = TRUE, env = solvebio:::.solveEnv)
+Vault.get_by_full_path(full_path, verbose = TRUE, env = .solveEnv)
 }
 \arguments{
 \item{full_path}{The full path of a SolveBio vault.}

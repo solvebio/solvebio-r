@@ -4,7 +4,7 @@
 \alias{DatasetMigration.retrieve}
 \title{DatasetMigration.retrieve}
 \usage{
-DatasetMigration.retrieve(id, env = solvebio:::.solveEnv)
+DatasetMigration.retrieve(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio dataset migration.}

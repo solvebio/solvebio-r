@@ -4,7 +4,7 @@
 \alias{DatasetImport.retrieve}
 \title{DatasetImport.retrieve}
 \usage{
-DatasetImport.retrieve(id, env = solvebio:::.solveEnv)
+DatasetImport.retrieve(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio dataset import.}

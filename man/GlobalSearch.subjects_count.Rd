@@ -4,7 +4,7 @@
 \alias{GlobalSearch.subjects_count}
 \title{GlobalSearch.subjects_count}
 \usage{
-GlobalSearch.subjects_count(env = solvebio:::.solveEnv, ...)
+GlobalSearch.subjects_count(env = .solveEnv, ...)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

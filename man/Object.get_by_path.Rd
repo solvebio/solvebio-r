@@ -4,7 +4,7 @@
 \alias{Object.get_by_path}
 \title{Object.get_by_path}
 \usage{
-Object.get_by_path(path, env = solvebio:::.solveEnv, ...)
+Object.get_by_path(path, env = .solveEnv, ...)
 }
 \arguments{
 \item{path}{The path to the object, relative to a vault.}

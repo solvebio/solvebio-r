@@ -4,7 +4,7 @@
 \alias{DatasetTemplate.retrieve}
 \title{DatasetTemplate.retrieve}
 \usage{
-DatasetTemplate.retrieve(id, env = solvebio:::.solveEnv)
+DatasetTemplate.retrieve(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio dataset template.}

@@ -4,7 +4,7 @@
 \alias{Vault.delete}
 \title{Vault.delete}
 \usage{
-Vault.delete(id, env = solvebio:::.solveEnv)
+Vault.delete(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio vault.}

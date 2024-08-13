@@ -4,7 +4,7 @@
 \alias{Task.retrieve}
 \title{Task.retrieve}
 \usage{
-Task.retrieve(id, env = solvebio:::.solveEnv)
+Task.retrieve(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{The ID of a task.}

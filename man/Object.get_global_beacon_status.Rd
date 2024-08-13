@@ -4,11 +4,7 @@
 \alias{Object.get_global_beacon_status}
 \title{Object.get_global_beacon_status}
 \usage{
-Object.get_global_beacon_status(
-  id,
-  raise_on_disabled = FALSE,
-  env = solvebio:::.solveEnv
-)
+Object.get_global_beacon_status(id, raise_on_disabled = FALSE, env = .solveEnv)
 }
 \arguments{
 \item{id}{The ID of a SolveBio dataset.}

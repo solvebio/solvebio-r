@@ -13,7 +13,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-BeaconSet.all <- function(env = solvebio:::.solveEnv, ...) {
+BeaconSet.all <- function(env = .solveEnv, ...) {
     .request('GET', "v2/beacon_sets", query=list(...), env=env)
 }
 
@@ -32,7 +32,7 @@ BeaconSet.all <- function(env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-BeaconSet.retrieve <- function(id, env = solvebio:::.solveEnv) {
+BeaconSet.retrieve <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A beacon set ID is required.")
     }
@@ -61,7 +61,7 @@ BeaconSet.retrieve <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-BeaconSet.update <- function(id, env = solvebio:::.solveEnv, ...) {
+BeaconSet.update <- function(id, env = .solveEnv, ...) {
     if (missing(id)) {
         stop("A beacon set ID is required.")
     }
@@ -88,7 +88,7 @@ BeaconSet.update <- function(id, env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-BeaconSet.delete <- function(id, env = solvebio:::.solveEnv) {
+BeaconSet.delete <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A beacon set ID is required.")
     }
@@ -118,7 +118,7 @@ BeaconSet.delete <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-BeaconSet.create <- function(title, description, is_shared=FALSE, env = solvebio:::.solveEnv, ...) {
+BeaconSet.create <- function(title, description, is_shared=FALSE, env = .solveEnv, ...) {
     if (missing(title)) {
         stop("A title is required.")
     }
@@ -159,7 +159,7 @@ BeaconSet.create <- function(title, description, is_shared=FALSE, env = solvebio
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-BeaconSet.query <- function(id, query, entity_type, env = solvebio:::.solveEnv, ...) {
+BeaconSet.query <- function(id, query, entity_type, env = .solveEnv, ...) {
     if (missing(id)) {
         stop("A beacon set ID is required.")
     }

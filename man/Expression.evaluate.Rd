@@ -10,7 +10,7 @@ Expression.evaluate(
   is_list = FALSE,
   data = NULL,
   raw = FALSE,
-  env = solvebio:::.solveEnv
+  env = .solveEnv
 )
 }
 \arguments{

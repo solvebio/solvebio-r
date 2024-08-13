@@ -9,7 +9,7 @@ Object.get_or_upload_file(
   vault_id,
   vault_path,
   filename,
-  env = solvebio:::.solveEnv
+  env = .solveEnv
 )
 }
 \arguments{

@@ -4,7 +4,7 @@
 \alias{DatasetMigration.delete}
 \title{DatasetMigration.delete}
 \usage{
-DatasetMigration.delete(id, env = solvebio:::.solveEnv)
+DatasetMigration.delete(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio dataset migration.}

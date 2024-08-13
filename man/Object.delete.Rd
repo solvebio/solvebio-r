@@ -4,7 +4,7 @@
 \alias{Object.delete}
 \title{Object.delete}
 \usage{
-Object.delete(id, env = solvebio:::.solveEnv)
+Object.delete(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{The ID of the object.}

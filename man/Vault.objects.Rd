@@ -4,7 +4,7 @@
 \alias{Vault.objects}
 \title{Vault.objects}
 \usage{
-Vault.objects(id, env = solvebio:::.solveEnv, ...)
+Vault.objects(id, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the vault.}

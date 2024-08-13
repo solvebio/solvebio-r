@@ -4,7 +4,7 @@
 \alias{Application.create}
 \title{Application.create}
 \usage{
-Application.create(name, redirect_uris, env = solvebio:::.solveEnv, ...)
+Application.create(name, redirect_uris, env = .solveEnv, ...)
 }
 \arguments{
 \item{name}{The name of the application.}

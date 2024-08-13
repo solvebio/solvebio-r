@@ -4,7 +4,7 @@
 \alias{Dataset.retrieve}
 \title{Dataset.retrieve}
 \usage{
-Dataset.retrieve(id, env = solvebio:::.solveEnv)
+Dataset.retrieve(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio dataset}
