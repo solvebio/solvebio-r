@@ -4,7 +4,7 @@
 \alias{DatasetExport.all}
 \title{DatasetExport.all}
 \usage{
-DatasetExport.all(env = solvebio:::.solveEnv, ...)
+DatasetExport.all(env = .solveEnv, ...)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

@@ -13,7 +13,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetCommit.all <- function(env = solvebio:::.solveEnv, ...) {
+DatasetCommit.all <- function(env = .solveEnv, ...) {
     .request('GET', "v2/dataset_commits", query=list(...), env=env)
 }
 
@@ -33,7 +33,7 @@ DatasetCommit.all <- function(env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetCommit.retrieve <- function(id, env = solvebio:::.solveEnv) {
+DatasetCommit.retrieve <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A dataset commit ID is required.")
     }
@@ -58,7 +58,7 @@ DatasetCommit.retrieve <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetCommit.delete <- function(id, env = solvebio:::.solveEnv) {
+DatasetCommit.delete <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A dataset commit ID is required.")
     }

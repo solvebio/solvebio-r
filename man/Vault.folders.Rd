@@ -4,7 +4,7 @@
 \alias{Vault.folders}
 \title{Vault.folders}
 \usage{
-Vault.folders(id, env = solvebio:::.solveEnv, ...)
+Vault.folders(id, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the vault.}

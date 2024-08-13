@@ -34,7 +34,7 @@ if (nchar(.solveEnv$token) == 0L) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-login <- function(api_key, api_host, env = solvebio:::.solveEnv) {
+login <- function(api_key, api_host, env = .solveEnv) {
     if (!missing(api_key)) {
         assign('token', api_key, envir=env)
     }
@@ -93,7 +93,7 @@ createEnv <- function(token, token_type="Token", host=.solveEnv$host) {
 
 
 # Private API request method.
-.request = function(method, path, query, body, env = solvebio:::.solveEnv, content_type="application/json", ...) {
+.request = function(method, path, query, body, env = .solveEnv, content_type="application/json", ...) {
     'Perform an HTTP request to the server.'
     # Set defaults
     headers <- c(

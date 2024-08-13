@@ -4,7 +4,7 @@
 \alias{BeaconSet.retrieve}
 \title{BeaconSet.retrieve}
 \usage{
-BeaconSet.retrieve(id, env = solvebio:::.solveEnv)
+BeaconSet.retrieve(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{The ID of the beacon set.}

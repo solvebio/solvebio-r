@@ -4,7 +4,7 @@
 \alias{DatasetCommit.retrieve}
 \title{DatasetCommit.retrieve}
 \usage{
-DatasetCommit.retrieve(id, env = solvebio:::.solveEnv)
+DatasetCommit.retrieve(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio dataset commit.}

@@ -4,7 +4,7 @@
 \alias{User.retrieve}
 \title{User.retrieve}
 \usage{
-User.retrieve(env = solvebio:::.solveEnv)
+User.retrieve(env = .solveEnv)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

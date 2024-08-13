@@ -13,7 +13,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.all <- function(env = solvebio:::.solveEnv, ...) {
+Object.all <- function(env = .solveEnv, ...) {
     .request('GET', "v2/objects", query=list(...), env=env)
 }
 
@@ -32,7 +32,7 @@ Object.all <- function(env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.retrieve <- function(id, env = solvebio:::.solveEnv) {
+Object.retrieve <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A object ID is required.")
     }
@@ -57,7 +57,7 @@ Object.retrieve <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.delete <- function(id, env = solvebio:::.solveEnv) {
+Object.delete <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A object ID is required.")
     }
@@ -91,7 +91,7 @@ Object.delete <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.create <- function(vault_id, parent_object_id, object_type, filename, env = solvebio:::.solveEnv, ...) {
+Object.create <- function(vault_id, parent_object_id, object_type, filename, env = .solveEnv, ...) {
     if (missing(vault_id)) {
         stop("A vault ID is required.")
     }
@@ -138,7 +138,7 @@ Object.create <- function(vault_id, parent_object_id, object_type, filename, env
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.update <- function(id, env = solvebio:::.solveEnv, ...) {
+Object.update <- function(id, env = .solveEnv, ...) {
     if (missing(id)) {
         stop("An object ID is required.")
     }
@@ -166,7 +166,7 @@ Object.update <- function(id, env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.get_by_full_path <- function(full_path, env = solvebio:::.solveEnv, ...) {
+Object.get_by_full_path <- function(full_path, env = .solveEnv, ...) {
     params = list(
                   full_path=full_path,
                   ...
@@ -200,7 +200,7 @@ Object.get_by_full_path <- function(full_path, env = solvebio:::.solveEnv, ...) 
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.get_by_path <- function(path, env = solvebio:::.solveEnv, ...) {
+Object.get_by_path <- function(path, env = .solveEnv, ...) {
     # Remove trailing backslash from vault_path
     path = sub("/$", "", path)
 
@@ -232,7 +232,7 @@ Object.get_by_path <- function(path, env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.get_download_url <- function(id, env = solvebio:::.solveEnv) {
+Object.get_download_url <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A object ID is required.")
     }
@@ -262,7 +262,7 @@ Object.get_download_url <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.upload_file <- function(local_path, vault_id, vault_path, filename, env = solvebio:::.solveEnv) {
+Object.upload_file <- function(local_path, vault_id, vault_path, filename, env = .solveEnv) {
     if (missing(local_path) || !file.exists(local_path)) {
         stop("A valid path to a local file is required.")
     }
@@ -348,7 +348,7 @@ Object.upload_file <- function(local_path, vault_id, vault_path, filename, env =
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.get_or_upload_file <- function(local_path, vault_id, vault_path, filename, env = solvebio:::.solveEnv) {
+Object.get_or_upload_file <- function(local_path, vault_id, vault_path, filename, env = .solveEnv) {
     if (missing(local_path) || !file.exists(local_path)) {
         stop("A valid path to a local file is required.")
     }
@@ -392,7 +392,7 @@ Object.get_or_upload_file <- function(local_path, vault_id, vault_path, filename
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveEnv, ...) {
+Object.data <- function(id, filters, col.names = NULL, env = .solveEnv, ...) {
     if (missing(id) || !(class(id) %in% c("Object", "numeric", "integer", "character"))) {
         stop("An object ID is required.")
     }
@@ -447,7 +447,7 @@ Object.data <- function(id, filters, col.names = NULL, env = solvebio:::.solveEn
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
+Object.query <- function(id, paginate=FALSE, env = .solveEnv, ...) {
     params <- list(...)
     params$id <- id
     params$env <- env
@@ -495,7 +495,7 @@ Object.query <- function(id, paginate=FALSE, env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.fields <- function(id, env = solvebio:::.solveEnv, ...) {
+Object.fields <- function(id, env = .solveEnv, ...) {
     if (inherits(id, "numeric")) {
         warning("Please use string IDs instead of numeric IDs.")
     }
@@ -530,7 +530,7 @@ Object.fields <- function(id, env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.get_global_beacon_status <- function(id, raise_on_disabled = FALSE, env = solvebio:::.solveEnv) {
+Object.get_global_beacon_status <- function(id, raise_on_disabled = FALSE, env = .solveEnv) {
     if (missing(id)) {
         stop("A dataset ID is required.")
     }
@@ -568,7 +568,7 @@ Object.get_global_beacon_status <- function(id, raise_on_disabled = FALSE, env =
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.enable_global_beacon <- function(id, env = solvebio:::.solveEnv) {
+Object.enable_global_beacon <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A dataset ID is required.")
     }
@@ -593,7 +593,7 @@ Object.enable_global_beacon <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Object.disable_global_beacon <- function(id, env = solvebio:::.solveEnv) {
+Object.disable_global_beacon <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A dataset ID is required.")
     }

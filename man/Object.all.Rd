@@ -4,7 +4,7 @@
 \alias{Object.all}
 \title{Object.all}
 \usage{
-Object.all(env = solvebio:::.solveEnv, ...)
+Object.all(env = .solveEnv, ...)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

@@ -4,7 +4,7 @@
 \alias{Vault.retrieve}
 \title{Vault.retrieve}
 \usage{
-Vault.retrieve(id, env = solvebio:::.solveEnv)
+Vault.retrieve(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a SolveBio vault}

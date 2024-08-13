@@ -13,7 +13,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Task.all <- function(env = solvebio:::.solveEnv, ...) {
+Task.all <- function(env = .solveEnv, ...) {
     .request("GET", "v2/tasks", query = list(...), env = env)
 }
 
@@ -32,7 +32,7 @@ Task.all <- function(env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Task.retrieve <- function(id, env = solvebio:::.solveEnv) {
+Task.retrieve <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A task ID is required.")
     }
@@ -59,7 +59,7 @@ Task.retrieve <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Task.follow <- function(id, env = solvebio:::.solveEnv, interval = 2) {
+Task.follow <- function(id, env = .solveEnv, interval = 2) {
     imp <- Task.retrieve(id, env)
     while (imp$status == "pending" || imp$status == "queued" || imp$status == "running") {
         imp <- Task.retrieve(id, env)

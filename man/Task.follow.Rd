@@ -4,7 +4,7 @@
 \alias{Task.follow}
 \title{Task.follow}
 \usage{
-Task.follow(id, env = solvebio:::.solveEnv, interval = 2)
+Task.follow(id, env = .solveEnv, interval = 2)
 }
 \arguments{
 \item{id}{String The ID of a task.}

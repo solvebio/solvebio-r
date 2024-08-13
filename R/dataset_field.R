@@ -13,7 +13,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetField.all <- function(env = solvebio:::.solveEnv, ...) {
+DatasetField.all <- function(env = .solveEnv, ...) {
     .request('GET', "v2/dataset_fields", query=list(...), env=env)
 }
 
@@ -33,7 +33,7 @@ DatasetField.all <- function(env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetField.retrieve <- function(id, env = solvebio:::.solveEnv) {
+DatasetField.retrieve <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A dataset field ID is required.")
     }
@@ -59,7 +59,7 @@ DatasetField.retrieve <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetField.facets <- function(id, env = solvebio:::.solveEnv, ...) {
+DatasetField.facets <- function(id, env = .solveEnv, ...) {
     if (missing(id) | !(class(id) %in% c("DatasetField", "numeric", "character"))) {
         stop("A dataset field ID is required.")
     }
@@ -90,7 +90,7 @@ DatasetField.facets <- function(id, env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetField.create <- function(dataset_id, name, data_type = 'auto', env = solvebio:::.solveEnv, ...) {
+DatasetField.create <- function(dataset_id, name, data_type = 'auto', env = .solveEnv, ...) {
     if (missing(dataset_id)) {
         stop("A dataset ID is required.")
     }
@@ -130,7 +130,7 @@ DatasetField.create <- function(dataset_id, name, data_type = 'auto', env = solv
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetField.update <- function(id, env = solvebio:::.solveEnv, ...) {
+DatasetField.update <- function(id, env = .solveEnv, ...) {
     if (missing(id)) {
         stop("A dataset field ID is required.")
     }

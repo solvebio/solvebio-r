@@ -4,7 +4,7 @@
 \alias{Object.enable_global_beacon}
 \title{Object.enable_global_beacon}
 \usage{
-Object.enable_global_beacon(id, env = solvebio:::.solveEnv)
+Object.enable_global_beacon(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{The ID of a SolveBio dataset.}

@@ -13,7 +13,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetMigration.all <- function(env = solvebio:::.solveEnv, ...) {
+DatasetMigration.all <- function(env = .solveEnv, ...) {
     .request('GET', "v2/dataset_migrations", query=list(...), env=env)
 }
 
@@ -33,7 +33,7 @@ DatasetMigration.all <- function(env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetMigration.retrieve <- function(id, env = solvebio:::.solveEnv) {
+DatasetMigration.retrieve <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A dataset migration ID is required.")
     }
@@ -58,7 +58,7 @@ DatasetMigration.retrieve <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetMigration.delete <- function(id, env = solvebio:::.solveEnv) {
+DatasetMigration.delete <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A dataset migration ID is required.")
     }
@@ -96,7 +96,7 @@ DatasetMigration.create <- function(
                                     source_params=NULL,
                                     target_fields=NULL,
                                     include_errors=FALSE,
-                                    env = solvebio:::.solveEnv,
+                                    env = .solveEnv,
                                     ...) {
     if (missing(source_id)) {
         stop("A source dataset ID is required.")

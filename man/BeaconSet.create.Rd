@@ -4,13 +4,7 @@
 \alias{BeaconSet.create}
 \title{BeaconSet.create}
 \usage{
-BeaconSet.create(
-  title,
-  description,
-  is_shared = FALSE,
-  env = solvebio:::.solveEnv,
-  ...
-)
+BeaconSet.create(title, description, is_shared = FALSE, env = .solveEnv, ...)
 }
 \arguments{
 \item{title}{The title displayed for the beacon set.}

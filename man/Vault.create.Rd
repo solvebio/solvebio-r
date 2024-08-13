@@ -4,7 +4,7 @@
 \alias{Vault.create}
 \title{Vault.create}
 \usage{
-Vault.create(name, env = solvebio:::.solveEnv, ...)
+Vault.create(name, env = .solveEnv, ...)
 }
 \arguments{
 \item{name}{The unique name of the vault.}

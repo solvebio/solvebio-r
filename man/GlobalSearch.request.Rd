@@ -4,13 +4,7 @@
 \alias{GlobalSearch.request}
 \title{GlobalSearch.request}
 \usage{
-GlobalSearch.request(
-  query = NULL,
-  filters,
-  entities,
-  env = solvebio:::.solveEnv,
-  ...
-)
+GlobalSearch.request(query = NULL, filters, entities, env = .solveEnv, ...)
 }
 \arguments{
 \item{query}{(optional) Advanced search query.}

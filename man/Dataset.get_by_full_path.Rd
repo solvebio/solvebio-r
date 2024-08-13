@@ -4,7 +4,7 @@
 \alias{Dataset.get_by_full_path}
 \title{Dataset.get_by_full_path}
 \usage{
-Dataset.get_by_full_path(full_path, env = solvebio:::.solveEnv)
+Dataset.get_by_full_path(full_path, env = .solveEnv)
 }
 \arguments{
 \item{full_path}{A valid full path to a dataset.}

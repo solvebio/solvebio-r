@@ -4,7 +4,7 @@
 \alias{DatasetField.retrieve}
 \title{DatasetField.retrieve}
 \usage{
-DatasetField.retrieve(id, env = solvebio:::.solveEnv)
+DatasetField.retrieve(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID of a dataset field.}

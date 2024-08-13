@@ -4,7 +4,7 @@
 \alias{Dataset.facets}
 \title{Dataset.facets}
 \usage{
-Dataset.facets(id, facets, env = solvebio:::.solveEnv, ...)
+Dataset.facets(id, facets, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of a SolveBio dataset, or a Dataset object.}

@@ -4,7 +4,7 @@
 \alias{Object.fields}
 \title{Object.fields}
 \usage{
-Object.fields(id, env = solvebio:::.solveEnv, ...)
+Object.fields(id, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of a SolveBio file (vault object).}

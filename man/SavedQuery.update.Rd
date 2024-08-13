@@ -4,7 +4,7 @@
 \alias{SavedQuery.update}
 \title{SavedQuery.update}
 \usage{
-SavedQuery.update(id, env = solvebio:::.solveEnv, ...)
+SavedQuery.update(id, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the saved query to update.}

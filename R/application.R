@@ -13,7 +13,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Application.all <- function(env = solvebio:::.solveEnv, ...) {
+Application.all <- function(env = .solveEnv, ...) {
     .request('GET', "v2/applications", query=list(...), env=env)
 }
 
@@ -33,7 +33,7 @@ Application.all <- function(env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Application.retrieve <- function(client_id, env = solvebio:::.solveEnv) {
+Application.retrieve <- function(client_id, env = .solveEnv) {
     if (missing(client_id)) {
         stop("A client ID is required.")
     }
@@ -62,7 +62,7 @@ Application.retrieve <- function(client_id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Application.update <- function(client_id, env = solvebio:::.solveEnv, ...) {
+Application.update <- function(client_id, env = .solveEnv, ...) {
     if (missing(client_id)) {
         stop("A client ID is required.")
     }
@@ -89,7 +89,7 @@ Application.update <- function(client_id, env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Application.delete <- function(client_id, env = solvebio:::.solveEnv) {
+Application.delete <- function(client_id, env = .solveEnv) {
     if (missing(client_id)) {
         stop("A client ID is required.")
     }
@@ -119,7 +119,7 @@ Application.delete <- function(client_id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-Application.create <- function(name, redirect_uris, env = solvebio:::.solveEnv, ...) {
+Application.create <- function(name, redirect_uris, env = .solveEnv, ...) {
     if (missing(name)) {
         stop("A name is required.")
     }

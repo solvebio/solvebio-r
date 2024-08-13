@@ -4,7 +4,7 @@
 \alias{Application.delete}
 \title{Application.delete}
 \usage{
-Application.delete(client_id, env = solvebio:::.solveEnv)
+Application.delete(client_id, env = .solveEnv)
 }
 \arguments{
 \item{client_id}{The client ID for the application.}

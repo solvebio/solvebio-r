@@ -4,7 +4,7 @@
 \alias{GlobalSearch.facets}
 \title{GlobalSearch.facets}
 \usage{
-GlobalSearch.facets(facets, env = solvebio:::.solveEnv, ...)
+GlobalSearch.facets(facets, env = .solveEnv, ...)
 }
 \arguments{
 \item{facets}{Facets list.}

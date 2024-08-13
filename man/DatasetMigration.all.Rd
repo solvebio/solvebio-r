@@ -4,7 +4,7 @@
 \alias{DatasetMigration.all}
 \title{DatasetMigration.all}
 \usage{
-DatasetMigration.all(env = solvebio:::.solveEnv, ...)
+DatasetMigration.all(env = .solveEnv, ...)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

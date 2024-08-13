@@ -4,7 +4,7 @@
 \alias{SavedQuery.delete}
 \title{SavedQuery.delete}
 \usage{
-SavedQuery.delete(id, env = solvebio:::.solveEnv)
+SavedQuery.delete(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{String The ID of the SolveBio saved query.}

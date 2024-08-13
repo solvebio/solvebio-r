@@ -4,7 +4,7 @@
 \alias{DatasetCommit.all}
 \title{DatasetCommit.all}
 \usage{
-DatasetCommit.all(env = solvebio:::.solveEnv, ...)
+DatasetCommit.all(env = .solveEnv, ...)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

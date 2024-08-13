@@ -4,7 +4,7 @@
 \alias{Object.query}
 \title{Object.query}
 \usage{
-Object.query(id, paginate = FALSE, env = solvebio:::.solveEnv, ...)
+Object.query(id, paginate = FALSE, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of a SolveBio file (vault object).}

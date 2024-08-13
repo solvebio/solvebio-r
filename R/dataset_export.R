@@ -13,7 +13,7 @@
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetExport.all <- function(env = solvebio:::.solveEnv, ...) {
+DatasetExport.all <- function(env = .solveEnv, ...) {
     .request('GET', "v2/dataset_exports", query=list(...), env=env)
 }
 
@@ -32,7 +32,7 @@ DatasetExport.all <- function(env = solvebio:::.solveEnv, ...) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetExport.retrieve <- function(id, env = solvebio:::.solveEnv) {
+DatasetExport.retrieve <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A dataset export ID is required.")
     }
@@ -57,7 +57,7 @@ DatasetExport.retrieve <- function(id, env = solvebio:::.solveEnv) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetExport.delete <- function(id, env = solvebio:::.solveEnv) {
+DatasetExport.delete <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A dataset export ID is required.")
     }
@@ -91,7 +91,7 @@ DatasetExport.create <- function(
                                  format = 'json',
                                  params = list(),
                                  follow = FALSE,
-                                 env = solvebio:::.solveEnv,
+                                 env = .solveEnv,
                                  ...) {
     if (missing(dataset_id)) {
         stop("A dataset ID is required.")
@@ -129,7 +129,7 @@ DatasetExport.create <- function(
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-DatasetExport.get_download_url <- function(id, env = solvebio:::.solveEnv) {
+DatasetExport.get_download_url <- function(id, env = .solveEnv) {
     if (missing(id)) {
         stop("A dataset export ID is required.")
     }

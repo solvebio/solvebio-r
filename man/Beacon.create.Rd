@@ -4,13 +4,7 @@
 \alias{Beacon.create}
 \title{Beacon.create}
 \usage{
-Beacon.create(
-  beacon_set_id,
-  vault_object_id,
-  title,
-  env = solvebio:::.solveEnv,
-  ...
-)
+Beacon.create(beacon_set_id, vault_object_id, title, env = .solveEnv, ...)
 }
 \arguments{
 \item{beacon_set_id}{The ID of the parent beacon set.}

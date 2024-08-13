@@ -4,7 +4,7 @@
 \alias{Vault.get_personal_vault}
 \title{Vault.get_personal_vault}
 \usage{
-Vault.get_personal_vault(env = solvebio:::.solveEnv)
+Vault.get_personal_vault(env = .solveEnv)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

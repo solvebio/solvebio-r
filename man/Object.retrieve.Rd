@@ -4,7 +4,7 @@
 \alias{Object.retrieve}
 \title{Object.retrieve}
 \usage{
-Object.retrieve(id, env = solvebio:::.solveEnv)
+Object.retrieve(id, env = .solveEnv)
 }
 \arguments{
 \item{id}{The ID of the object.}

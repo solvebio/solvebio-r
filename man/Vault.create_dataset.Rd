@@ -4,7 +4,7 @@
 \alias{Vault.create_dataset}
 \title{Vault.create_dataset}
 \usage{
-Vault.create_dataset(id, path, name, env = solvebio:::.solveEnv, ...)
+Vault.create_dataset(id, path, name, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the vault.}

@@ -4,7 +4,7 @@
 \alias{BeaconSet.all}
 \title{BeaconSet.all}
 \usage{
-BeaconSet.all(env = solvebio:::.solveEnv, ...)
+BeaconSet.all(env = .solveEnv, ...)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

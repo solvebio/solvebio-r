@@ -4,7 +4,7 @@
 \alias{Vault.update}
 \title{Vault.update}
 \usage{
-Vault.update(id, env = solvebio:::.solveEnv, ...)
+Vault.update(id, env = .solveEnv, ...)
 }
 \arguments{
 \item{id}{The ID of the vault to update.}

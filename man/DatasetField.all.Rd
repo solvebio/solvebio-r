@@ -4,7 +4,7 @@
 \alias{DatasetField.all}
 \title{DatasetField.all}
 \usage{
-DatasetField.all(env = solvebio:::.solveEnv, ...)
+DatasetField.all(env = .solveEnv, ...)
 }
 \arguments{
 \item{env}{(optional) Custom client environment.}

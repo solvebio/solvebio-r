@@ -4,7 +4,7 @@
 \alias{Application.update}
 \title{Application.update}
 \usage{
-Application.update(client_id, env = solvebio:::.solveEnv, ...)
+Application.update(client_id, env = .solveEnv, ...)
 }
 \arguments{
 \item{client_id}{The client ID for the application.}
