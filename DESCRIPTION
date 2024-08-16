@@ -3,7 +3,7 @@ Type: Package
 Title: The Official SolveBio API Client
 Version: 2.15.0
 Date: 2024-08-13
-Author: David Caplan
+Author: David Caplan [aut, cre]
 Maintainer: David Caplan <dcaplan@solvebio.com>
 Authors@R: c(person("David", "Caplan", role = c("aut", "cre"),
                      email = "dcaplan@solvebio.com"))
