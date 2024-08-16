@@ -5,12 +5,12 @@ Version: 2.15.0
 Date: 2024-08-13
 Author: David Caplan
 Maintainer: David Caplan <dcaplan@solvebio.com>
+Authors@R: c(person("David", "Caplan", role = c("aut", "cre"),
+                     email = "dcaplan@solvebio.com"))
 Description: R language bindings for SolveBio's API.
     SolveBio is a biomedical knowledge hub that enables life science
     organizations to collect and harmonize the complex, disparate
     "multi-omic" data essential for today's R&D and BI needs.
-    SolveBio is now part of QuartzBio.
-    For more information, visit <https://www.quartz.bio>.
 URL: https://github.com/solvebio/solvebio-r
 Imports:
     httr,
