@@ -34,7 +34,7 @@ if (nchar(.solveEnv$token) == 0L) {
 #' \url{https://docs.solvebio.com/}
 #'
 #' @export
-login <- function(api_key, api_host, env = solvebio:::.solveEnv) {
+login <- function(api_key, api_host, env = .solveEnv) {
     if (!missing(api_key)) {
         assign('token', api_key, envir=env)
     }
@@ -54,6 +54,16 @@ login <- function(api_key, api_host, env = solvebio:::.solveEnv) {
     if (!missing(api_host)) {
         assign('host', api_host, envir=env)
     }
+    # Show deprecation message after credentials are set
+    deprecate_msg <- paste(
+      "!!! Deprecation Notice",
+      "The SolveBio R client is deprecated and will no longer be maintained after March 31, 2026.",
+      "We recommend migrating to the QuartzBio R client: https://github.com/quartzbio/quartzbio.edp",
+      sep = "\n")
+    link <- paste(sub(".api", "", api_host), "/swagger", sep='')
+    deprecate_msg <- sprintf("%s\nOr using the QuartzBio REST API: %s",
+                             deprecate_msg, link)
+    warning(deprecate_msg, call. = FALSE)
 
     # Test the login
     tryCatch({
@@ -72,7 +82,7 @@ login <- function(api_key, api_host, env = solvebio:::.solveEnv) {
 #'
 #' @param token A SolveBio API key or OAuth2 token
 #' @param token_type SolveBio token type (default: Token)
-#' @param host (optional) The SolveBio API host (default: https://api.solvebio.com) 
+#' @param host (optional) The SolveBio API host (default: https://api.solvebio.com)
 #'
 #' @examples \dontrun{
 #' env <- createEnv("MyAPIkey")
@@ -93,7 +103,7 @@ createEnv <- function(token, token_type="Token", host=.solveEnv$host) {
 
 
 # Private API request method.
-.request = function(method, path, query, body, env = solvebio:::.solveEnv, content_type="application/json", ...) {
+.request = function(method, path, query, body, env = .solveEnv, content_type="application/json", ...) {
     'Perform an HTTP request to the server.'
     # Set defaults
     headers <- c(
@@ -102,9 +112,28 @@ createEnv <- function(token, token_type="Token", host=.solveEnv$host) {
                  "Content-Type" = content_type
                  )
 
+    # If the domain ends with .solvebio.com, determine if
+    # we are being redirected. If so, update the url with the new host
+    # and log a warning.
+    if (!is.null(env$host) && grepl("\\.solvebio\\.com$", gsub("/$", "", env$host))) {
+        old_host <- gsub("/$", "", env$host)
+        response <- httr::HEAD(old_host, followlocation = TRUE)
+        # Strip the port number from the host for comparison
+        new_host <- gsub(":443$", "", gsub("/$", "", httr::parse_url(response$url)$hostname))
+        # Add "https://" prefix to the host
+        new_host <- paste("https://", new_host, sep="")
+        if (old_host != new_host) {
+            warning(sprintf(
+                            'API host redirected from "%s" to "%s", please update your local credentials file',
+                            old_host, new_host
+                            ))
+            env$host <- new_host
+        }
+    }
+
     if (!is.null(env$token) && nchar(env$token) != 0) {
         headers <- c(
-                     headers, 
+                     headers,
                      Authorization = paste(env$token_type, env$token, sep=" ")
                      )
     }
@@ -113,7 +142,7 @@ createEnv <- function(token, token_type="Token", host=.solveEnv$host) {
     if (substring(path, 1, 1) == "/") {
         path <- substring(path, 2)
     }
-    
+
     uri <- httr::modify_url(env$host, "path" = path)
     useragent <- sprintf('SolveBio R Client %s [%s %s]',
                          packageVersion('solvebio'),
@@ -133,7 +162,7 @@ createEnv <- function(token, token_type="Token", host=.solveEnv$host) {
         query = NULL
     }
 
-    switch(method, 
+    switch(method,
            GET={
                res <- httr::GET(
                                 uri,
@@ -198,7 +227,7 @@ createEnv <- function(token, token_type="Token", host=.solveEnv$host) {
 
     if (res$status < 200 | res$status >= 400) {
         if (res$status == 429) {
-            stop(sprintf("API error: Too many requests, please retry in %i seconds\n", res$header$'retry-after')) 
+            stop(sprintf("API error: Too many requests, please retry in %i seconds\n", res$header$'retry-after'))
         }
         if (res$status == 400) {
             tryCatch({

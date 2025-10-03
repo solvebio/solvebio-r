@@ -1,5 +1,17 @@
 # SolveBio for R
 
+#### This package is deprecated. Please install and use quartzbio instead:
+
+```R
+remotes::install_github("quartzbio/quartzbio.edp", dependencies = TRUE)
+```
+
+**This package will no longer be maintained after March 31, 2026.**
+
+**Migration guide: [https://github.com/quartzbio/quartzbio.edp](https://github.com/quartzbio/quartzbio.edp)**
+
+
+
 **This version of SolveBio for R is compatible with Vault-based datasets only (released on July 28th, 2017).**
 
 
